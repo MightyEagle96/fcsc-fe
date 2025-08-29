@@ -11,8 +11,6 @@ function NavbarComponent() {
   const { user } = useAppUser();
   const [loading, setLoading] = useState(false);
 
-  console.log(user);
-
   const handleLogout = async () => {
     setLoading(true);
     const { data } = await httpService("logout");
@@ -47,7 +45,7 @@ function NavbarComponent() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
+            {/* <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#link">Link</Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -59,7 +57,7 @@ function NavbarComponent() {
               <NavDropdown.Item href="#action/3.4">
                 Separated link
               </NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
           </Nav>
           <Nav className="ms-auto">
             {user ? (

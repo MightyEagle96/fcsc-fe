@@ -4,10 +4,14 @@ import React from "react";
 import LoggedOutPage from "../pages/LoggedOutPage";
 import LoggedInPage from "../pages/LoggedinPage";
 import NavbarComponent from "../components/NavbarComponent";
+import ViewCandidates from "../pages/ViewCandidates";
 
 function MainRoutes() {
   const { user } = useAuth();
-  const publicRoutes = [{ path: "/", component: <LoggedOutPage /> }];
+  const publicRoutes = [
+    { path: "/", component: <LoggedOutPage /> },
+    { path: "/admin", component: <ViewCandidates /> },
+  ];
 
   const privateRoutes = [{ path: "/", component: <LoggedInPage /> }];
   return (

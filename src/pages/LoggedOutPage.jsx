@@ -18,15 +18,12 @@ function LoggedOutPage() {
   const loginCandidate = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const { data, status } = await httpService.post(
-      "logincandidate",
-      candidate
-    );
-
-    if (status === 200) {
+    const { data, error } = await httpService.post("logincandidate", candidate);
+    if (data) {
       window.location.href = "/";
-    } else {
-      toast.error(data);
+    }
+    if (error) {
+      toast.error(error);
     }
 
     setLoading(false);

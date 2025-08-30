@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { appLogo } from "../../assets/appTheme";
 import {
   Button,
   IconButton,
@@ -6,12 +7,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Login, Visibility, VisibilityOff } from "@mui/icons-material";
-import { httpService } from "../httpService";
+import { httpService } from "../../httpService";
 import { toast } from "react-toastify";
-import { appLogo } from "../assets/appTheme";
+import { Login, Visibility, VisibilityOff } from "@mui/icons-material";
 
-function LoggedOutPage() {
+function AdminLogin() {
   const [candidate, setCandidate] = useState({});
   const [loading, setLoading] = useState(false);
   const [passwordType, setPasswordType] = useState(false);
@@ -28,13 +28,12 @@ function LoggedOutPage() {
 
     setLoading(false);
   };
-
   return (
-    <div className="bg-light">
+    <div>
       <div className="">
-        <div className="container pt-5 pb-5">
+        <div className="container mt-5 mb-5">
           <div className="row d-flex justify-content-center">
-            <div className="col-lg-5 ps-4 pe-4 text-center bg-white pt-5 pb-5 rounded shadow-sm ">
+            <div className="col-lg-5 ps-4 pe-4 text-center bg-light pt-5 pb-5 rounded shadow-sm ">
               <div className="mb-4">
                 <img src={appLogo} alt="logo" height={120} />
               </div>
@@ -45,7 +44,7 @@ function LoggedOutPage() {
                   fontWeight={700}
                   color="#3F7D58"
                 >
-                  Candidate Management Portal
+                  Admin Management Portal
                 </Typography>
               </div>
               <form onSubmit={loginCandidate}>
@@ -89,12 +88,21 @@ function LoggedOutPage() {
                   type="submit"
                   loading={loading}
                   loadingPosition="end"
-                  color="error"
+                  color="success"
                   variant="contained"
                   endIcon={<Login />}
                 >
                   Login
                 </Button>
+
+                <div className="mt-4">
+                  <Typography color="GrayText" variant="body2">
+                    Don't have an account?{" "}
+                    <a href="/admin/signup" className="text-success">
+                      Sign up
+                    </a>
+                  </Typography>
+                </div>
               </form>
             </div>
           </div>
@@ -104,4 +112,4 @@ function LoggedOutPage() {
   );
 }
 
-export default LoggedOutPage;
+export default AdminLogin;

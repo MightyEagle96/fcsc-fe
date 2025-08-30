@@ -3,13 +3,14 @@ import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { appColors, appLogo } from "../assets/appTheme";
 import { Button, Typography } from "@mui/material";
 import { useAppUser } from "../contexts/AppUserContext";
-import { Logout } from "@mui/icons-material";
+import { Login, Logout } from "@mui/icons-material";
 import { httpService } from "../httpService";
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 function NavbarComponent() {
   const { user } = useAppUser();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     setLoading(true);
@@ -20,10 +21,11 @@ function NavbarComponent() {
     }
     setLoading(false);
   };
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand href="#home">
+        <Navbar.Brand onClick={() => navigate("/")}>
           <div className="d-flex align-items-center">
             <img
               alt=""
@@ -68,13 +70,21 @@ function NavbarComponent() {
                 color="error"
                 endIcon={<Logout />}
               >
-                <Typography sx={{ textTransform: "capitalize" }}>
+                <Typography
+                  variant="caption"
+                  sx={{ textTransform: "capitalize" }}
+                >
                   Logout
                 </Typography>
               </Button>
             ) : (
-              <Button>
-                <Typography>Login</Typography>
+              <Button
+                color="error"
+                endIcon={<Login />}
+                sx={{ textTransform: "capitalize" }}
+                onClick={() => navigate("/")}
+              >
+                <Typography variant="caption">Login</Typography>
               </Button>
             )}
           </Nav>

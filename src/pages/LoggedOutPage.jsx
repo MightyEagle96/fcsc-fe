@@ -31,7 +31,7 @@ function LoggedOutPage() {
 
   return (
     <div style={{ minHeight: "70vh" }} className="bg-light">
-      <div className="pt-5">
+      <div className="">
         <div className="container">
           <div className="row d-flex justify-content-center">
             <div className="col-lg-5 ps-4 pe-4 text-center bg-white pt-5 pb-5 rounded shadow-sm ">

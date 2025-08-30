@@ -5,7 +5,7 @@ import { httpService } from "../httpService";
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
-
+import Swal from "sweetalert2";
 function LoggedinPage() {
   const { user } = useAppUser();
   const [documents, setDocuments] = useState([]);
@@ -16,11 +16,12 @@ function LoggedinPage() {
   const [loading, setLoading] = useState(false);
   const [errorFile, setErrorFile] = useState(false);
 
+  const [fileFormats, setFileFormats] = useState("");
+
   const getMyDocuments = async () => {
     const { data } = await httpService("mydocuments");
 
     if (data) {
-      console.log(data);
       setUploadedDocuments(data.uploadedDocuments);
       setDocuments(data.documents);
     }
@@ -32,6 +33,16 @@ function LoggedinPage() {
   }, []);
 
   const selectDocument = (doc) => {
+    // console.log(doc);
+
+    if (
+      doc.fileType === "Passport Photograph" ||
+      doc.fileType === "Signature"
+    ) {
+      setFileFormats(".jpg, .jpeg, .png");
+    } else {
+      setFileFormats(".pdf, .jpg, .jpeg, .png ");
+    }
     setDocument(doc);
     // setShow(true);
   };
@@ -59,20 +70,36 @@ function LoggedinPage() {
         documentid: document._id,
       },
     });
-    if (data) {
-      toast.success("File uploaded successfully");
 
-      setTimeout(() => {
-        getMyDocuments();
-      }, 3000);
-      // window.location.assign("/authoring/result");
-    }
+    setTimeout(() => {
+      if (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error,
+          timer: 3000,
+          showConfirmButton: false,
+        });
+      }
 
-    if (error) {
-      toast.error(error);
-    }
-    setDocument(null);
-    setLoading(false);
+      if (data) {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: data,
+          timer: 3000,
+          showConfirmButton: false,
+        });
+      }
+      getMyDocuments();
+
+      if (document.fileType === "Passport Photograph") {
+        window.location.reload();
+      }
+
+      setDocument(null);
+      setLoading(false);
+    }, 4000);
   };
 
   return (
@@ -89,16 +116,16 @@ function LoggedinPage() {
               </Typography>
               <div className="col-lg-6">
                 <hr />
-                <Typography gutterBottom variant="body2" fontWeight={300}>
-                  File Number:{" "}
+                <Typography gutterBottom variant="body2" fontWeight={500}>
+                  IPPIS Number:{" "}
                   <span className="fw-bold, text-uppercase">
-                    {user.fileNumber}
+                    {user.ippisNumber}
                   </span>
                 </Typography>
-                <Typography gutterBottom variant="body2" fontWeight={300}>
+                <Typography gutterBottom variant="body2" fontWeight={500}>
                   Email: <span className="fw-bold, ">{user.email}</span>
                 </Typography>
-                <Typography gutterBottom variant="body2" fontWeight={300}>
+                <Typography gutterBottom variant="body2" fontWeight={500}>
                   Phone Number:{" "}
                   <span className="fw-bold, text-uppercase">
                     {user.phoneNumber}
@@ -107,7 +134,7 @@ function LoggedinPage() {
               </div>
             </div>
             <div className="col-lg-4">
-              <Avatar sx={{ height: 150, width: 150 }} />
+              <Avatar sx={{ height: 150, width: 150 }} src={user.passport} />
             </div>
           </div>
         </div>
@@ -147,11 +174,20 @@ function LoggedinPage() {
             </Typography>
           </div>
         </div>
+        <div
+          className="col-lg-4 mb-4 p-3 m-0"
+          style={{ backgroundColor: "#DDF4E7" }}
+        >
+          <Typography color="#26667F" variant="subtitle2" fontWeight={500}>
+            If you accidentally uploaded a wrong document, you can always upload
+            the right document as the previous document will be overwritten.{" "}
+          </Typography>
+        </div>
         <div className="row d-flex d-flex align-items-top mb-5">
           <div className="">
             <div className="row d-flex justify-cotent-center">
               {documents.map((c, i) => (
-                <div className="col-lg-5 m-1 bg-light p-3 ">
+                <div key={i} className="col-lg-5 m-1 bg-light p-3 ">
                   <div className="d-flex justify-content-end text-end">
                     <Stack direction={"row"} spacing={1}>
                       <div>
@@ -166,7 +202,7 @@ function LoggedinPage() {
                               borderRadius: 5,
                             }}
                           >
-                            optional
+                            Optional
                           </p>
                         )}
                       </div>
@@ -221,7 +257,7 @@ function LoggedinPage() {
                           </Typography>
                         </Button>
                       </div>
-                      <div className="border-end"></div>
+                      {/* <div className="border-end"></div>
                       <div>
                         <div>
                           <Button
@@ -237,7 +273,7 @@ function LoggedinPage() {
                             </Typography>
                           </Button>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="border-end"></div>
                       <div>
                         <div>
@@ -271,7 +307,11 @@ function LoggedinPage() {
           backdrop="static"
           size="lg"
           show={document}
-          onHide={() => setDocument(null)}
+          onHide={() => {
+            setDocument(null);
+            setFile(null);
+            setErrorFile(false);
+          }}
         >
           <Modal.Header closeButton className="border-0"></Modal.Header>
           <Modal.Body>
@@ -288,7 +328,7 @@ function LoggedinPage() {
                   color="GrayText"
                   variant="caption"
                 >
-                  (pdf, jpg, jpeg, png only)
+                  {fileFormats} only
                 </Typography>
               </div>
 
@@ -297,7 +337,8 @@ function LoggedinPage() {
                 type="file"
                 id="formFile"
                 onChange={handleFile}
-                accept=".pdf,.jpg,.jpeg,.png "
+                // accept=".pdf,.jpg,.jpeg,.png"
+                accept={fileFormats}
               />
               <small>{file ? file.name : ""}</small>
               <div className="col-lg-6 mt-3">
@@ -312,6 +353,7 @@ function LoggedinPage() {
               startIcon={<Upload />}
               variant="contained"
               loading={loading}
+              loadingPosition="end"
             >
               Upload
             </Button>

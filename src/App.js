@@ -4,6 +4,7 @@ import MainRoutes from "./routes/MainRoutes";
 import { ToastContainer } from "react-toastify";
 import { AppUserProvider } from "./contexts/AppUserContext";
 import AppTheme from "./themes/AppTheme";
+import "./App.css";
 
 function App() {
   return (

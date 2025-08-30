@@ -5,6 +5,7 @@ import LoggedOutPage from "../pages/LoggedOutPage";
 import LoggedInPage from "../pages/LoggedinPage";
 import NavbarComponent from "../components/NavbarComponent";
 import ViewCandidates from "../pages/ViewCandidates";
+import FooterComponents from "../components/FooterComponents";
 
 function MainRoutes() {
   const { user } = useAuth();
@@ -32,6 +33,7 @@ function MainRoutes() {
           </>
         )}
       </Routes>
+      <FooterComponents />
     </BrowserRouter>
   );
 }

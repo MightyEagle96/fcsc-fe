@@ -1,15 +1,34 @@
 import React, { useState } from "react";
-import { appLogo } from "../../assets/appTheme";
 import { Button, TextField, Typography } from "@mui/material";
+import { httpService } from "../../httpService";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function CreateAdminAccount() {
   const [userData, setUserData] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setUserData({
       ...userData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const navigate = useNavigate();
+  const login = (e) => {
+    e.preventDefault();
+    console.log(userData);
+
+    const { data, error } = httpService.post("admin/singup", userData);
+
+    if (data) {
+      navigate("/admin/login");
+      // window.location.href = "/";
+    }
+    if (error) {
+      toast.error(error);
+    }
   };
   return (
     <div>
@@ -25,7 +44,7 @@ function CreateAdminAccount() {
           </Typography>
         </div>
 
-        <form>
+        <form onSubmit={login}>
           <div className="row">
             <div className="col-lg-4">
               <div className="mb-3">
@@ -79,7 +98,12 @@ function CreateAdminAccount() {
               </div>
             </div>
             <div className="col-lg-4">
-              <Button variant="contained" color="error">
+              <Button
+                type="submit"
+                variant="contained"
+                color="error"
+                loading={loading}
+              >
                 Sign Up
               </Button>
             </div>

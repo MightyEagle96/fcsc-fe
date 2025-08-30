@@ -1,6 +1,6 @@
 import { useAppUser } from "../contexts/AppUserContext";
-import { Avatar, Button, Stack, Typography } from "@mui/material";
-import { Delete, Upload, UploadFile } from "@mui/icons-material";
+import { Alert, Avatar, Button, Stack, Typography } from "@mui/material";
+import { Campaign, Delete, Upload, Visibility } from "@mui/icons-material";
 import { httpService } from "../httpService";
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
@@ -9,17 +9,20 @@ import { toast } from "react-toastify";
 function LoggedinPage() {
   const { user } = useAppUser();
   const [documents, setDocuments] = useState([]);
+  const [uploadedDocuments, setUploadedDocuments] = useState(0);
   //  const [show, setShow] = useState(false);
   const [document, setDocument] = useState(null);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [errorFile, setErrorFile] = useState(false);
 
   const getMyDocuments = async () => {
     const { data } = await httpService("mydocuments");
 
     if (data) {
       console.log(data);
-      setDocuments(data);
+      setUploadedDocuments(data.uploadedDocuments);
+      setDocuments(data.documents);
     }
     //return data;
   };
@@ -34,8 +37,10 @@ function LoggedinPage() {
   };
 
   const handleFile = (e) => {
+    setErrorFile(false);
     const maxSize = 1 * 1024 * 1024;
     if (e.target.files[0].size > maxSize) {
+      setErrorFile(true);
       toast.error("File size is too large");
       return;
     }
@@ -45,7 +50,7 @@ function LoggedinPage() {
   const uploadFile = async (e) => {
     const formData = new FormData();
     setLoading(true);
-    console.log(file.name);
+
     formData.append("file", file, file.name);
 
     const { data, error } = await httpService.post("/uploadfile", formData, {
@@ -56,12 +61,17 @@ function LoggedinPage() {
     });
     if (data) {
       toast.success("File uploaded successfully");
+
+      setTimeout(() => {
+        getMyDocuments();
+      }, 3000);
       // window.location.assign("/authoring/result");
     }
 
     if (error) {
       toast.error(error);
     }
+    setDocument(null);
     setLoading(false);
   };
 
@@ -103,43 +113,95 @@ function LoggedinPage() {
         </div>
       </div>
       <div className="container   mb-5">
-        <div className="row d-flex justify-content-center pt-3 pb-3">
+        <div className="row pt-3 pb-3 mb-5">
           <div
-            className="col-lg-5 mb-4 p-4 rounded"
+            className="col-lg-5  p-3 "
             style={{ backgroundColor: "#EF9651" }}
           >
-            <Typography variant="body2" color="#ffffffff">
-              Dear Candidate, please note that for you to be eligible to sit for
-              the promotion examination, you must upload all required documents
-              as indicated below.
+            <Stack
+              direction={"row"}
+              spacing={2}
+              className="d-flex align-items-center"
+            >
+              <div>
+                <Avatar sx={{ backgroundColor: "#ffb851" }}>
+                  <Campaign />
+                </Avatar>
+              </div>
+              <div>
+                <Typography variant="body2" color="#ffffffff">
+                  Dear Candidate, please note that for you to be eligible to sit
+                  for the promotion examination, you must upload all required
+                  documents as indicated below.
+                </Typography>
+              </div>
+            </Stack>
+          </div>
+          <div
+            className="col-lg-3  p-3 "
+            style={{ backgroundColor: "#F3F2EC", color: "#1E93AB" }}
+          >
+            <Typography variant="caption">Documents Uploaded</Typography>
+            <Typography variant="h4" fontWeight={700}>
+              {uploadedDocuments}/{documents.length}
             </Typography>
           </div>
         </div>
         <div className="row d-flex d-flex align-items-top mb-5">
-          <div className="col-lg-9 border-end">
+          <div className="">
             <div className="row d-flex justify-cotent-center">
               {documents.map((c, i) => (
-                <div className="col-lg-5 m-1 bg-light p-3 rounded">
+                <div className="col-lg-5 m-1 bg-light p-3 ">
                   <div className="d-flex justify-content-end text-end">
-                    <p
-                      className="p-1 m-0"
-                      style={{
-                        backgroundColor: "#e91e63",
-                        color: "#fff",
-                        fontSize: 10,
-                        borderRadius: 5,
-                      }}
-                    >
-                      Not Uploaded
-                    </p>
+                    <Stack direction={"row"} spacing={1}>
+                      <div>
+                        {(c.fileType === "Professional Certificate" ||
+                          c.fileType === "Conversion") && (
+                          <p
+                            className="ps-2 pe-2 m-0"
+                            style={{
+                              backgroundColor: "#ffa726",
+                              color: "#fff",
+                              fontSize: 10,
+                              borderRadius: 5,
+                            }}
+                          >
+                            optional
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        {c.fileUrl ? (
+                          <p
+                            className="ps-2 pe-2 m-0"
+                            style={{
+                              backgroundColor: "#4caf50",
+                              color: "#fff",
+                              fontSize: 10,
+                              borderRadius: 5,
+                            }}
+                          >
+                            Uploaded
+                          </p>
+                        ) : (
+                          <p
+                            className="ps-2 pe-2 m-0"
+                            style={{
+                              backgroundColor: "#e91e63",
+                              color: "#fff",
+                              fontSize: 10,
+                              borderRadius: 5,
+                            }}
+                          >
+                            Not Uploaded
+                          </p>
+                        )}
+                      </div>
+                    </Stack>
                   </div>
                   <div className="mb-3">
                     <div>
-                      <Typography
-                        fontSize={20}
-                        color="#3F7D58"
-                        fontWeight={500}
-                      >
+                      <Typography color="#1E93AB" fontWeight={700}>
                         {i + 1}. {c.fileType}
                       </Typography>
                     </div>
@@ -149,7 +211,7 @@ function LoggedinPage() {
                       <div>
                         <Button
                           onClick={() => selectDocument(c)}
-                          startIcon={<UploadFile />}
+                          startIcon={<Upload />}
                         >
                           <Typography
                             variant="caption"
@@ -162,7 +224,11 @@ function LoggedinPage() {
                       <div className="border-end"></div>
                       <div>
                         <div>
-                          <Button color="error" startIcon={<Delete />}>
+                          <Button
+                            disabled={!c.fileUrl}
+                            color="error"
+                            startIcon={<Delete />}
+                          >
                             <Typography
                               variant="caption"
                               sx={{ textTransform: "capitalize" }}
@@ -172,24 +238,29 @@ function LoggedinPage() {
                           </Button>
                         </div>
                       </div>
+                      <div className="border-end"></div>
+                      <div>
+                        <div>
+                          <Button
+                            href={c.fileUrl}
+                            target="_blank"
+                            disabled={!c.fileUrl}
+                            color="warning"
+                            startIcon={<Visibility />}
+                          >
+                            <Typography
+                              variant="caption"
+                              sx={{ textTransform: "capitalize" }}
+                            >
+                              View
+                            </Typography>
+                          </Button>
+                        </div>
+                      </div>
                     </Stack>
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-          <div className="col-lg-3 text-center">
-            <div className="p-3 bg-white rounded-3">
-              <div className="mb-1">
-                <Typography fontWeight={300} color="GrayText">
-                  Documents Uploaded
-                </Typography>
-              </div>
-              <div>
-                <Typography variant="h4" color="GrayText" fontWeight={700}>
-                  0/{documents.length}
-                </Typography>
-              </div>
             </div>
           </div>
         </div>
@@ -206,10 +277,21 @@ function LoggedinPage() {
           <Modal.Body>
             <div class="mb-3">
               <div className="mb-4">
-                <label for="formFile" className="form-label text-lowercase">
-                  select {document.fileType} (pdf, jpg, jpeg, png only)
-                </label>
+                <Typography color="#1E93AB" variant="overline">
+                  document to upload
+                </Typography>
+                <Typography color="#1E93AB" variant="h4" fontWeight={700}>
+                  {document.fileType}
+                </Typography>
+                <Typography
+                  fontStyle={"italic"}
+                  color="GrayText"
+                  variant="caption"
+                >
+                  (pdf, jpg, jpeg, png only)
+                </Typography>
               </div>
+
               <input
                 class="form-control"
                 type="file"
@@ -218,14 +300,18 @@ function LoggedinPage() {
                 accept=".pdf,.jpg,.jpeg,.png "
               />
               <small>{file ? file.name : ""}</small>
+              <div className="col-lg-6 mt-3">
+                {errorFile && <Alert severity="error">File too large</Alert>}
+              </div>
             </div>
           </Modal.Body>
           <Modal.Footer className="border-0 bg-light">
             <Button
               onClick={uploadFile}
-              disabled={!file}
+              disabled={!file || errorFile}
               startIcon={<Upload />}
               variant="contained"
+              loading={loading}
             >
               Upload
             </Button>

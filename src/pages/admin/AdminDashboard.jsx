@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppUser } from "../../contexts/AppUserContext";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { httpService } from "../../httpService";
+import { Upload } from "@mui/icons-material";
+import { toast } from "react-toastify";
 
 function AdminDashboard() {
   const { user } = useAppUser();
   const [summary, setSummary] = useState({});
+  const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const getData = async () => {
     const { data } = await httpService("admin/dashboardsummary");
@@ -18,13 +22,47 @@ function AdminDashboard() {
   useEffect(() => {
     getData();
   }, []);
+
+  const uploadFile = async (e) => {
+    const formData = new FormData();
+    setLoading(true);
+
+    formData.append("file", file, file.name);
+
+    const { data, error } = await httpService.post(
+      "/admin/uploadfile",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          // documentid: document._id,
+        },
+      }
+    );
+
+    if (data) {
+      toast.success(data);
+      getData();
+    }
+
+    if (error) {
+      console.log(error);
+      toast.error(error);
+    }
+
+    setLoading(false);
+  };
+
+  const handleFile = (e) => {
+    setFile(e.target.files[0]);
+  };
   return (
-    <div className="mb-5">
+    <div className="mb-5 ">
       <div
-        className="d-flex align-items-center"
+        className="d-flex align-items-center mb-5"
         style={{ backgroundColor: "#26667F", color: "#fff", minHeight: "25vh" }}
       >
-        <div className="container w-100">
+        <div className="container w-100 ">
           <div className="row">
             <div className="col-lg-3">
               <Typography variant="h5" gutterBottom fontWeight={700}>
@@ -59,6 +97,28 @@ function AdminDashboard() {
               </Typography>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="container">
+        <div className="col-lg-4">
+          <Typography gutterBottom>Upload candidate's file</Typography>
+          <input
+            class="form-control mb-3"
+            type="file"
+            id="formFile"
+            onChange={handleFile}
+            // accept=".pdf,.jpg,.jpeg,.png"
+
+            accept={".xlsx,.xls,.csv"}
+          />
+          <Button
+            onClick={uploadFile}
+            disabled={!file}
+            variant="contained"
+            endIcon={<Upload />}
+          >
+            <Typography variant="caption">Upload File</Typography>
+          </Button>
         </div>
       </div>
     </div>

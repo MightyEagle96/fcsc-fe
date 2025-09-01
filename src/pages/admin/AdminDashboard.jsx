@@ -1,16 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAppUser } from "../../contexts/AppUserContext";
 import { Typography } from "@mui/material";
+import { httpService } from "../../httpService";
 
 function AdminDashboard() {
   const { user } = useAppUser();
+  const [summary, setSummary] = useState({});
 
-  console.log(user);
+  const getData = async () => {
+    const { data } = await httpService("admin/dashboardsummary");
+
+    if (data) {
+      setSummary(data);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <div className="mb-5">
       <div
         className="d-flex align-items-center"
-        style={{ backgroundColor: "#26667F", color: "#fff", minHeight: "30vh" }}
+        style={{ backgroundColor: "#26667F", color: "#fff", minHeight: "25vh" }}
       >
         <div className="container w-100">
           <div className="row">
@@ -27,7 +39,7 @@ function AdminDashboard() {
                 Total Candidates
               </Typography>
               <Typography variant="h5" gutterBottom fontWeight={700}>
-                9,000
+                {summary.candidates}
               </Typography>
             </div>
             <div className="col-lg-3">
@@ -35,7 +47,7 @@ function AdminDashboard() {
                 Verified Candidates
               </Typography>
               <Typography variant="h5" gutterBottom fontWeight={700}>
-                9,000
+                {summary.verifiedCandidates}
               </Typography>
             </div>
             <div className="col-lg-3">
@@ -43,7 +55,7 @@ function AdminDashboard() {
                 Unverified Candidates
               </Typography>
               <Typography variant="h5" gutterBottom fontWeight={700}>
-                9,000
+                {summary.unverifiedCandidates}
               </Typography>
             </div>
           </div>

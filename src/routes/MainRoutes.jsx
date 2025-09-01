@@ -9,8 +9,8 @@ import FooterComponents from "../components/FooterComponents";
 import { PublicAdminRoutes } from "../pages/admin/AdminRoutes";
 import NotFound from "../pages/NotFound";
 import AdminDashboard from "../pages/admin/AdminDashboard";
-import TotalCandidates from "../pages/admin/TotalCandidates";
 import VerifiedCandidates from "../pages/admin/VerifiedCandidates";
+import AdminOfficers from "../pages/admin/AdminOfficers";
 
 function MainRoutes() {
   const { user } = useAuth();
@@ -26,6 +26,7 @@ function MainRoutes() {
     { path: "/admin/candidates", component: <ViewCandidates /> },
     { path: "/admin/verifiedcandidates", component: <VerifiedCandidates /> },
     { path: "/admin/verifiedcandidates", component: <VerifiedCandidates /> },
+    { path: "/admin/officers", component: <AdminOfficers /> },
   ];
   return (
     <BrowserRouter>

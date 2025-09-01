@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { httpService } from "../httpService";
 import { Table } from "react-bootstrap";
 import { CircularProgress, Typography } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 
 const subjectData = [
   "ippisNumber",
@@ -25,6 +26,114 @@ const subjectData = [
   "year2023",
   "year2024",
 ];
+
+const columns = [
+  { field: "ippisNumber", headerName: "IPPIS Number", width: 150 },
+  { field: "fullName", headerName: "Full Name", width: 200 },
+  {
+    field: "dateOfBirth",
+    headerName: "DOB",
+    width: 120,
+    renderCell: (params) => {
+      if (!params.value) return "";
+      const date = new Date(params.value);
+      if (isNaN(date.getTime())) return ""; // fallback if invalid
+      return date.toLocaleDateString("en-NG", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    },
+  },
+  { field: "gender", headerName: "Gender", width: 100 },
+  { field: "stateOfOrigin", headerName: "State of Origin", width: 160 },
+  { field: "lga", headerName: "LGA", width: 120 },
+  { field: "poolOffice", headerName: "Pool Office", width: 160 },
+  { field: "currentMDA", headerName: "Current MDA", width: 180 },
+  { field: "cadre", headerName: "Cadre", width: 120 },
+  { field: "gradeLevel", headerName: "Grade Level", width: 140 },
+  {
+    field: "dateOfFirstAppointment",
+    headerName: "First Appointment",
+    width: 160,
+    renderCell: (params) => {
+      if (!params.value) return "";
+      const date = new Date(params.value);
+      if (isNaN(date.getTime())) return ""; // fallback if invalid
+      return date.toLocaleDateString("en-NG", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    },
+  },
+  {
+    field: "dateOfConfirmation",
+    headerName: "Confirmation",
+    width: 160,
+    renderCell: (params) => {
+      if (!params.value) return "";
+      const date = new Date(params.value);
+      if (isNaN(date.getTime())) return ""; // fallback if invalid
+      return date.toLocaleDateString("en-NG", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    },
+  },
+  {
+    field: "dateOfLastPromotion",
+    headerName: "Last Promotion",
+    width: 160,
+    renderCell: (params) => {
+      if (!params.value) return "";
+      const date = new Date(params.value);
+      if (isNaN(date.getTime())) return ""; // fallback if invalid
+      return date.toLocaleDateString("en-NG", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    },
+  },
+  { field: "phoneNumber", headerName: "Phone", width: 140 },
+  { field: "email", headerName: "Email", width: 200 },
+  { field: "stateOfCurrentPosting", headerName: "Posting State", width: 160 },
+  { field: "year2021", headerName: "2021", width: 100 },
+  { field: "year2022", headerName: "2022", width: 100 },
+  { field: "year2023", headerName: "2023", width: 100 },
+  { field: "year2024", headerName: "2024", width: 100 },
+  { field: "remark", headerName: "Remark", width: 200 },
+];
+
+// const rows = [
+//   {
+//     id: 1,
+//     ippisNumber: "12345",
+//     fullName: "John Doe",
+//     dateOfBirth: "1990-01-01",
+//     gender: "Male",
+//     stateOfOrigin: "Lagos",
+//     lga: "Ikeja",
+//     poolOffice: "HQ",
+//     currentMDA: "Finance",
+//     cadre: "Admin",
+//     gradeLevel: "GL12",
+//     dateOfFirstAppointment: "2010-01-01",
+//     dateOfConfirmation: "2012-01-01",
+//     dateOfLastPromotion: "2020-01-01",
+//     phoneNumber: "08012345678",
+//     email: "john@example.com",
+//     stateOfCurrentPosting: "Abuja",
+//     year2021: "Pass",
+//     year2022: "Pass",
+//     year2023: "Pass",
+//     year2024: "Pending",
+//     remark: "Good performance",
+//   },
+//   // more rows here
+// ];
 function ViewCandidates() {
   const [student, setStudent] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,63 +156,15 @@ function ViewCandidates() {
         <div className="text-center">
           {loading && <CircularProgress size={20} />}
         </div>
-        <Table striped bordered>
-          <thead>
-            <tr>
-              <th>S.N</th>
-              <th>IPPIS No.</th>
-              <th>Full Name</th>
-              <th>Date of Birth</th>
-              <th>Gender</th>
-              <th>State of Origin</th>
-              <th>Local Government Area</th>
-              <th>Pool Office</th>
-              <th>Current MDA</th>
-              <th>Cadre</th>
-              <th>Grade Level</th>
-              <th>Date of First Appointment</th>
-              <th>Date of Confirmation</th>
-              <th>Date of Last Promotion</th>
-              <th>Phone Number</th>
-              <th>Email</th>
-              <th>State of current posting</th>
-              <th>2021</th>
-              <th>2022</th>
-              <th>2023</th>
-              <th>2024</th>
-              <th>Default Password</th>
-            </tr>
-          </thead>
-          <tbody>
-            {student.map((student, index) => {
-              return (
-                <tr>
-                  <td>{index + 1}</td>
-                  {subjectData.map((subject) => {
-                    return (
-                      <td className="w-50">
-                        <Typography variant="body2">
-                          {subject === "dateOfBirth" ||
-                          subject === "dateOfFirstAppointment" ||
-                          subject === "dateOfConfirmation" ||
-                          subject === "dateOfLastPromotion"
-                            ? new Date(student[subject]).toDateString()
-                            : student[subject]}
-                          {/* {student[subject]}  */}
-                        </Typography>
-                      </td>
-                    );
-                  })}
-                  <td>
-                    <Typography variant="body2">
-                      {student.passwords[0]}
-                    </Typography>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
+        <div style={{ height: 600, width: "100%" }}>
+          <DataGrid
+            getRowId={(row) => row.ippisNumber}
+            rows={student}
+            columns={columns}
+            pageSize={20}
+            rowsPerPageOptions={[20, 50, 100]}
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import Container from "react-bootstrap/Container";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 import { appColors, appLogo } from "../assets/appTheme";
 import { Button, Typography } from "@mui/material";
 import { useAppUser } from "../contexts/AppUserContext";
@@ -7,6 +7,7 @@ import { Login, Logout } from "@mui/icons-material";
 import { httpService } from "../httpService";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { DataGrid } from "@mui/x-data-grid";
 function NavbarComponent() {
   const { user } = useAppUser();
   const [loading, setLoading] = useState(false);
@@ -25,7 +26,11 @@ function NavbarComponent() {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand onClick={() => navigate("/")}>
+        <Navbar.Brand
+          onClick={() =>
+            navigate(user && user.role === "admin" ? "/admin/dashboard" : "/")
+          }
+        >
           <div className="d-flex align-items-center">
             <img
               alt=""

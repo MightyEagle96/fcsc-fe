@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useAppUser } from "../../contexts/AppUserContext";
 import { Button, Typography } from "@mui/material";
 import { httpService } from "../../httpService";
-import { Upload } from "@mui/icons-material";
+import { People, Upload } from "@mui/icons-material";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function AdminDashboard() {
   const { user } = useAppUser();
@@ -23,6 +24,7 @@ function AdminDashboard() {
     getData();
   }, []);
 
+  const navigate = useNavigate();
   const uploadFile = async (e) => {
     const formData = new FormData();
     setLoading(true);
@@ -46,7 +48,6 @@ function AdminDashboard() {
     }
 
     if (error) {
-      console.log(error);
       toast.error(error);
     }
 
@@ -79,6 +80,18 @@ function AdminDashboard() {
               <Typography variant="h5" gutterBottom fontWeight={700}>
                 {summary.candidates}
               </Typography>
+              <Button
+                sx={{
+                  backgroundColor: "#B9375D",
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: "#9e2d4c", // a bit darker for hover
+                  },
+                }}
+                onClick={() => navigate("/admin/candidates")}
+              >
+                View Details
+              </Button>
             </div>
             <div className="col-lg-3">
               <Typography variant="body1" gutterBottom>
@@ -87,6 +100,18 @@ function AdminDashboard() {
               <Typography variant="h5" gutterBottom fontWeight={700}>
                 {summary.verifiedCandidates}
               </Typography>
+              <Button
+                sx={{
+                  backgroundColor: "#FFCB61",
+                  color: "#000", // darker text for contrast
+                  "&:hover": {
+                    backgroundColor: "#e6b354", // slightly darker
+                  },
+                }}
+                onClick={() => navigate("/admin/verifiedcandidates")}
+              >
+                View Details
+              </Button>
             </div>
             <div className="col-lg-3">
               <Typography variant="body1" gutterBottom>
@@ -95,6 +120,19 @@ function AdminDashboard() {
               <Typography variant="h5" gutterBottom fontWeight={700}>
                 {summary.unverifiedCandidates}
               </Typography>
+              <Button
+                endIcon={<People />}
+                sx={{
+                  backgroundColor: "#67C090",
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: "#57a87d",
+                  },
+                }}
+                onClick={() => navigate("/admin/unverifiedcandidates")}
+              >
+                View Details
+              </Button>
             </div>
           </div>
         </div>
@@ -107,8 +145,6 @@ function AdminDashboard() {
             type="file"
             id="formFile"
             onChange={handleFile}
-            // accept=".pdf,.jpg,.jpeg,.png"
-
             accept={".xlsx,.xls,.csv"}
           />
           <Button
@@ -116,6 +152,8 @@ function AdminDashboard() {
             disabled={!file}
             variant="contained"
             endIcon={<Upload />}
+            loading={loading}
+            loadingPosition="end"
           >
             <Typography variant="caption">Upload File</Typography>
           </Button>

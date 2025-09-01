@@ -16,11 +16,12 @@ function CreateAdminAccount() {
   };
 
   const navigate = useNavigate();
-  const login = (e) => {
+  const login = async (e) => {
+    setLoading(true);
     e.preventDefault();
-    console.log(userData);
+    //console.log(userData);
 
-    const { data, error } = httpService.post("admin/singup", userData);
+    const { data, error } = await httpService.post("admin/signup", userData);
 
     if (data) {
       navigate("/admin/login");
@@ -29,6 +30,7 @@ function CreateAdminAccount() {
     if (error) {
       toast.error(error);
     }
+    setLoading(false);
   };
   return (
     <div>

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 function LoggedinPage() {
   const { user } = useAppUser();
   const [documents, setDocuments] = useState([]);
@@ -18,6 +19,7 @@ function LoggedinPage() {
 
   const [fileFormats, setFileFormats] = useState("");
 
+  const navigate = useNavigate();
   const getMyDocuments = async () => {
     const { data } = await httpService("mydocuments");
 
@@ -29,7 +31,10 @@ function LoggedinPage() {
   };
 
   useEffect(() => {
-    getMyDocuments();
+    if (user.role === "admin") {
+      navigate("/admin/dashboard");
+      return;
+    } else getMyDocuments();
   }, []);
 
   const selectDocument = (doc) => {

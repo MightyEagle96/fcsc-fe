@@ -18,9 +18,9 @@ function AdminLogin() {
   const loginCandidate = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const { data, error } = await httpService.post("logincandidate", candidate);
+    const { data, error } = await httpService.post("admin/login", candidate);
     if (data) {
-      window.location.href = "/";
+      window.location.href = "/admin/dashboard";
     }
     if (error) {
       toast.error(error);

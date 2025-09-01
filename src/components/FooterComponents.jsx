@@ -5,7 +5,7 @@ function FooterComponents() {
   return (
     <div
       className="d-flex align-items-center text-white"
-      style={{ minHeight: "20vh", backgroundColor: "#44444E" }}
+      style={{ minHeight: "15vh", backgroundColor: "#44444E" }}
     >
       <div className="container w-100">
         <div className="d-flex justify-content-between align-items-center">

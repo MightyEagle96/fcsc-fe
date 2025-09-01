@@ -7,13 +7,6 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // (async () => {
-    //   const profile = await getMyProfile();
-    //   if (profile) {
-    //     setUser(profile);
-    //   }
-    //   setLoading(false);
-    // })();
     async function fetchProfile() {
       try {
         const profile = await getMyProfile();

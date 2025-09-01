@@ -8,6 +8,7 @@ import ViewCandidates from "../pages/ViewCandidates";
 import FooterComponents from "../components/FooterComponents";
 import { PublicAdminRoutes } from "../pages/admin/AdminRoutes";
 import NotFound from "../pages/NotFound";
+import AdminDashboard from "../pages/admin/AdminDashboard";
 
 function MainRoutes() {
   const { user } = useAuth();
@@ -17,15 +18,24 @@ function MainRoutes() {
   ];
 
   const privateRoutes = [{ path: "/", component: <LoggedInPage /> }];
+
+  const adminRoutes = [
+    { path: "/admin/dashboard", component: <AdminDashboard /> },
+  ];
   return (
     <BrowserRouter>
       <NavbarComponent />
       <Routes>
         {user ? (
           <>
-            {privateRoutes.map((route, i) => (
-              <Route key={i} path={route.path} element={route.component} />
-            ))}
+            {user.role === "admin"
+              ? adminRoutes.map((route, i) => (
+                  <Route key={i} path={route.path} element={route.component} />
+                ))
+              : privateRoutes.map((route, i) => (
+                  <Route key={i} path={route.path} element={route.component} />
+                ))}
+            {/* <Route path="/candidates" element={<ViewCandidates />} /> */}
           </>
         ) : (
           <>

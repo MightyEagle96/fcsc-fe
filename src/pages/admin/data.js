@@ -36,4 +36,4 @@ export const mdas = [
   "FED. MIN. OF MARINE & BLUE ECONOMY",
   "FED. MIN. OF WORKS",
   "STATE HOUSE",
-];
+].sort();

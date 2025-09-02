@@ -202,7 +202,7 @@ function AdminOfficers() {
                     select
                     required
                   >
-                    {mdas.sort().map((mda, i) => (
+                    {mdas.map((mda, i) => (
                       <MenuItem value={mda} key={i}>
                         {mda}
                       </MenuItem>

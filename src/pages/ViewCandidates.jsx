@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { httpService } from "../httpService";
-import { CircularProgress, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
 const columns = [
@@ -178,9 +178,6 @@ function ViewCandidates() {
   return (
     <div>
       <div className="p-3 overflow-scroll">
-        {/* <div className="text-center">
-          {loading && <CircularProgress size={20} />}
-        </div> */}
         <div className="container">
           <div className="mb-4">
             <Typography variant="h4" fontWeight={700} color="#44444E">

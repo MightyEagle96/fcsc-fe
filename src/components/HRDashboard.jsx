@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAppUser } from "../contexts/AppUserContext";
 import { httpService } from "../httpService";
 import { Visibility } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 function HRDashboard() {
   const { user } = useAppUser();
@@ -25,6 +26,7 @@ function HRDashboard() {
     getData();
   }, []);
 
+  const navigate = useNavigate();
   return (
     <div>
       <div className="mt-3 mb-3 container">
@@ -77,7 +79,12 @@ function HRDashboard() {
               <b>{summary?.candidates}</b>
             </Typography>
 
-            <Button endIcon={<Visibility />}>view</Button>
+            <Button
+              endIcon={<Visibility />}
+              onClick={() => navigate(`/admin/hrcandidates/${user.mda}`)}
+            >
+              view
+            </Button>
           </div>
           <div className="col-lg-3 rounded text-center bg-light m-1 p-3">
             <Typography variant="caption">Recommended</Typography>

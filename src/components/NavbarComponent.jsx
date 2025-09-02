@@ -7,7 +7,7 @@ import { Login, Logout } from "@mui/icons-material";
 import { httpService } from "../httpService";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { DataGrid } from "@mui/x-data-grid";
+
 function NavbarComponent() {
   const { user } = useAppUser();
   const [loading, setLoading] = useState(false);
@@ -18,6 +18,10 @@ function NavbarComponent() {
     { path: "/admin/officers", text: "Officers" },
   ];
 
+  const hrLinks = [
+    { path: "/admin/dashboard", text: "Home" },
+    { path: `/admin/hrcandidates/${user?.mda}`, text: "Candidates" },
+  ];
   const handleLogout = async () => {
     setLoading(true);
     const { data } = await httpService("logout");
@@ -57,28 +61,24 @@ function NavbarComponent() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            {user && user.role === "admin" && (
+            {user && user.role === "admin" && user.specificRole === "admin" && (
               <>
                 {adminLinks.map((c, i) => (
                   <Nav.Link key={i} onClick={() => navigate(c.path)}>
-                    <Typography variant="caption">{c.text}</Typography>
+                    <Typography variant="body2">{c.text}</Typography>
                   </Nav.Link>
                 ))}
               </>
             )}
-            {/* <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown> */}
+            {user && user.role === "admin" && user.specificRole === "hr" && (
+              <>
+                {hrLinks.map((c, i) => (
+                  <Nav.Link key={i} onClick={() => navigate(c.path)}>
+                    <Typography variant="body2">{c.text}</Typography>
+                  </Nav.Link>
+                ))}
+              </>
+            )}
           </Nav>
           <Nav className="ms-auto">
             {user ? (
@@ -90,7 +90,7 @@ function NavbarComponent() {
                 endIcon={<Logout />}
               >
                 <Typography
-                  variant="caption"
+                  variant="body2"
                   sx={{ textTransform: "capitalize" }}
                 >
                   Logout
@@ -103,7 +103,7 @@ function NavbarComponent() {
                 sx={{ textTransform: "capitalize" }}
                 onClick={() => navigate("/")}
               >
-                <Typography variant="caption">Login</Typography>
+                <Typography variant="body2">Login</Typography>
               </Button>
             )}
           </Nav>

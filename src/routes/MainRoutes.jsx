@@ -12,6 +12,7 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import VerifiedCandidates from "../pages/admin/VerifiedCandidates";
 import AdminOfficers from "../pages/admin/AdminOfficers";
 import OfficersView from "../pages/admin/OfficersView";
+import HRCandidatesList from "../pages/admin/HRCandidatesList";
 
 function MainRoutes() {
   const { user } = useAuth();
@@ -29,6 +30,7 @@ function MainRoutes() {
     { path: "/admin/verifiedcandidates", component: <VerifiedCandidates /> },
     { path: "/admin/officers", component: <AdminOfficers /> },
     { path: "/admin/officers/:slug", component: <OfficersView /> },
+    { path: "/admin/hrcandidates/:slug", component: <HRCandidatesList /> },
   ];
   return (
     <BrowserRouter>

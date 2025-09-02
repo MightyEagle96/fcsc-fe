@@ -17,6 +17,7 @@ function HRDashboard() {
     });
 
     if (data) {
+      console.log(data);
       setSummary(data);
     }
     setLoading(false);
@@ -92,6 +93,12 @@ function HRDashboard() {
               <b>{summary?.recommended}</b>
             </Typography>
             <Button endIcon={<Visibility />}>view</Button>
+          </div>
+          <div className="col-lg-3 rounded text-center bg-light m-1 p-3">
+            <Typography variant="caption">Uploaded Documents</Typography>
+            <Typography variant="h3">
+              <b>{summary?.totalUploadedDocuments}</b>
+            </Typography>
           </div>
         </div>
       </div>

@@ -261,7 +261,10 @@ function HRCandidatesList() {
           size="xl"
           centered
           show={selectedRow}
-          onHide={() => setSelectedRow(null)}
+          onHide={() => {
+            setSelectedRow(null);
+            setUplodadedDocuments([]);
+          }}
         >
           <Modal.Header className="border-0 bg-light" closeButton>
             <Modal.Title>

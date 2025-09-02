@@ -1,4 +1,4 @@
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { PersonAdd, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Alert,
   Button,
@@ -13,12 +13,15 @@ import { mdas } from "./data";
 import Swal from "sweetalert2";
 import { httpService } from "../../httpService";
 import { toast } from "react-toastify";
+import { Modal } from "react-bootstrap";
 
 const roles = ["HR", "PROMOTION"];
 
 function AdminOfficers() {
   const [passwordType, setPasswordType] = useState(false);
   const [officer, setOfficer] = useState({});
+  const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,6 +51,7 @@ function AdminOfficers() {
       denyButtonText: "No",
     }).then(async (result) => {
       if (result.isConfirmed) {
+        setLoading(true);
         const { data, error } = await httpService.post(
           "admin/createaccount",
           officer
@@ -55,10 +59,12 @@ function AdminOfficers() {
         if (data) {
           officerDashboard();
           toast.success(data);
+          setShow(false);
         }
         if (error) {
           toast.error(error);
         }
+        setLoading(false);
       }
     });
   };
@@ -92,13 +98,21 @@ function AdminOfficers() {
               <Typography variant="caption">Promotion officers</Typography>
               <Typography variant="h4">{officer.promotions}</Typography>
             </div>
-            <div className="col-lg-3"></div>
           </div>
-          <div className="col-lg-4">
-            <div className="mb-4">
-              <Alert severity="info">Create a new officer account</Alert>
-            </div>
-            <form onSubmit={handleSubmit}>
+          <div>
+            <Button onClick={() => setShow(true)} endIcon={<PersonAdd />}>
+              Add new officer
+            </Button>
+          </div>
+        </div>
+      </div>
+      <Modal show={show} onHide={() => setShow(false)}>
+        <Modal.Header closeButton className="border-0 bg-light">
+          <Alert severity="info">Create a new officer account</Alert>
+        </Modal.Header>
+        <form onSubmit={handleSubmit}>
+          <Modal.Body>
+            <div className="">
               <div className="mb-3">
                 <TextField
                   fullWidth
@@ -192,15 +206,22 @@ function AdminOfficers() {
                   }}
                 />
               </div>
-              <div>
-                <Button variant="contained" type="submit" color="error">
-                  Create Account
-                </Button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer className="border-0 bg-light">
+            <Button
+              variant="contained"
+              type="submit"
+              color="error"
+              endIcon={<PersonAdd />}
+              loading={loading}
+              loadingPosition="end"
+            >
+              Create Account
+            </Button>
+          </Modal.Footer>
+        </form>
+      </Modal>
     </div>
   );
 }

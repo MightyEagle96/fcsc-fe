@@ -4,6 +4,9 @@ import { httpService } from "../../httpService";
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Modal } from "react-bootstrap";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+import { Send } from "@mui/icons-material";
 function HRCandidatesList() {
   const { slug } = useParams();
   const [student, setStudent] = useState([]);
@@ -18,6 +21,7 @@ function HRCandidatesList() {
   });
 
   const [uploadedDocuments, setUplodadedDocuments] = useState([]);
+  const [recommending, setRecommending] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -30,7 +34,6 @@ function HRCandidatesList() {
     });
 
     if (data) {
-      console.log(data);
       setStudent(data.candidates);
       setRowCount(data.total);
     }
@@ -226,10 +229,37 @@ function HRCandidatesList() {
     });
 
     if (data) {
-      console.log(data);
       setUplodadedDocuments(data);
       setSelectedRow(e.row);
     }
+  };
+
+  const recommendCandidate = () => {
+    Swal.fire({
+      icon: "question",
+      title: "Recommend Candidate",
+      text: "Are you sure you want to recommend this candidate?",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setRecommending(true);
+        const { data } = await httpService("admin/recommendcandidate", {
+          params: { candidate: selectedRow._id },
+        });
+
+        if (data) {
+          toast.success(data);
+          getData();
+          setSelectedRow(null);
+          setUplodadedDocuments([]);
+        } else {
+          toast.error(data);
+        }
+        setRecommending(false);
+      }
+    });
   };
   return (
     <div>
@@ -287,8 +317,19 @@ function HRCandidatesList() {
             </div>
           </Modal.Body>
           <Modal.Footer className="border-0 bg-light">
-            <Button variant="contained">Recommend Candidate</Button>
-            <Button color="error">Reject Candidate</Button>
+            <Button
+              endIcon={<Send />}
+              loading={recommending}
+              onClick={recommendCandidate}
+              loadingPosition="end"
+              variant="contained"
+              sx={{ textTransform: "capitalize" }}
+            >
+              Recommend Candidate
+            </Button>
+            <Button color="error" sx={{ textTransform: "capitalize" }}>
+              Reject Candidate
+            </Button>
           </Modal.Footer>
         </Modal>
       )}

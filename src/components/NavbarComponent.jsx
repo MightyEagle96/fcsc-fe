@@ -21,6 +21,10 @@ function NavbarComponent() {
   const hrLinks = [
     { path: "/admin/dashboard", text: "Home" },
     { path: `/admin/hrcandidates/${user?.mda}`, text: "Candidates" },
+    {
+      path: `/admin/recommendedcandidates/${user?.mda}`,
+      text: "Recommended Candidates",
+    },
   ];
   const handleLogout = async () => {
     setLoading(true);

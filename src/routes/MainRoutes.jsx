@@ -13,6 +13,7 @@ import VerifiedCandidates from "../pages/admin/VerifiedCandidates";
 import AdminOfficers from "../pages/admin/AdminOfficers";
 import OfficersView from "../pages/admin/OfficersView";
 import HRCandidatesList from "../pages/admin/HRCandidatesList";
+import RecommendedCandidates from "../pages/admin/RecommendedCandidates";
 
 function MainRoutes() {
   const { user } = useAuth();
@@ -30,7 +31,13 @@ function MainRoutes() {
     { path: "/admin/verifiedcandidates", component: <VerifiedCandidates /> },
     { path: "/admin/officers", component: <AdminOfficers /> },
     { path: "/admin/officers/:slug", component: <OfficersView /> },
+
+    //hr
     { path: "/admin/hrcandidates/:slug", component: <HRCandidatesList /> },
+    {
+      path: "/admin/recommendedcandidates/:slug",
+      component: <RecommendedCandidates />,
+    },
   ];
   return (
     <BrowserRouter>

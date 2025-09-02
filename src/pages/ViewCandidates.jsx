@@ -170,13 +170,20 @@ function ViewCandidates() {
         <div className="text-center">
           {loading && <CircularProgress size={20} />}
         </div>
-        <div style={{ height: 600, width: "100%" }}>
+        <div style={{ height: 800, width: "100%" }}>
           <DataGrid
             //getRowId={(row) => row.ippisNumber}
             rows={student}
             columns={columns}
             pageSize={20}
             rowsPerPageOptions={[20, 50, 100]}
+            sx={{
+              "& .MuiDataGrid-columnHeaders": {
+                fontWeight: "bolder", // heavier header text
+                // fontSize: "1rem", // optional
+                color: "#333", // optional
+              },
+            }}
           />
         </div>
       </div>

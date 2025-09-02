@@ -101,7 +101,7 @@ function LoggedinPage() {
       if (document.fileType === "Passport Photograph") {
         window.location.reload();
       }
-
+      setFile(null);
       setDocument(null);
       setLoading(false);
     }, 4000);
@@ -262,23 +262,7 @@ function LoggedinPage() {
                           </Typography>
                         </Button>
                       </div>
-                      {/* <div className="border-end"></div>
-                      <div>
-                        <div>
-                          <Button
-                            disabled={!c.fileUrl}
-                            color="error"
-                            startIcon={<Delete />}
-                          >
-                            <Typography
-                              variant="caption"
-                              sx={{ textTransform: "capitalize" }}
-                            >
-                              Delete
-                            </Typography>
-                          </Button>
-                        </div>
-                      </div> */}
+
                       <div className="border-end"></div>
                       <div>
                         <div>

@@ -1,18 +1,23 @@
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { httpService } from "../../httpService";
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
+import { Modal } from "react-bootstrap";
 function HRCandidatesList() {
   const { slug } = useParams();
   const [student, setStudent] = useState([]);
   const [loading, setLoading] = useState(false);
   const [rowCount, setRowCount] = useState(0); // total records in DB
 
+  const [selectedRow, setSelectedRow] = useState(null);
+
   const [paginationModel, setPaginationModel] = useState({
     page: 0, // DataGrid uses 0-based index
     pageSize: 50, // rows per page
   });
+
+  const [uploadedDocuments, setUplodadedDocuments] = useState([]);
 
   const getData = async () => {
     setLoading(true);
@@ -177,7 +182,55 @@ function HRCandidatesList() {
     { field: "year2023", headerName: "2023", width: 100 },
     { field: "year2024", headerName: "2024", width: 100 },
     { field: "remark", headerName: "Remark", width: 200 },
+    {
+      field: "uploadedDocuments",
+      headerName: "Uploaded Documents",
+      width: 200,
+    },
   ];
+
+  const columns2 = [
+    { field: "id", headerName: "S/N", width: 90 },
+    { field: "fileType", headerName: "Document", width: 400 },
+    {
+      field: "fileUrl",
+      headerName: "Document Link",
+      width: 400,
+      renderCell: (params) =>
+        params.value && (
+          <a
+            href={params.value}
+            target="_blank"
+            rel="noreferrer"
+            className="nav nav-link"
+          >
+            view document
+          </a>
+        ),
+    },
+    {
+      field: "updatedAt",
+      headerName: "Uploaded At",
+      width: 200,
+      flex: 1,
+      renderCell: (params) =>
+        params.value && new Date(params.value).toLocaleString(),
+    },
+  ];
+
+  const handleRowClick = async (e) => {
+    // console.log(e.row);
+
+    const { data } = await httpService("admin/uploadeddocuments", {
+      params: { _id: e.row._id },
+    });
+
+    if (data) {
+      console.log(data);
+      setUplodadedDocuments(data);
+      setSelectedRow(e.row);
+    }
+  };
   return (
     <div>
       <div className="container mt-5 mb-5">
@@ -199,9 +252,43 @@ function HRCandidatesList() {
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
             pageSizeOptions={[50, 100, 150]}
+            onRowClick={handleRowClick}
           />
         </div>
       </div>
+      {selectedRow && (
+        <Modal
+          size="xl"
+          centered
+          show={selectedRow}
+          onHide={() => setSelectedRow(null)}
+        >
+          <Modal.Header className="border-0 bg-light" closeButton>
+            <Modal.Title>
+              <Typography
+                variant="h5"
+                fontWeight={700}
+                textTransform={"capitalize"}
+              >
+                {selectedRow.fullName}
+              </Typography>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div>
+              <DataGrid
+                rows={uploadedDocuments}
+                columns={columns2}
+                rowCount={uploadedDocuments.length}
+              />
+            </div>
+          </Modal.Body>
+          <Modal.Footer className="border-0 bg-light">
+            <Button variant="contained">Recommend Candidate</Button>
+            <Button color="error">Reject Candidate</Button>
+          </Modal.Footer>
+        </Modal>
+      )}
     </div>
   );
 }

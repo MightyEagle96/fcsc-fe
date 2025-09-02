@@ -17,7 +17,6 @@ function HRDashboard() {
     });
 
     if (data) {
-      console.log(data);
       setSummary(data);
     }
     setLoading(false);

@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { httpService } from "../httpService";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { Delete } from "@mui/icons-material";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const columns = [
   {
@@ -175,14 +178,51 @@ function ViewCandidates() {
   useEffect(() => {
     getData();
   }, [paginationModel]);
+
+  const deleteAllCandidates = () => {
+    Swal.fire({
+      icon: "question",
+      title: "Delete all candidates",
+      text: "Are you sure you want to delete all candidates?",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { data, error } = await httpService("admin/deleteallcandidates");
+        if (data) {
+          toast.success(data);
+          getData();
+        }
+
+        if (error) {
+          toast.error(error);
+        }
+      }
+    });
+  };
   return (
     <div>
       <div className="p-3 overflow-scroll">
         <div className="container">
           <div className="mb-4">
-            <Typography variant="h4" fontWeight={700} color="#44444E">
-              Candidates
-            </Typography>
+            <div className="row">
+              <div className="col-lg-3">
+                <Typography variant="h4" fontWeight={700} color="#44444E">
+                  Candidates
+                </Typography>
+              </div>
+              <div className="col-lg-3">
+                <Button
+                  onClick={deleteAllCandidates}
+                  variant="contained"
+                  color="error"
+                  endIcon={<Delete />}
+                >
+                  Delete all candidates
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
         <div style={{ height: 800, width: "100%" }}>

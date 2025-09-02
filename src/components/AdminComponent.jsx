@@ -5,19 +5,32 @@ import { useAppUser } from "../contexts/AppUserContext";
 import { useNavigate } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
 import { People, Upload } from "@mui/icons-material";
+import { DataGrid } from "@mui/x-data-grid";
 
 function AdminComponent() {
   const { user } = useAppUser();
 
   const [summary, setSummary] = useState({});
+  const [mdaSummary, setMdaSummary] = useState({});
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const getData = async () => {
-    const { data } = await httpService("admin/dashboardsummary");
+    const [data1, data2] = await Promise.all([
+      httpService("admin/dashboardsummary"),
+      httpService("admin/mdaoverview"),
+    ]);
 
-    if (data) {
-      setSummary(data);
+    if (data1) {
+      const { data } = data1;
+      if (data) setSummary(data);
+    }
+
+    if (data2) {
+      const { data } = data2;
+
+      console.log(data);
+      if (data) setMdaSummary(data);
     }
   };
 
@@ -58,6 +71,32 @@ function AdminComponent() {
   const handleFile = (e) => {
     setFile(e.target.files[0]);
   };
+
+  const columns = [
+    {
+      field: "id",
+      headerName: "S/N",
+      width: 90,
+      sortable: false,
+      filterable: false,
+    },
+    {
+      field: "name",
+      headerName: "MDA",
+      width: 500,
+      renderCell: (params) => (
+        <span className="text-uppercase">{params.value}</span> // full uppercase
+      ),
+    },
+    {
+      field: "value",
+      headerName: "Candidates",
+      width: 300,
+      renderCell: (params) => (
+        <span className="text-capitalize">{params.value}</span> // full uppercase
+      ),
+    },
+  ];
   return (
     <div>
       {" "}
@@ -145,7 +184,7 @@ function AdminComponent() {
           </div>
         </div>
         <div className="container">
-          <div className="col-lg-4">
+          <div className="col-lg-4 mb-4">
             <Typography gutterBottom>Upload candidate's file</Typography>
             <input
               class="form-control mb-3"
@@ -164,6 +203,16 @@ function AdminComponent() {
             >
               <Typography variant="caption">Upload File</Typography>
             </Button>
+          </div>
+          <div>
+            <div className="mb-4">
+              <Typography variant="h4" fontWeight={700}>
+                MDAs OVERVIEW
+              </Typography>
+            </div>
+            <div className="col-lg-8">
+              <DataGrid rows={mdaSummary} columns={columns} />
+            </div>
           </div>
         </div>
       </div>

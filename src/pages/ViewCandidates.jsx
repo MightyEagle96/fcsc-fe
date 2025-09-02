@@ -18,7 +18,7 @@ const columns = [
     headerName: "Full Name",
     width: 200,
     renderCell: (params) => (
-      <span>{params.value?.toUpperCase()}</span> // full uppercase
+      <span className="text-capitalize">{params.value}</span> // full uppercase
     ),
   },
   {
@@ -41,7 +41,7 @@ const columns = [
     headerName: "Gender",
     width: 100,
     renderCell: (params) => (
-      <span>{params.value?.toUpperCase()}</span> // full uppercase
+      <span className="text-capitalize">{params.value}</span> // full uppercase
     ),
   },
   {
@@ -49,7 +49,7 @@ const columns = [
     headerName: "State of Origin",
     width: 160,
     renderCell: (params) => (
-      <span>{params.value?.toUpperCase()}</span> // full uppercase
+      <span className="text-capitalize">{params.value}</span> // full uppercase
     ),
   },
   {
@@ -57,7 +57,7 @@ const columns = [
     headerName: "LGA",
     width: 120,
     renderCell: (params) => (
-      <span>{params.value?.toUpperCase()}</span> // full uppercase
+      <span className="text-capitalize">{params.value}</span> // full uppercase
     ),
   },
   {
@@ -65,7 +65,7 @@ const columns = [
     headerName: "Pool Office",
     width: 160,
     renderCell: (params) => (
-      <span>{params.value?.toUpperCase()}</span> // full uppercase
+      <span className="text-capitalize">{params.value}</span> // full uppercase
     ),
   },
   {
@@ -73,7 +73,7 @@ const columns = [
     headerName: "Current MDA",
     width: 180,
     renderCell: (params) => (
-      <span>{params.value?.toUpperCase()}</span> // full uppercase
+      <span className="text-capitalize">{params.value}</span> // full uppercase
     ),
   },
   {
@@ -81,7 +81,7 @@ const columns = [
     headerName: "Cadre",
     width: 120,
     renderCell: (params) => (
-      <span>{params.value?.toUpperCase()}</span> // full uppercase
+      <span className="text-capitalize">{params.value}</span> // full uppercase
     ),
   },
   { field: "gradeLevel", headerName: "Grade Level", width: 140 },
@@ -137,7 +137,7 @@ const columns = [
     headerName: "Posting State",
     width: 160,
     renderCell: (params) => (
-      <span>{params.value?.toUpperCase()}</span> // full uppercase
+      <span className="text-capitalize">{params.value}</span> // full uppercase
     ),
   },
   { field: "year2021", headerName: "2021", width: 100 },

@@ -1,31 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { httpService } from "../httpService";
-import { Table } from "react-bootstrap";
-import { CircularProgress, Typography } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-
-const subjectData = [
-  "ippisNumber",
-  "fullName",
-  "dateOfBirth",
-  "gender",
-  "stateOfOrigin",
-  "lga",
-  "poolOffice",
-  "currentMDA",
-  "cadre",
-  "gradeLevel",
-  "dateOfFirstAppointment",
-  "dateOfConfirmation",
-  "dateOfLastPromotion",
-  "phoneNumber",
-  "email",
-  "stateOfCurrentPosting",
-  "year2021",
-  "year2022",
-  "year2023",
-  "year2024",
-];
 
 const columns = [
   { field: "ippisNumber", headerName: "IPPIS Number", width: 150 },
@@ -107,33 +83,6 @@ const columns = [
   { field: "remark", headerName: "Remark", width: 200 },
 ];
 
-// const rows = [
-//   {
-//     id: 1,
-//     ippisNumber: "12345",
-//     fullName: "John Doe",
-//     dateOfBirth: "1990-01-01",
-//     gender: "Male",
-//     stateOfOrigin: "Lagos",
-//     lga: "Ikeja",
-//     poolOffice: "HQ",
-//     currentMDA: "Finance",
-//     cadre: "Admin",
-//     gradeLevel: "GL12",
-//     dateOfFirstAppointment: "2010-01-01",
-//     dateOfConfirmation: "2012-01-01",
-//     dateOfLastPromotion: "2020-01-01",
-//     phoneNumber: "08012345678",
-//     email: "john@example.com",
-//     stateOfCurrentPosting: "Abuja",
-//     year2021: "Pass",
-//     year2022: "Pass",
-//     year2023: "Pass",
-//     year2024: "Pending",
-//     remark: "Good performance",
-//   },
-//   // more rows here
-// ];
 function ViewCandidates() {
   const [student, setStudent] = useState([]);
   const [loading, setLoading] = useState(true);

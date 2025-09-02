@@ -11,6 +11,7 @@ import NotFound from "../pages/NotFound";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import VerifiedCandidates from "../pages/admin/VerifiedCandidates";
 import AdminOfficers from "../pages/admin/AdminOfficers";
+import OfficersView from "../pages/admin/OfficersView";
 
 function MainRoutes() {
   const { user } = useAuth();
@@ -27,6 +28,7 @@ function MainRoutes() {
     { path: "/admin/verifiedcandidates", component: <VerifiedCandidates /> },
     { path: "/admin/verifiedcandidates", component: <VerifiedCandidates /> },
     { path: "/admin/officers", component: <AdminOfficers /> },
+    { path: "/admin/officers/:slug", component: <OfficersView /> },
   ];
   return (
     <BrowserRouter>

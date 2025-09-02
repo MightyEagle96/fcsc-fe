@@ -1,4 +1,9 @@
-import { PersonAdd, Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  KeyboardArrowRight,
+  PersonAdd,
+  Visibility,
+  VisibilityOff,
+} from "@mui/icons-material";
 import {
   Alert,
   Button,
@@ -14,6 +19,7 @@ import Swal from "sweetalert2";
 import { httpService } from "../../httpService";
 import { toast } from "react-toastify";
 import { Modal } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const roles = ["HR", "PROMOTION"];
 
@@ -23,6 +29,7 @@ function AdminOfficers() {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -93,10 +100,30 @@ function AdminOfficers() {
             <div className="col-lg-3 bg-light text-muted rounded p-3 m-1">
               <Typography variant="caption">HR officers</Typography>
               <Typography variant="h4">{officer.hrs}</Typography>
+              <div className="text-end">
+                <Button
+                  color="warning"
+                  size="small"
+                  endIcon={<KeyboardArrowRight />}
+                  onClick={() => navigate("/admin/officers/hr")}
+                >
+                  View
+                </Button>
+              </div>
             </div>
             <div className="col-lg-3 bg-light text-muted rounded p-3 m-1">
               <Typography variant="caption">Promotion officers</Typography>
               <Typography variant="h4">{officer.promotions}</Typography>
+              <div className="text-end">
+                <Button
+                  color="warning"
+                  size="small"
+                  endIcon={<KeyboardArrowRight />}
+                  onClick={() => navigate("/admin/officers/promotion")}
+                >
+                  View
+                </Button>
+              </div>
             </div>
           </div>
           <div>

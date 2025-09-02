@@ -18,7 +18,7 @@ function LoadingPage() {
           src={appLogo}
           className=""
           alt="FCSC Logo"
-          width="100"
+          width="120"
           height="100"
         />
 

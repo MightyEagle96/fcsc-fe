@@ -14,9 +14,10 @@ import AdminOfficers from "../pages/admin/AdminOfficers";
 import OfficersView from "../pages/admin/OfficersView";
 import HRCandidatesList from "../pages/admin/HRCandidatesList";
 import RecommendedCandidates from "../pages/admin/RecommendedCandidates";
+import LoadingPage from "../components/LoadingPage";
 
 function MainRoutes() {
-  const { user } = useAuth();
+  const { loading, user } = useAuth();
   const publicRoutes = [
     { path: "/", component: <LoggedOutPage /> },
     { path: "/admin/*", component: <PublicAdminRoutes /> },
@@ -61,7 +62,8 @@ function MainRoutes() {
             ))}
           </>
         )}
-        <Route path="*" element={<NotFound />} />
+        {/* <Route path="*" element={loading ? <LoadingPage /> : <NotFound />} /> */}
+        <Route path="*" element={<LoadingPage />} />
       </Routes>
       <FooterComponents />
     </BrowserRouter>

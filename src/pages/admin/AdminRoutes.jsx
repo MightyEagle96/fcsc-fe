@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import AdminLogin from "./AdminLogin";
 import CreateAdminAccount from "./CreateAdminAccount";
 import NotFound from "../NotFound";
+import LoadingPage from "../../components/LoadingPage";
 
 function PublicAdminRoutes() {
   const routes = [
@@ -10,7 +11,8 @@ function PublicAdminRoutes() {
       path: "/signup",
       component: <CreateAdminAccount />,
     },
-    { path: "*", component: <NotFound /> },
+    // { path: "*", component: <NotFound /> },
+    <Route path="*" element={<LoadingPage />} />,
   ];
   return (
     <Routes>

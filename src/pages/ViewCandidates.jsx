@@ -149,7 +149,7 @@ const columns = [
 
 function ViewCandidates() {
   const [student, setStudent] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [rowCount, setRowCount] = useState(0); // total records in DB
 
   const [paginationModel, setPaginationModel] = useState({
@@ -157,7 +157,7 @@ function ViewCandidates() {
     pageSize: 50, // rows per page
   });
   const getData = async () => {
-    //setLoading(true);
+    setLoading(true);
     const { data } = await httpService("viewcandidates", {
       params: {
         page: paginationModel.page + 1,

@@ -150,26 +150,37 @@ const columns = [
 function ViewCandidates() {
   const [student, setStudent] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [rowCount, setRowCount] = useState(0); // total records in DB
+
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0, // DataGrid uses 0-based index
+    pageSize: 50, // rows per page
+  });
   const getData = async () => {
     //setLoading(true);
-    const { data } = await httpService("viewcandidates");
+    const { data } = await httpService("viewcandidates", {
+      params: {
+        page: paginationModel.page + 1,
+        limit: paginationModel.pageSize,
+      },
+    });
 
     if (data) {
-      console.log(data);
-      setStudent(data);
+      setStudent(data.candidates);
+      setRowCount(data.total);
     }
     setLoading(false);
   };
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [paginationModel]);
   return (
     <div>
       <div className="p-3 overflow-scroll">
-        <div className="text-center">
+        {/* <div className="text-center">
           {loading && <CircularProgress size={20} />}
-        </div>
+        </div> */}
         <div className="container">
           <div className="mb-4">
             <Typography variant="h4" fontWeight={700} color="#44444E">
@@ -179,18 +190,21 @@ function ViewCandidates() {
         </div>
         <div style={{ height: 800, width: "100%" }}>
           <DataGrid
-            //getRowId={(row) => row.ippisNumber}
+            loading={loading}
             rows={student}
             columns={columns}
-            pageSize={20}
-            rowsPerPageOptions={[20, 50, 100]}
-            sx={{
-              "& .MuiDataGrid-columnHeaders": {
-                fontWeight: "bolder", // heavier header text
-                // fontSize: "1rem", // optional
-                color: "#333", // optional
-              },
-            }}
+            rowCount={rowCount}
+            paginationMode="server"
+            paginationModel={paginationModel}
+            onPaginationModelChange={setPaginationModel}
+            pageSizeOptions={[50, 100, 150]}
+            // sx={{
+            //   "& .MuiDataGrid-columnHeaders": {
+            //     fontWeight: "bolder", // heavier header text
+            //     // fontSize: "1rem", // optional
+            //     color: "#333", // optional
+            //   },
+            // }}
           />
         </div>
       </div>

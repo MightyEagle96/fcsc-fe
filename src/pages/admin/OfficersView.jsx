@@ -23,11 +23,32 @@ function OfficersView() {
   }, []);
 
   const columns = [
-    { field: "firstName", headerName: "First Name", width: 200 },
-    { field: "lastName", headerName: "Last Name", width: 200 },
+    {
+      field: "firstName",
+      headerName: "First Name",
+      width: 200,
+      renderCell: (params) => (
+        <span className="text-capitalize">{params.value}</span> // full uppercase
+      ),
+    },
+    {
+      field: "lastName",
+      headerName: "Last Name",
+      width: 200,
+      renderCell: (params) => (
+        <span className="text-capitalize">{params.value}</span> // full uppercase
+      ),
+    },
     { field: "email", headerName: "Email", width: 200 },
     { field: "phoneNumber", headerName: "Phone Number", width: 200 },
-    { field: "mda", headerName: "MDA", width: 200 },
+    {
+      field: "mda",
+      headerName: "MDA",
+      width: 200,
+      renderCell: (params) => (
+        <span className="text-uppercase">{params.value}</span> // full uppercase
+      ),
+    },
   ];
   return (
     <div>

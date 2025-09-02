@@ -8,7 +8,7 @@ const baseURL =
 const httpService = axios.create({
   baseURL,
   withCredentials: true, // always send cookies
-  timeout: 10000,
+  timeout: 30_000,
 });
 
 // No need to store or attach tokens manually anymore

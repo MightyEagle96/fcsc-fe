@@ -43,7 +43,7 @@ function OfficersView() {
     {
       field: "mda",
       headerName: "MDA",
-      width: 200,
+      width: 400,
       renderCell: (params) => (
         <span className="text-uppercase">{params.value}</span> // full uppercase
       ),

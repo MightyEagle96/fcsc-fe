@@ -329,9 +329,16 @@ function LoggedinPage() {
                 // accept=".pdf,.jpg,.jpeg,.png"
                 accept={fileFormats}
               />
+              <Typography variant="caption">
+                Documents must not be more than 1MB
+              </Typography>
               <small>{file ? file.name : ""}</small>
               <div className="col-lg-6 mt-3">
-                {errorFile && <Alert severity="error">File too large</Alert>}
+                {errorFile && (
+                  <Alert severity="error">
+                    File too large. Documents must not be more than 1MB
+                  </Alert>
+                )}
               </div>
             </div>
           </Modal.Body>

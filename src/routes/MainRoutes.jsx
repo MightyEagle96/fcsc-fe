@@ -15,6 +15,7 @@ import OfficersView from "../pages/admin/OfficersView";
 import HRCandidatesList from "../pages/HR/HRCandidatesList";
 import RecommendedCandidates from "../pages/admin/RecommendedCandidates";
 import LoadingPage from "../components/LoadingPage";
+import MDACandidatesList from "../pages/admin/MDACandidates";
 
 function MainRoutes() {
   const { loading, user } = useAuth();
@@ -26,13 +27,14 @@ function MainRoutes() {
   const privateRoutes = [{ path: "/", component: <LoggedInPage /> }];
 
   const adminRoutes = [
+    //admin
     { path: "/admin/dashboard", component: <AdminDashboard /> },
     { path: "/admin/candidates", component: <ViewCandidates /> },
     { path: "/admin/verifiedcandidates", component: <VerifiedCandidates /> },
     { path: "/admin/verifiedcandidates", component: <VerifiedCandidates /> },
     { path: "/admin/officers", component: <AdminOfficers /> },
     { path: "/admin/officers/:slug", component: <OfficersView /> },
-
+    { path: "/admin/mdacandidates/:slug", component: <MDACandidatesList /> },
     //hr
     { path: "/admin/hrcandidates/:slug", component: <HRCandidatesList /> },
     {

@@ -148,6 +148,7 @@ const columns = [
   { field: "year2023", headerName: "2023", width: 100 },
   { field: "year2024", headerName: "2024", width: 100 },
   { field: "remark", headerName: "Remark", width: 200 },
+  { field: "defaultPassword", headerName: "Password", width: 200 },
 ];
 
 function ViewCandidates() {

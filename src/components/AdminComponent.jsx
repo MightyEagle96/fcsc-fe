@@ -97,6 +97,10 @@ function AdminComponent() {
       ),
     },
   ];
+
+  const handleRowClick = async (e) => {
+    navigate(`/admin/mdacandidates/${e.row.name}`);
+  };
   return (
     <div>
       {" "}
@@ -211,7 +215,11 @@ function AdminComponent() {
               </Typography>
             </div>
             <div className="col-lg-8" style={{ height: 800 }}>
-              <DataGrid rows={mdaSummary} columns={columns} />
+              <DataGrid
+                rows={mdaSummary}
+                columns={columns}
+                onRowClick={handleRowClick}
+              />
             </div>
           </div>
         </div>

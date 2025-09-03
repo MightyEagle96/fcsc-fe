@@ -220,12 +220,17 @@ function AdminComponent() {
                 </div>
                 <div>
                   {uploadAnalysis.map((c, i) => (
-                    <div key={i} className="mb-3">
-                      <Typography variant="body1" gutterBottom>
-                        Documents: {c.uploads}
+                    <div
+                      key={i}
+                      className={`mb-2 p-2 ${
+                        i % 2 === 0 ? "bg-light" : "bg-white"
+                      }`}
+                    >
+                      <Typography variant="body1" gutterBottom color="GrayText">
+                        Documents: <b>{c.uploads}</b>
                       </Typography>
-                      <Typography variant="body1" gutterBottom>
-                        Candidates: {c.candidates}
+                      <Typography variant="body1" gutterBottom color="GrayText">
+                        Candidates: <b>{c.candidates}</b>
                       </Typography>
                     </div>
                   ))}

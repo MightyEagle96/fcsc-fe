@@ -30,7 +30,7 @@ function PromotionComponent() {
   }, []);
   return (
     <div>
-      <div className="mt-3 mb-3 container">
+      <div className="container">
         <div className="d-flex justify-content-end">
           <div className="col-lg-4">
             {user.yetToChangePassword && (

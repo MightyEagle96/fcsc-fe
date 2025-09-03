@@ -2,8 +2,12 @@ import axios from "axios";
 
 const baseURL =
   process.env.NODE_ENV === "production"
-    ? "https://fcsc.onrender.com/api"
+    ? "https://accreditation.jamb.gov.ng/api"
     : "http://localhost:3456/api";
+
+// process.env.NODE_ENV === "production"
+//   ? "https://fcsc.onrender.com/api"
+//   : "http://localhost:3456/api";
 
 const httpService = axios.create({
   baseURL,

@@ -1,5 +1,5 @@
 import { Alert, Button, CircularProgress, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppUser } from "../contexts/AppUserContext";
 import { httpService } from "../httpService";
 import { Visibility } from "@mui/icons-material";
@@ -56,7 +56,7 @@ function HRDashboard() {
             </Typography>
             <Typography>
               You are logged in as{" "}
-              <b className="text-uppercase">{user.specificRole} officer</b>
+              <b className="text-uppercase">HUMAN RESOURCES officer</b>
             </Typography>
           </div>
           <div className="text-muted mt-5">
@@ -96,7 +96,10 @@ function HRDashboard() {
           <div className="col-lg-3 rounded text-center bg-light m-1 p-3">
             <Typography variant="caption">Uploaded Documents</Typography>
             <Typography variant="h3">
-              <b>{summary?.totalUploadedDocuments}</b>
+              <b>
+                {summary?.totalUploadedDocuments.toLocaleString("en-US")}/
+                {(8 * summary?.candidates).toLocaleString("en-US")}
+              </b>
             </Typography>
           </div>
         </div>

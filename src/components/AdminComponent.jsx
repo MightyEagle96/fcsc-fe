@@ -210,7 +210,7 @@ function AdminComponent() {
                 MDAs OVERVIEW
               </Typography>
             </div>
-            <div className="col-lg-8">
+            <div className="col-lg-8" style={{ height: 800 }}>
               <DataGrid rows={mdaSummary} columns={columns} />
             </div>
           </div>

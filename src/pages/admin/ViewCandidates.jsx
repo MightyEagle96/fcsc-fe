@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { httpService } from "../httpService";
+import { httpService } from "../../httpService";
 import { Button, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { Delete } from "@mui/icons-material";
@@ -225,7 +225,7 @@ function ViewCandidates() {
             </div>
           </div>
         </div>
-        <div style={{ height: 800, width: "100%" }}>
+        <div style={{ height: 600, width: "100%" }}>
           <DataGrid
             loading={loading}
             rows={student}
@@ -235,13 +235,6 @@ function ViewCandidates() {
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
             pageSizeOptions={[50, 100, 150]}
-            // sx={{
-            //   "& .MuiDataGrid-columnHeaders": {
-            //     fontWeight: "bolder", // heavier header text
-            //     // fontSize: "1rem", // optional
-            //     color: "#333", // optional
-            //   },
-            // }}
           />
         </div>
       </div>

@@ -13,7 +13,6 @@ function OfficersView() {
     const { data } = await httpService(`admin/adminstaff/${slug}`);
 
     if (data) {
-      console.log(data);
       setOfficers(data);
     }
   };

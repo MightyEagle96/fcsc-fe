@@ -1,7 +1,7 @@
-import { useAppUser } from "../contexts/AppUserContext";
+import { useAppUser } from "../../contexts/AppUserContext";
 import { Alert, Avatar, Button, Stack, Typography } from "@mui/material";
 import { Campaign, Upload, Visibility } from "@mui/icons-material";
-import { httpService } from "../httpService";
+import { httpService } from "../../httpService";
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";

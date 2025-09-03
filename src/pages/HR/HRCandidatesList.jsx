@@ -223,6 +223,7 @@ function HRCandidatesList() {
 
   const handleRowClick = async (e) => {
     // console.log(e.row);
+    setLoading(true);
 
     const { data } = await httpService("admin/uploadeddocuments", {
       params: { _id: e.row._id },
@@ -232,6 +233,7 @@ function HRCandidatesList() {
       setUplodadedDocuments(data);
       setSelectedRow(e.row);
     }
+    setLoading(false);
   };
 
   const recommendCandidate = () => {

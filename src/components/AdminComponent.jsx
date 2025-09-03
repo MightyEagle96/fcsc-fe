@@ -192,7 +192,7 @@ function AdminComponent() {
           <div className="col-lg-4 mb-4">
             <Typography gutterBottom>Upload candidate's file</Typography>
             <input
-              class="form-control mb-3"
+              className="form-control mb-3"
               type="file"
               id="formFile"
               onChange={handleFile}

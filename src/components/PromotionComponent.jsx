@@ -16,7 +16,6 @@ function PromotionComponent() {
     const { data, error } = await httpService("admin/promotiondashboard");
     if (data) {
       setSummary(data);
-      console.log(data);
     }
 
     if (error) {

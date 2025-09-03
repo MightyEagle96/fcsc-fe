@@ -1,9 +1,22 @@
 import { Typography, Box, CircularProgress } from "@mui/material";
 
 import { appColors, appLogo } from "../assets/appTheme";
+import { useAppUser } from "../contexts/AppUserContext";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 //import { appColors } from "../assets/appTheme";
 
 function LoadingPage() {
+  const navigate = useNavigate();
+  const { user } = useAppUser();
+
+  useEffect(() => {
+    if (user.role === "admin") {
+      navigate(`/admin/dashboard`);
+    } else {
+      navigate(`/`);
+    }
+  }, []);
   return (
     <div
       style={{

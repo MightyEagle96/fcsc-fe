@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 function HRDashboard() {
   const { user } = useAppUser();
-  const [summary, setSummary] = useState({});
+  const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const getData = async () => {
@@ -86,22 +86,26 @@ function HRDashboard() {
               view
             </Button>
           </div>
-          <div className="col-lg-3 rounded text-center bg-light m-1 p-3">
-            <Typography variant="caption">Recommended</Typography>
-            <Typography variant="h3">
-              <b>{summary?.recommended}</b>
-            </Typography>
-            <Button endIcon={<Visibility />}>view</Button>
-          </div>
-          <div className="col-lg-3 rounded text-center bg-light m-1 p-3">
-            <Typography variant="caption">Uploaded Documents</Typography>
-            <Typography variant="h3">
-              <b>
-                {summary?.totalUploadedDocuments.toLocaleString("en-US")}/
-                {(8 * summary?.candidates).toLocaleString("en-US")}
-              </b>
-            </Typography>
-          </div>
+          {summary && (
+            <>
+              <div className="col-lg-3 rounded text-center bg-light m-1 p-3">
+                <Typography variant="caption">Recommended</Typography>
+                <Typography variant="h3">
+                  <b>{summary?.recommended}</b>
+                </Typography>
+                <Button endIcon={<Visibility />}>view</Button>
+              </div>
+              <div className="col-lg-3 rounded text-center bg-light m-1 p-3">
+                <Typography variant="caption">Uploaded Documents</Typography>
+                <Typography variant="h3">
+                  <b>
+                    {summary?.totalUploadedDocuments?.toLocaleString("en-US")}/
+                    {(8 * summary?.candidates).toLocaleString("en-US") || ""}
+                  </b>
+                </Typography>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { httpService } from "../../httpService";
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Modal } from "react-bootstrap";
+import { Badge, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { Send } from "@mui/icons-material";
@@ -22,6 +22,8 @@ function HRCandidatesList() {
 
   const [uploadedDocuments, setUplodadedDocuments] = useState([]);
   const [recommending, setRecommending] = useState(false);
+
+  const [recommendedStatus, setRecommendedStatus] = useState(null);
 
   const getData = async () => {
     setLoading(true);
@@ -230,7 +232,12 @@ function HRCandidatesList() {
     });
 
     if (data) {
-      setUplodadedDocuments(data);
+      setUplodadedDocuments(data.uploadedDocuments);
+      setRecommendedStatus({
+        recommended: data.recommended,
+        dateRecommended: data.dateRecommended,
+        enableButton: data.enableButton,
+      });
       setSelectedRow(e.row);
     }
     setLoading(false);
@@ -296,6 +303,7 @@ function HRCandidatesList() {
           onHide={() => {
             setSelectedRow(null);
             setUplodadedDocuments([]);
+            setRecommendedStatus(null);
           }}
         >
           <Modal.Header className="border-0 bg-light" closeButton>
@@ -319,19 +327,32 @@ function HRCandidatesList() {
             </div>
           </Modal.Body>
           <Modal.Footer className="border-0 bg-light">
-            <Button
-              endIcon={<Send />}
-              loading={recommending}
-              onClick={recommendCandidate}
-              loadingPosition="end"
-              variant="contained"
-              sx={{ textTransform: "capitalize" }}
-            >
-              Recommend Candidate
-            </Button>
-            <Button color="error" sx={{ textTransform: "capitalize" }}>
-              Reject Candidate
-            </Button>
+            {recommendedStatus && recommendedStatus.recommended ? (
+              <>
+                <Badge bg="success">RECOMMENDED</Badge>
+              </>
+            ) : (
+              <>
+                <Button
+                  endIcon={<Send />}
+                  loading={recommending}
+                  onClick={recommendCandidate}
+                  loadingPosition="end"
+                  variant="contained"
+                  sx={{ textTransform: "capitalize" }}
+                  disabled={recommendedStatus.enableButton}
+                >
+                  Recommend Candidate
+                </Button>
+                <Button
+                  disabled={recommendedStatus.enableButton}
+                  color="error"
+                  sx={{ textTransform: "capitalize" }}
+                >
+                  Reject Candidate
+                </Button>
+              </>
+            )}
           </Modal.Footer>
         </Modal>
       )}

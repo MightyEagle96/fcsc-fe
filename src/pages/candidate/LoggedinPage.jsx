@@ -107,6 +107,8 @@ function LoggedinPage() {
     }, 4000);
   };
 
+  console.log(user);
+
   return (
     <div>
       <div
@@ -117,25 +119,45 @@ function LoggedinPage() {
           <div className="row d-flex align-items-center">
             <div className="col-lg-8">
               <Typography fontWeight={700} variant="h4">
-                Welcome, {user.name}
+                Welcome, <span className="text-capitalize">{user.name}</span>
               </Typography>
-              <div className="col-lg-6">
-                <hr />
-                <Typography gutterBottom variant="body2" fontWeight={500}>
-                  IPPIS Number:{" "}
-                  <span className="fw-bold, text-uppercase">
-                    {user.ippisNumber}
-                  </span>
-                </Typography>
-                <Typography gutterBottom variant="body2" fontWeight={500}>
-                  Email: <span className="fw-bold, ">{user.email}</span>
-                </Typography>
-                <Typography gutterBottom variant="body2" fontWeight={500}>
-                  Phone Number:{" "}
-                  <span className="fw-bold, text-uppercase">
-                    {user.phoneNumber}
-                  </span>
-                </Typography>
+              <hr />
+              <div className="row">
+                <div className="col-lg-6">
+                  <Typography gutterBottom variant="body1" fontWeight={500}>
+                    MDA:{" "}
+                    <span className="fw-bold, text-uppercase">{user.mda}</span>
+                  </Typography>
+                  <Typography gutterBottom variant="body1" fontWeight={500}>
+                    Cadre:{" "}
+                    <span className="fw-bold text-uppercase ">
+                      {user.cadre}
+                    </span>
+                  </Typography>
+                  <Typography gutterBottom variant="body1" fontWeight={500}>
+                    Grade Level:{" "}
+                    <span className="fw-bold, text-uppercase">
+                      {user.gradeLevel}
+                    </span>
+                  </Typography>
+                </div>
+                <div className="col-lg-6">
+                  <Typography gutterBottom variant="body1" fontWeight={500}>
+                    IPPIS Number:{" "}
+                    <span className="fw-bold, text-uppercase">
+                      {user.ippisNumber}
+                    </span>
+                  </Typography>
+                  <Typography gutterBottom variant="body1" fontWeight={500}>
+                    Email: <span className="fw-bold, ">{user.email}</span>
+                  </Typography>
+                  <Typography gutterBottom variant="body1" fontWeight={500}>
+                    Phone Number:{" "}
+                    <span className="fw-bold, text-uppercase">
+                      {user.phoneNumber}
+                    </span>
+                  </Typography>
+                </div>
               </div>
             </div>
             <div className="col-lg-4">
@@ -162,9 +184,9 @@ function LoggedinPage() {
               </div>
               <div>
                 <Typography variant="body2" color="#ffffffff">
-                  Dear Candidate, please note that for you to be eligible to sit
-                  for the promotion examination, you must upload all required
-                  documents as indicated below.
+                  Please note that for you to be eligible to sit for the
+                  promotion examination, you must upload all required documents
+                  as indicated below.
                 </Typography>
               </div>
             </Stack>

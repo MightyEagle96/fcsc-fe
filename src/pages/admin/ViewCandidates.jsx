@@ -5,6 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Delete } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { Badge } from "react-bootstrap";
 
 const columns = [
   {
@@ -14,6 +15,17 @@ const columns = [
     sortable: false,
     filterable: false,
     //renderCell: (params) => params.api.getRowIndex(params.id) + 1,
+  },
+  {
+    field: "recommended",
+    headerName: "Status",
+    width: 150,
+    renderCell: (params) =>
+      params.value ? (
+        <Badge bg="success">Recommended</Badge>
+      ) : (
+        <Badge bg="warning">Not Recommended</Badge>
+      ),
   },
   { field: "ippisNumber", headerName: "IPPIS Number", width: 150 },
   {
@@ -219,6 +231,7 @@ function ViewCandidates() {
                   variant="contained"
                   color="error"
                   endIcon={<Delete />}
+                  loading={loading}
                 >
                   Delete all candidates
                 </Button>
@@ -235,7 +248,7 @@ function ViewCandidates() {
             paginationMode="server"
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
-            pageSizeOptions={[50, 100, 150]}
+            pageSizeOptions={[50, 100]}
           />
         </div>
       </div>

@@ -54,6 +54,17 @@ function HRCandidatesList() {
       filterable: false,
       //renderCell: (params) => params.api.getRowIndex(params.id) + 1,
     },
+    {
+      field: "recommended",
+      headerName: "Status",
+      width: 150,
+      renderCell: (params) =>
+        params.value ? (
+          <Badge bg="success">Recommended</Badge>
+        ) : (
+          <Badge bg="warning">Not Recommended</Badge>
+        ),
+    },
     { field: "ippisNumber", headerName: "IPPIS Number", width: 150 },
     {
       field: "fullName",
@@ -290,7 +301,7 @@ function HRCandidatesList() {
             paginationMode="server"
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
-            pageSizeOptions={[50, 100, 150]}
+            pageSizeOptions={[50, 100]}
             onRowClick={handleRowClick}
           />
         </div>

@@ -260,7 +260,7 @@ function MDACandidatesList() {
             paginationMode="server"
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
-            pageSizeOptions={[50, 100, 150]}
+            pageSizeOptions={[50, 100]}
             //onRowClick={handleRowClick}
           />
         </div>

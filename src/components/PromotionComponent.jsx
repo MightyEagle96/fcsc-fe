@@ -89,13 +89,13 @@ function PromotionComponent() {
                 </Button>
               </div>
               <div className="col-lg-3 rounded text-center bg-light m-1 p-3">
-                <Typography variant="caption">Not Recommended</Typography>
+                <Typography variant="caption">Approved</Typography>
                 <Typography variant="h3">
-                  <b>{summary?.notRecommended}</b>
+                  <b>{summary?.approved}</b>
                 </Typography>
                 <Button
                   endIcon={<Visibility />}
-                  onClick={() => navigate("/admin/promorecommended/")}
+                  onClick={() => navigate("/admin/approvedcandidates/")}
                 >
                   view
                 </Button>

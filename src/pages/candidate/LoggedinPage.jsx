@@ -3,7 +3,7 @@ import { Alert, Avatar, Button, Stack, Typography } from "@mui/material";
 import { Campaign, Upload, Visibility } from "@mui/icons-material";
 import { httpService } from "../../httpService";
 import { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Badge, Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -118,9 +118,19 @@ function LoggedinPage() {
         <div className="container w-100 text-white">
           <div className="row d-flex align-items-center">
             <div className="col-lg-8">
-              <Typography fontWeight={700} variant="h4">
-                Welcome, <span className="text-capitalize">{user.name}</span>
-              </Typography>
+              <div className="row">
+                <div className="col-lg-9">
+                  <Typography fontWeight={700} variant="h4">
+                    Welcome,{" "}
+                    <span className="text-capitalize">{user.name}</span>
+                  </Typography>
+                </div>
+                <div className="col-lg-3">
+                  <Badge bg="warning" style={{ textTransform: "uppercase" }}>
+                    {user.status}
+                  </Badge>
+                </div>
+              </div>
               <hr />
               <div className="row">
                 <div className="col-lg-6">
@@ -351,10 +361,14 @@ function LoggedinPage() {
                 // accept=".pdf,.jpg,.jpeg,.png"
                 accept={fileFormats}
               />
-              <Typography variant="caption">
-                Documents must not be more than 1MB
-              </Typography>
-              <small>{file ? file.name : ""}</small>
+              <div>
+                <Typography variant="caption">
+                  Documents must not be more than 1MB
+                </Typography>
+              </div>
+              <div>
+                <small>{file ? file.name : ""}</small>
+              </div>
               <div className="col-lg-6 mt-3">
                 {errorFile && (
                   <Alert severity="error">

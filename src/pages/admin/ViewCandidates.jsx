@@ -202,6 +202,7 @@ function ViewCandidates() {
       denyButtonText: "No",
     }).then(async (result) => {
       if (result.isConfirmed) {
+        setLoading(true);
         const { data, error } = await httpService("admin/deleteallcandidates");
         if (data) {
           toast.success(data);
@@ -211,6 +212,7 @@ function ViewCandidates() {
         if (error) {
           toast.error(error);
         }
+        setLoading(false);
       }
     });
   };

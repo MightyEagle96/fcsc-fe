@@ -66,7 +66,7 @@ function HRDashboard() {
           </div>
         </div>
       </div>
-      <div className="container">
+      <div className="">
         {loading && (
           <div className="text-center">
             <CircularProgress size={20} />
@@ -92,6 +92,13 @@ function HRDashboard() {
                 <Typography variant="caption">Recommended</Typography>
                 <Typography variant="h3">
                   <b>{summary?.recommended}</b>
+                </Typography>
+                <Button endIcon={<Visibility />}>view</Button>
+              </div>
+              <div className="col-lg-3 rounded text-center bg-light m-1 p-3">
+                <Typography variant="caption">Approved</Typography>
+                <Typography variant="h3">
+                  <b>{summary?.approved}</b>
                 </Typography>
                 <Button endIcon={<Visibility />}>view</Button>
               </div>

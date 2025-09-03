@@ -45,6 +45,22 @@ function HRCandidatesList() {
   useEffect(() => {
     getData();
   }, [paginationModel]);
+
+  function switchColors(status) {
+    switch (status) {
+      case "pending":
+        return "dark";
+      case "recommended":
+        return "warning";
+      case "approved":
+        return "success";
+      case "rejected":
+        return "danger";
+      default:
+        return "dark";
+    }
+  }
+
   const columns = [
     {
       field: "id",
@@ -55,15 +71,17 @@ function HRCandidatesList() {
       //renderCell: (params) => params.api.getRowIndex(params.id) + 1,
     },
     {
-      field: "recommended",
+      field: "status",
       headerName: "Status",
       width: 150,
-      renderCell: (params) =>
-        params.value ? (
-          <Badge bg="success">Recommended</Badge>
-        ) : (
-          <Badge bg="warning">Not Recommended</Badge>
-        ),
+      renderCell: (params) => (
+        <Badge
+          style={{ textTransform: "uppercase" }}
+          bg={switchColors(params.value)}
+        >
+          {params.value}
+        </Badge>
+      ),
     },
     { field: "ippisNumber", headerName: "IPPIS Number", width: 150 },
     {

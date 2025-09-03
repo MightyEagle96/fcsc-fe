@@ -16,6 +16,15 @@ function NavbarComponent() {
   const adminLinks = [
     { path: "/admin/dashboard", text: "Home" },
     { path: "/admin/officers", text: "Officers" },
+    { path: "/admin/candidates", text: "Candidates" },
+    {
+      path: `/admin/promorecommended/`,
+      text: "Recommended",
+    },
+    {
+      path: `/admin/approvedcandidates/`,
+      text: "Approved",
+    },
   ];
 
   const hrLinks = [
@@ -28,15 +37,15 @@ function NavbarComponent() {
   ];
   const promotionLinks = [
     { path: "/admin/dashboard", text: "Home" },
-    //{ path: `/admin/hrcandidates/${user?.mda}`, text: "Candidates" },
+
     {
       path: `/admin/promorecommended/`,
       text: "Recommended",
     },
-    // {
-    //   path: `/admin/recommendedcandidates/${user?.mda}`,
-    //   text: "Recommended",
-    // },
+    {
+      path: `/admin/approvedcandidates/`,
+      text: "Approved",
+    },
   ];
   const handleLogout = async () => {
     setLoading(true);

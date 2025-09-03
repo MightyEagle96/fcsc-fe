@@ -104,7 +104,6 @@ function AdminComponent() {
   };
   return (
     <div>
-      {" "}
       <div>
         <div
           className="d-flex align-items-center mb-5"
@@ -114,9 +113,9 @@ function AdminComponent() {
             minHeight: "25vh",
           }}
         >
-          <div className="container w-100 ">
+          <div className="container w-100">
             <div className="row">
-              <div className="col-lg-3">
+              <div className="col-lg-2 border-end">
                 <Typography variant="h5" gutterBottom fontWeight={700}>
                   Welcome Back,
                 </Typography>
@@ -124,66 +123,45 @@ function AdminComponent() {
                   {user.firstName} {user.lastName}
                 </Typography>
               </div>
-              <div className="col-lg-3">
+              <div className="col-lg-2">
                 <Typography variant="body1" gutterBottom>
                   Total Candidates
                 </Typography>
                 <Typography variant="h5" gutterBottom fontWeight={700}>
                   {summary.candidates}
                 </Typography>
-                <Button
-                  sx={{
-                    backgroundColor: "#B9375D",
-                    color: "#fff",
-                    "&:hover": {
-                      backgroundColor: "#9e2d4c", // a bit darker for hover
-                    },
-                  }}
-                  onClick={() => navigate("/admin/candidates")}
-                >
-                  View Details
-                </Button>
               </div>
-              <div className="col-lg-3">
+              <div className="col-lg-2">
                 <Typography variant="body1" gutterBottom>
-                  Verified Candidates
+                  Pending
                 </Typography>
                 <Typography variant="h5" gutterBottom fontWeight={700}>
-                  {summary.verifiedCandidates}
+                  {summary.pending}
                 </Typography>
-                <Button
-                  sx={{
-                    backgroundColor: "#FFCB61",
-                    color: "#000", // darker text for contrast
-                    "&:hover": {
-                      backgroundColor: "#e6b354", // slightly darker
-                    },
-                  }}
-                  onClick={() => navigate("/admin/verifiedcandidates")}
-                >
-                  View Details
-                </Button>
               </div>
-              <div className="col-lg-3">
+              <div className="col-lg-2">
                 <Typography variant="body1" gutterBottom>
-                  Unverified Candidates
+                  Recommended
                 </Typography>
                 <Typography variant="h5" gutterBottom fontWeight={700}>
-                  {summary.unverifiedCandidates}
+                  {summary.recommended}
                 </Typography>
-                <Button
-                  endIcon={<People />}
-                  sx={{
-                    backgroundColor: "#67C090",
-                    color: "#fff",
-                    "&:hover": {
-                      backgroundColor: "#57a87d",
-                    },
-                  }}
-                  onClick={() => navigate("/admin/unverifiedcandidates")}
-                >
-                  View Details
-                </Button>
+              </div>
+              <div className="col-lg-2">
+                <Typography variant="body1" gutterBottom>
+                  Approved
+                </Typography>
+                <Typography variant="h5" gutterBottom fontWeight={700}>
+                  {summary.approved}
+                </Typography>
+              </div>
+              <div className="col-lg-2">
+                <Typography variant="body1" gutterBottom>
+                  Rejected
+                </Typography>
+                <Typography variant="h5" gutterBottom fontWeight={700}>
+                  {summary.rejected}
+                </Typography>
               </div>
             </div>
           </div>

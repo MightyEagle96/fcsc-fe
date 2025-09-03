@@ -17,6 +17,7 @@ import RecommendedCandidates from "../pages/admin/RecommendedCandidates";
 import LoadingPage from "../components/LoadingPage";
 import MDACandidatesList from "../pages/admin/MDACandidates";
 import PromoRecommended from "../pages/promotion/PromoRecommended";
+import ApprovedCandidates from "../pages/promotion/ApprovedCandidates";
 
 function MainRoutes() {
   const { loading, user } = useAuth();
@@ -47,6 +48,10 @@ function MainRoutes() {
     {
       path: "/admin/promorecommended/",
       component: <PromoRecommended />,
+    },
+    {
+      path: "/admin/approvedcandidates/",
+      component: <ApprovedCandidates />,
     },
   ];
   return (

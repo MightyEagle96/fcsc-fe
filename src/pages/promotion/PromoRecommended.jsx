@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { httpService } from "../../httpService";
 import { Avatar, Button, Stack, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { Clear, Done, QuestionMark } from "@mui/icons-material";
+import { QuestionMark } from "@mui/icons-material";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 
@@ -96,19 +96,6 @@ function PromoRecommended() {
         );
       },
     },
-    {
-      field: "approved",
-      headerName: "Approved",
-      width: 200,
-      flex: 1,
-      renderCell: (params) => {
-        return (
-          <span className="text-capitalize">
-            {params.value ? <Done color="success" /> : <Clear color="error" />}
-          </span>
-        );
-      },
-    },
   ];
 
   const handleRowClick = async (e) => {
@@ -123,6 +110,7 @@ function PromoRecommended() {
 
     if (data) {
       getData();
+      setSelecteRow(null);
       toast.success(data);
     }
     setLoading(false);

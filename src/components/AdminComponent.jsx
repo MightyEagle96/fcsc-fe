@@ -16,6 +16,7 @@ function AdminComponent() {
   const [loading, setLoading] = useState(false);
 
   const getData = async () => {
+    setLoading(true);
     const [data1, data2] = await Promise.all([
       httpService("admin/dashboardsummary"),
       httpService("admin/mdaoverview"),
@@ -29,9 +30,9 @@ function AdminComponent() {
     if (data2) {
       const { data } = data2;
 
-      console.log(data);
       if (data) setMdaSummary(data);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -219,6 +220,7 @@ function AdminComponent() {
                 rows={mdaSummary}
                 columns={columns}
                 onRowClick={handleRowClick}
+                loading={loading}
               />
             </div>
           </div>

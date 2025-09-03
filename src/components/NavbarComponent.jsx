@@ -23,8 +23,20 @@ function NavbarComponent() {
     { path: `/admin/hrcandidates/${user?.mda}`, text: "Candidates" },
     {
       path: `/admin/recommendedcandidates/${user?.mda}`,
-      text: "Recommended Candidates",
+      text: "Recommended ",
     },
+  ];
+  const promotionLinks = [
+    { path: "/admin/dashboard", text: "Home" },
+    //{ path: `/admin/hrcandidates/${user?.mda}`, text: "Candidates" },
+    {
+      path: `/admin/promorecommended/`,
+      text: "Recommended",
+    },
+    // {
+    //   path: `/admin/recommendedcandidates/${user?.mda}`,
+    //   text: "Recommended",
+    // },
   ];
   const handleLogout = async () => {
     setLoading(true);
@@ -83,6 +95,17 @@ function NavbarComponent() {
                 ))}
               </>
             )}
+            {user &&
+              user.role === "admin" &&
+              user.specificRole === "promotion" && (
+                <>
+                  {promotionLinks.map((c, i) => (
+                    <Nav.Link key={i} onClick={() => navigate(c.path)}>
+                      <Typography variant="body2">{c.text}</Typography>
+                    </Nav.Link>
+                  ))}
+                </>
+              )}
           </Nav>
           <Nav className="ms-auto">
             {user ? (

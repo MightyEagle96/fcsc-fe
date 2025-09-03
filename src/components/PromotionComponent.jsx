@@ -1,20 +1,29 @@
-import { Alert, Button, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import { Alert, Button, CircularProgress, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useAppUser } from "../contexts/AppUserContext";
 import { httpService } from "../httpService";
+import { Visibility } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 function PromotionComponent() {
   const { user } = useAppUser();
+  const [summary, setSummary] = useState(null);
+  const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
   const getData = async () => {
+    setLoading(true);
     const { data, error } = await httpService("admin/promotiondashboard");
     if (data) {
+      setSummary(data);
       console.log(data);
     }
 
     if (error) {
       console.log(error);
     }
+
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -56,6 +65,44 @@ function PromotionComponent() {
               <b className="text-uppercase">{user.specificRole} officer</b>
             </Typography>
           </div>
+        </div>
+      </div>
+
+      <div className="container">
+        {loading && (
+          <div className="text-center">
+            <CircularProgress size={20} />
+          </div>
+        )}
+        <div className="row d-flex justify-content-center">
+          {summary && (
+            <>
+              <div className="col-lg-3 rounded text-center bg-light m-1 p-3">
+                <Typography variant="caption">Recommended</Typography>
+                <Typography variant="h3">
+                  <b>{summary?.recommended}</b>
+                </Typography>
+                <Button
+                  endIcon={<Visibility />}
+                  onClick={() => navigate("/admin/promorecommended/")}
+                >
+                  view
+                </Button>
+              </div>
+              <div className="col-lg-3 rounded text-center bg-light m-1 p-3">
+                <Typography variant="caption">Not Recommended</Typography>
+                <Typography variant="h3">
+                  <b>{summary?.notRecommended}</b>
+                </Typography>
+                <Button
+                  endIcon={<Visibility />}
+                  onClick={() => navigate("/admin/promorecommended/")}
+                >
+                  view
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -292,7 +292,7 @@ function HRCandidatesList() {
         </div>
       </div>
       <div className="p-3">
-        <div style={{ height: 800, width: "100%" }}>
+        <div style={{ height: 600, width: "100%" }}>
           <DataGrid
             loading={loading}
             rows={student}

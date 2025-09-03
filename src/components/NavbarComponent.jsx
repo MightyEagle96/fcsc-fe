@@ -25,6 +25,10 @@ function NavbarComponent() {
       path: `/admin/approvedcandidates/`,
       text: "Approved",
     },
+    {
+      path: `/admin/searchcandidate/`,
+      text: "Search Candidate",
+    },
   ];
 
   const hrLinks = [

@@ -18,6 +18,7 @@ import LoadingPage from "../components/LoadingPage";
 import MDACandidatesList from "../pages/admin/MDACandidates";
 import PromoRecommended from "../pages/promotion/PromoRecommended";
 import ApprovedCandidates from "../pages/promotion/ApprovedCandidates";
+import SearchCandidate from "../pages/admin/SearchCandidate";
 
 function MainRoutes() {
   const { loading, user } = useAuth();
@@ -37,6 +38,7 @@ function MainRoutes() {
     { path: "/admin/officers", component: <AdminOfficers /> },
     { path: "/admin/officers/:slug", component: <OfficersView /> },
     { path: "/admin/mdacandidates/:slug", component: <MDACandidatesList /> },
+    { path: "/admin/searchcandidate", component: <SearchCandidate /> },
     //hr
     { path: "/admin/hrcandidates/:slug", component: <HRCandidatesList /> },
     {

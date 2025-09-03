@@ -1,12 +1,10 @@
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { httpService } from "../../httpService";
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Modal } from "react-bootstrap";
-import Swal from "sweetalert2";
-import { toast } from "react-toastify";
-import { Send } from "@mui/icons-material";
+
 function MDACandidatesList() {
   const { slug } = useParams();
   const [student, setStudent] = useState([]);

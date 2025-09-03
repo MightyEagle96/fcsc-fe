@@ -6,6 +6,7 @@ import { Delete } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { Badge } from "react-bootstrap";
+import { switchColors } from "../HR/HRCandidatesList";
 
 const columns = [
   {
@@ -17,15 +18,17 @@ const columns = [
     //renderCell: (params) => params.api.getRowIndex(params.id) + 1,
   },
   {
-    field: "recommended",
+    field: "status",
     headerName: "Status",
     width: 150,
-    renderCell: (params) =>
-      params.value ? (
-        <Badge bg="success">Recommended</Badge>
-      ) : (
-        <Badge bg="warning">Not Recommended</Badge>
-      ),
+    renderCell: (params) => (
+      <Badge
+        style={{ textTransform: "uppercase" }}
+        bg={switchColors(params.value)}
+      >
+        {params.value}
+      </Badge>
+    ),
   },
   { field: "ippisNumber", headerName: "IPPIS Number", width: 150 },
   {

@@ -7,6 +7,21 @@ import { Badge, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { Send } from "@mui/icons-material";
+
+export function switchColors(status) {
+  switch (status) {
+    case "pending":
+      return "dark";
+    case "recommended":
+      return "warning";
+    case "approved":
+      return "success";
+    case "rejected":
+      return "danger";
+    default:
+      return "dark";
+  }
+}
 function HRCandidatesList() {
   const { slug } = useParams();
   const [student, setStudent] = useState([]);
@@ -45,21 +60,6 @@ function HRCandidatesList() {
   useEffect(() => {
     getData();
   }, [paginationModel]);
-
-  function switchColors(status) {
-    switch (status) {
-      case "pending":
-        return "dark";
-      case "recommended":
-        return "warning";
-      case "approved":
-        return "success";
-      case "rejected":
-        return "danger";
-      default:
-        return "dark";
-    }
-  }
 
   const columns = [
     {

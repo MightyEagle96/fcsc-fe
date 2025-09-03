@@ -12,14 +12,16 @@ function AdminComponent() {
 
   const [summary, setSummary] = useState({});
   const [mdaSummary, setMdaSummary] = useState({});
+  const [uploadAnalysis, setUploadAnalysis] = useState([]);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const getData = async () => {
     setLoading(true);
-    const [data1, data2] = await Promise.all([
+    const [data1, data2, data3] = await Promise.all([
       httpService("admin/dashboardsummary"),
       httpService("admin/mdaoverview"),
+      httpService("admin/uploadanalysis"),
     ]);
 
     if (data1) {
@@ -31,6 +33,12 @@ function AdminComponent() {
       const { data } = data2;
 
       if (data) setMdaSummary(data);
+    }
+    if (data3) {
+      const { data } = data3;
+
+      console.log(data);
+      if (data) setUploadAnalysis(data);
     }
     setLoading(false);
   };
@@ -188,18 +196,41 @@ function AdminComponent() {
             </Button>
           </div>
           <div>
-            <div className="mb-4">
-              <Typography variant="h4" fontWeight={700}>
-                MDAs OVERVIEW
-              </Typography>
-            </div>
-            <div className="col-lg-8" style={{ height: 800 }}>
-              <DataGrid
-                rows={mdaSummary}
-                columns={columns}
-                onRowClick={handleRowClick}
-                loading={loading}
-              />
+            <div className="row">
+              <div className="col-lg-8">
+                <div className="mb-4">
+                  <Typography variant="h4" fontWeight={700}>
+                    MDAs OVERVIEW
+                  </Typography>
+                </div>
+                <div className="" style={{ height: 800 }}>
+                  <DataGrid
+                    rows={mdaSummary}
+                    columns={columns}
+                    onRowClick={handleRowClick}
+                    loading={loading}
+                  />
+                </div>
+              </div>
+              <div className="col-lg-4 ">
+                <div className="mb-4">
+                  <Typography variant="h4" fontWeight={700}>
+                    Upload Analysis
+                  </Typography>
+                </div>
+                <div>
+                  {uploadAnalysis.map((c, i) => (
+                    <div key={i} className="mb-3">
+                      <Typography variant="body1" gutterBottom>
+                        Documents: {c.uploads}
+                      </Typography>
+                      <Typography variant="body1" gutterBottom>
+                        Candidates: {c.candidates}
+                      </Typography>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -38,39 +38,87 @@ const processQueue = (error, token = null) => {
   failedQueue = [];
 };
 
+// httpService.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+//     // Optionally handle 401 errors (unauthorized)
+//     const originalRequest = error.config;
+
+//     if (error.response?.status === 401 && !originalRequest._retry) {
+//       if (isRefreshing) {
+//         return new Promise((resolve, reject) => {
+//           failedQueue.push({ resolve, reject });
+//         })
+//           .then(() => {
+//             return httpService(originalRequest);
+//           })
+//           .catch((err) => {
+//             return Promise.reject(err);
+//           });
+//       }
+
+//       originalRequest._retry = true;
+//       isRefreshing = true;
+
+//       try {
+//         await httpService("refresh"); // Backend should send new cookies here
+
+//         processQueue(null);
+//         return httpService(originalRequest);
+//       } catch (err) {
+//         processQueue(err, null);
+
+//         // 🚨 Both tokens expired — handle logout or redirect
+//         console.warn("Session expired. Logging out...");
+//         window.location.href = "/login";
+
+//         return Promise.reject(err);
+//       } finally {
+//         isRefreshing = false;
+//       }
+//     }
+
+//     // return Promise.reject(error);
+//     if (error.response) {
+//       return { error: error.response.data, status: error.response.status };
+//     }
+//     return { error: "Network connection lost" };
+//   }
+// );
+
 httpService.interceptors.response.use(
   (response) => response,
   async (error) => {
-    // Optionally handle 401 errors (unauthorized)
     const originalRequest = error.config;
 
+    // Handle unauthorized
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
+        // Queue failed requests while refreshing
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
-          .then(() => {
-            return httpService(originalRequest);
-          })
-          .catch((err) => {
-            return Promise.reject(err);
-          });
+          .then(() => httpService(originalRequest))
+          .catch((err) => Promise.reject(err));
       }
 
       originalRequest._retry = true;
       isRefreshing = true;
 
       try {
-        await httpService("refresh"); // Backend should send new cookies here
+        // Try refresh
+        await httpService.get("/refresh"); // 🚨 Make sure this matches your backend
 
         processQueue(null);
         return httpService(originalRequest);
       } catch (err) {
         processQueue(err, null);
 
-        // 🚨 Both tokens expired — handle logout or redirect
-        console.warn("Session expired. Logging out...");
-        window.location.href = "/login";
+        // 🚨 Both original + refresh failed with 401 → redirect
+        if (err.response?.status === 401) {
+          console.warn("Both tokens expired. Logging out...");
+          window.location.href = "/"; // clear session
+        }
 
         return Promise.reject(err);
       } finally {
@@ -78,7 +126,7 @@ httpService.interceptors.response.use(
       }
     }
 
-    // return Promise.reject(error);
+    // Fallback error handling
     if (error.response) {
       return { error: error.response.data, status: error.response.status };
     }

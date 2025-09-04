@@ -7,10 +7,10 @@ import LoadingPage from "../../components/LoadingPage";
 function PublicAdminRoutes() {
   const routes = [
     { path: "/login", component: <AdminLogin /> },
-    // {
-    //   path: "/signup",
-    //   component: <CreateAdminAccount />,
-    // },
+    {
+      path: "/signup",
+      component: <CreateAdminAccount />,
+    },
     // { path: "*", component: <NotFound /> },
     <Route path="*" element={<LoadingPage />} />,
   ];

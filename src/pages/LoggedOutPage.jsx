@@ -95,6 +95,14 @@ function LoggedOutPage() {
                 >
                   Login
                 </Button>
+                <div className="mt-4">
+                  <Typography color="GrayText" variant="body2">
+                    Are you an admin staff?{" "}
+                    <a href="/admin/login" className="text-success">
+                      Login as admin
+                    </a>
+                  </Typography>
+                </div>
               </form>
             </div>
           </div>

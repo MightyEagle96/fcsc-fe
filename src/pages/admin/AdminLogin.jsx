@@ -95,14 +95,14 @@ function AdminLogin() {
                   Login
                 </Button>
 
-                <div className="mt-4">
+                {/* <div className="mt-4">
                   <Typography color="GrayText" variant="body2">
                     Don't have an account?{" "}
                     <a href="/admin/signup" className="text-success">
                       Sign up
                     </a>
                   </Typography>
-                </div>
+                </div> */}
               </form>
             </div>
           </div>

@@ -12,7 +12,21 @@ function SearchCandidate() {
   const [loading, setLoading] = useState(false);
   const [candidates, setCandidates] = useState([]);
   const [selectedRow, setSelecteRow] = useState(null);
+  const [visiblePasswordIds, setVisiblePasswordIds] = useState(new Set());
 
+  const handleCellClick = (params) => {
+    if (params.field === "password") {
+      setVisiblePasswordIds((prev) => {
+        const updated = new Set(prev);
+        if (updated.has(params.id)) {
+          updated.delete(params.id);
+        } else {
+          updated.add(params.id);
+        }
+        return updated;
+      });
+    }
+  };
   const getData = async () => {
     setLoading(true);
     const { data } = await httpService("admin/searchcandidate", {
@@ -180,16 +194,33 @@ function SearchCandidate() {
     { field: "year2023", headerName: "2023", width: 100 },
     { field: "year2024", headerName: "2024", width: 100 },
     { field: "remark", headerName: "Remark", width: 200 },
-    { field: "password", headerName: "Password", width: 200 },
+
     { field: "dateRecommended", headerName: "Date Recommended", width: 200 },
     { field: "recommendedBy", headerName: "Recommended By", width: 200 },
     { field: "dateApproved", headerName: "Date Approved", width: 200 },
     { field: "approvedBy", headerName: "Approved By", width: 200 },
+    {
+      field: "password",
+      headerName: "Password",
+      width: 200,
+      renderCell: (params) =>
+        visiblePasswordIds.has(params.id) ? params.value : "******",
+    },
+    {
+      field: "_id",
+      headerName: "Reverse Approval",
+      width: 200,
+      renderCell: (params) => (
+        <Button
+          sx={{ textTransform: "capitalize" }}
+          color="error"
+          onClick={() => setSelecteRow(params.row)}
+        >
+          Reverse
+        </Button>
+      ),
+    },
   ];
-
-  const handleRowClick = async (e) => {
-    setSelecteRow(e.row);
-  };
 
   const reverseData = async () => {
     setLoading(true);
@@ -236,7 +267,8 @@ function SearchCandidate() {
             loading={loading}
             rows={candidates}
             columns={columns}
-            onRowClick={handleRowClick}
+            onCellClick={handleCellClick}
+            //onRowClick={handleRowClick}
             // rowCount={rowCount}
             // paginationMode="server"
             // paginationModel={paginationModel}

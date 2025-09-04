@@ -237,6 +237,7 @@ function ViewCandidates() {
                   color="error"
                   endIcon={<Delete />}
                   loading={loading}
+                  loadingPosition="end"
                 >
                   Delete all candidates
                 </Button>

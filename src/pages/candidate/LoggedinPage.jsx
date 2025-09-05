@@ -104,15 +104,13 @@ function LoggedinPage() {
       setFile(null);
       setDocument(null);
       setLoading(false);
-    }, 4000);
+    }, 3000);
   };
-
-  console.log(user);
 
   return (
     <div>
       <div
-        className="mt-5 d-flex align-items-center mb-5"
+        className="d-flex align-items-center mb-5"
         style={{ backgroundColor: "#3F7D58", minHeight: "35vh" }}
       >
         <div className="container w-100 text-white">

@@ -6,7 +6,7 @@ import { useAppUser } from "../contexts/AppUserContext";
 import { Login, Logout } from "@mui/icons-material";
 import { httpService } from "../httpService";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function NavbarComponent() {
   const { user } = useAppUser();
@@ -51,15 +51,37 @@ function NavbarComponent() {
       text: "Approved",
     },
   ];
+
+  const candidateLinks = [
+    { path: "/", text: "Home" },
+    { path: "/myprofile", text: "My Profile" },
+    { path: "/datacorrection", text: "Data Correction" },
+  ];
+
+  // ✅ Centralized link resolver
+  const getLinks = () => {
+    if (!user) return [];
+    if (user.role === "admin" && user.specificRole === "admin")
+      return adminLinks;
+    if (user.role === "admin" && user.specificRole === "hr") return hrLinks;
+    if (user.role === "admin" && user.specificRole === "promotion")
+      return promotionLinks;
+    if (user.role === "candidate") return candidateLinks;
+    return [];
+  };
   const handleLogout = async () => {
     setLoading(true);
-    const { data } = await httpService("logout");
-
-    if (data) {
-      window.location.href = "/";
+    try {
+      const { data } = await httpService("logout");
+      if (data) {
+        navigate("/");
+      }
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
+
+  const links = getLinks();
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
@@ -68,6 +90,7 @@ function NavbarComponent() {
           onClick={() =>
             navigate(user && user.role === "admin" ? "/admin/dashboard" : "/")
           }
+          style={{ cursor: "pointer" }}
         >
           <div className="d-flex align-items-center">
             <img
@@ -90,35 +113,11 @@ function NavbarComponent() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            {user && user.role === "admin" && user.specificRole === "admin" && (
-              <>
-                {adminLinks.map((c, i) => (
-                  <Nav.Link key={i} onClick={() => navigate(c.path)}>
-                    <Typography variant="body2">{c.text}</Typography>
-                  </Nav.Link>
-                ))}
-              </>
-            )}
-            {user && user.role === "admin" && user.specificRole === "hr" && (
-              <>
-                {hrLinks.map((c, i) => (
-                  <Nav.Link key={i} onClick={() => navigate(c.path)}>
-                    <Typography variant="body2">{c.text}</Typography>
-                  </Nav.Link>
-                ))}
-              </>
-            )}
-            {user &&
-              user.role === "admin" &&
-              user.specificRole === "promotion" && (
-                <>
-                  {promotionLinks.map((c, i) => (
-                    <Nav.Link key={i} onClick={() => navigate(c.path)}>
-                      <Typography variant="body2">{c.text}</Typography>
-                    </Nav.Link>
-                  ))}
-                </>
-              )}
+            {links.map((c, i) => (
+              <Nav.Link key={i} as={Link} to={c.path}>
+                <Typography variant="body2">{c.text}</Typography>
+              </Nav.Link>
+            ))}
           </Nav>
           <Nav className="ms-auto">
             {user ? (

@@ -19,6 +19,8 @@ import MDACandidatesList from "../pages/admin/MDACandidates";
 import PromoRecommended from "../pages/promotion/PromoRecommended";
 import ApprovedCandidates from "../pages/promotion/ApprovedCandidates";
 import SearchCandidate from "../pages/admin/SearchCandidate";
+import MyProfile from "../pages/candidate/MyProfile";
+import DataCorrection from "../pages/candidate/DataCorrection";
 
 function MainRoutes() {
   const { loading, user } = useAuth();
@@ -27,7 +29,11 @@ function MainRoutes() {
     { path: "/admin/*", component: <PublicAdminRoutes /> },
   ];
 
-  const privateRoutes = [{ path: "/", component: <LoggedInPage /> }];
+  const privateRoutes = [
+    { path: "/", component: <LoggedInPage /> },
+    { path: "/myprofile", component: <MyProfile /> },
+    { path: "/datacorrection", component: <DataCorrection /> },
+  ];
 
   const adminRoutes = [
     //admin
@@ -79,7 +85,7 @@ function MainRoutes() {
           </>
         )}
         {/* <Route path="*" element={loading ? <LoadingPage /> : <NotFound />} /> */}
-        <Route path="*" element={<LoadingPage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <FooterComponents />
     </BrowserRouter>

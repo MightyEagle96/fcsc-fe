@@ -4,22 +4,37 @@ import { useAppUser } from "../contexts/AppUserContext";
 import { httpService } from "../httpService";
 import { Visibility } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { DataGrid } from "@mui/x-data-grid";
 
 function PromotionComponent() {
   const { user } = useAppUser();
   const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const [mdaSummary, setMdaSummary] = useState([]);
+
   const navigate = useNavigate();
+
   const getData = async () => {
     setLoading(true);
-    const { data, error } = await httpService("admin/promotiondashboard");
-    if (data) {
-      setSummary(data);
+    const [data1, data2] = await Promise.all([
+      httpService("admin/promotiondashboard"),
+      httpService("promotion/candidatesacrossmda"),
+    ]);
+
+    if (data1) {
+      const { data } = data1;
+      if (data) {
+        setSummary(data);
+      }
     }
 
-    if (error) {
-      console.log(error);
+    if (data2) {
+      const { data } = data2;
+      if (data) {
+        console.log(data);
+        setMdaSummary(data);
+      }
     }
 
     setLoading(false);
@@ -28,10 +43,37 @@ function PromotionComponent() {
   useEffect(() => {
     getData();
   }, []);
+
+  const columns = [
+    {
+      field: "id",
+      headerName: "S/N",
+      width: 90,
+      sortable: false,
+      filterable: false,
+    },
+    {
+      field: "currentMDA",
+      headerName: "MDA",
+      flex: 1,
+      //width: 500,
+      renderCell: (params) => (
+        <span className="text-uppercase">{params.value}</span> // full uppercase
+      ),
+    },
+    {
+      field: "candidateCount",
+      headerName: "Recommended Candidates",
+      width: 300,
+      renderCell: (params) => (
+        <span className="text-capitalize">{params.value}</span> // full uppercase
+      ),
+    },
+  ];
   return (
     <div>
       <div className="container">
-        <div className="d-flex justify-content-end">
+        {/* <div className="d-flex justify-content-end">
           <div className="col-lg-4">
             {user.yetToChangePassword && (
               <Alert severity="warning">
@@ -44,7 +86,7 @@ function PromotionComponent() {
               </Alert>
             )}
           </div>
-        </div>
+        </div> */}
       </div>
       <div
         className=" mb-5  d-flex align-items-center"
@@ -73,7 +115,7 @@ function PromotionComponent() {
             <CircularProgress size={20} />
           </div>
         )}
-        <div className="row d-flex justify-content-center">
+        <div className="row d-flex justify-content-center mb-4">
           {summary && (
             <>
               <div className="col-lg-3 rounded text-center bg-light m-1 p-3">
@@ -102,6 +144,9 @@ function PromotionComponent() {
               </div>
             </>
           )}
+        </div>
+        <div style={{ height: 600 }}>
+          <DataGrid columns={columns} rows={mdaSummary} />
         </div>
       </div>
     </div>

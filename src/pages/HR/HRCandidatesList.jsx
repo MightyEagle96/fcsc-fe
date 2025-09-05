@@ -6,7 +6,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Badge, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-import { Send } from "@mui/icons-material";
+import { People, Send } from "@mui/icons-material";
 
 export function switchColors(status) {
   switch (status) {
@@ -299,14 +299,44 @@ function HRCandidatesList() {
       }
     });
   };
+
+  const recommendMultiple = () => {
+    Swal.fire({
+      icon: "question",
+      title: "Recommend Multiple Candidates",
+      text: "Are you sure you want to recommend multiple candidates?. These are the candidates that have uploaded a minimum of 6 documents.",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoading(true);
+        const { data } = await httpService("hr/recommendmultiplecandidates");
+        if (data) {
+          toast.success(data);
+          getData();
+        }
+        setLoading(false);
+      }
+    });
+  };
   return (
     <div>
       <div className="container mt-5 mb-5">
-        <div className="col-lg-4">
+        <div className="col-lg-7">
           <Typography variant="overline">MDA</Typography>
           <Typography variant="h5" fontWeight={700} textTransform={"uppercase"}>
             {slug}
           </Typography>
+          <hr />
+          <Button
+            endIcon={<People />}
+            loadingPosition="end"
+            onClick={recommendMultiple}
+            loading={loading}
+          >
+            Recommend multiple candidates
+          </Button>
         </div>
       </div>
       <div className="p-3">

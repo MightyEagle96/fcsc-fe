@@ -18,7 +18,10 @@ export function useAuth() {
       } catch (err) {
         setUser(null);
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
+        // setLoading(false);
       }
     }
 

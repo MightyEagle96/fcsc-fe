@@ -10,6 +10,8 @@ import { Login, Visibility, VisibilityOff } from "@mui/icons-material";
 import { httpService } from "../httpService";
 import { toast } from "react-toastify";
 import { appLogo } from "../assets/appTheme";
+import { Nav } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function LoggedOutPage() {
   const [candidate, setCandidate] = useState({});
@@ -98,9 +100,16 @@ function LoggedOutPage() {
                 <div className="mt-4">
                   <Typography color="GrayText" variant="body2">
                     Are you an admin staff?{" "}
-                    <a href="/admin/login" className="text-success">
+                    <Nav.Link
+                      as={Link}
+                      to={"/admin/login"}
+                      className="text-success"
+                    >
                       Login as admin
-                    </a>
+                    </Nav.Link>
+                    {/* <a href="/admin/login" className="text-success">
+                      Login as admin
+                    </a> */}
                   </Typography>
                 </div>
               </form>

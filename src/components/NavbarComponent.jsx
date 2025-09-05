@@ -74,7 +74,7 @@ function NavbarComponent() {
     try {
       const { data } = await httpService("logout");
       if (data) {
-        navigate("/");
+        window.location.href = "/";
       }
     } finally {
       setLoading(false);

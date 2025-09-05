@@ -13,7 +13,7 @@ import VerifiedCandidates from "../pages/HR/VerifiedCandidates";
 import AdminOfficers from "../pages/admin/AdminOfficers";
 import OfficersView from "../pages/admin/OfficersView";
 import HRCandidatesList from "../pages/HR/HRCandidatesList";
-import RecommendedCandidates from "../pages/admin/RecommendedCandidates";
+
 import LoadingPage from "../components/LoadingPage";
 import MDACandidatesList from "../pages/admin/MDACandidates";
 import PromoRecommended from "../pages/promotion/PromoRecommended";
@@ -21,6 +21,7 @@ import ApprovedCandidates from "../pages/promotion/ApprovedCandidates";
 import SearchCandidate from "../pages/admin/SearchCandidate";
 import MyProfile from "../pages/candidate/MyProfile";
 import DataCorrection from "../pages/candidate/DataCorrection";
+import RecommendedCandidates from "../pages/HR/RecommendedCandidates";
 
 function MainRoutes() {
   const { loading, user } = useAuth();

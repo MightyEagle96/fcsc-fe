@@ -6,6 +6,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { DataGrid } from "@mui/x-data-grid";
 function DataCorrection() {
   const [profile, setProfile] = useState(null);
   const [selected, setSelected] = useState(null);
@@ -42,6 +43,33 @@ function DataCorrection() {
   useEffect(() => {
     getData();
   }, []);
+
+  const columns = [
+    { field: "id", headerName: "S/N", width: 90 },
+    {
+      field: "correctionName",
+      headerName: "Field to be corrected",
+      width: 200,
+    },
+    { field: "data", headerName: "Correction Value", width: 200 },
+    {
+      field: "dateApplied",
+      headerName: "Date Applied",
+      width: 200,
+      renderCell: (params) => {
+        if (!params.value) return "";
+        const date = new Date(params.value);
+        if (isNaN(date.getTime())) return ""; // fallback if invalid
+        return date.toLocaleDateString("en-NG", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      },
+    },
+    { field: "status", headerName: "Status", width: 200 },
+    { field: "reason", headerName: "Reason", width: 200 },
+  ];
 
   const formType = {
     date: (
@@ -115,6 +143,8 @@ function DataCorrection() {
           setReason("");
           setWordCount(0);
           toast.success(data);
+
+          getData();
         }
         if (error) {
           toast.error(error);
@@ -142,7 +172,7 @@ function DataCorrection() {
               Data Correction
             </Typography>
           </div>
-          <div className="col-lg-4">
+          <div className="col-lg-4 mb-4">
             <div className="mb-4">
               <TextField
                 onChange={(e) => setSelected(e.target.value)}
@@ -189,6 +219,13 @@ function DataCorrection() {
                 Submit Correction
               </Button>
             </div>
+          </div>
+          <div>
+            <DataGrid
+              loading={loading}
+              rows={mycorrections}
+              columns={columns}
+            />
           </div>
         </div>
       </div>

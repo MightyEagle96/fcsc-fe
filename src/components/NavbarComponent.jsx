@@ -61,12 +61,22 @@ function NavbarComponent() {
   // ✅ Centralized link resolver
   const getLinks = () => {
     if (!user) return [];
-    if (user.role === "admin" && user.specificRole === "admin")
+    if (user.role === "admin" && user.specificRole === "admin") {
+      document.title = "Admin Dashboard";
       return adminLinks;
-    if (user.role === "admin" && user.specificRole === "hr") return hrLinks;
-    if (user.role === "admin" && user.specificRole === "promotion")
+    }
+    if (user.role === "admin" && user.specificRole === "hr") {
+      document.title = "HR Dashboard";
+      return hrLinks;
+    }
+    if (user.role === "admin" && user.specificRole === "promotion") {
+      document.title = "Promotion Dashboard";
       return promotionLinks;
-    if (user.role === "candidate") return candidateLinks;
+    }
+    if (user.role === "candidate") {
+      document.title = "Candidate Dashboard";
+      return candidateLinks;
+    }
     return [];
   };
   const handleLogout = async () => {

@@ -1,3 +1,4 @@
+import { mdas } from "../admin/data";
 import stateAndLga from "./stateAndLga.json";
 
 export const HEADER_MAP = {
@@ -25,6 +26,7 @@ export const HEADER_MAP = {
 };
 
 const genders = ["Male", "Female"];
+const gradeLevel = Array.from({ length: 16 }, (_, i) => i + 1);
 export const headerMap = [
   {
     field: "ippisNumber",
@@ -87,6 +89,7 @@ export const headerMap = [
     label: "Pool Office",
     minWidth: 100,
     align: "left",
+    type: "text",
     format: (value) => value,
   },
   {
@@ -94,6 +97,8 @@ export const headerMap = [
     label: "Current MDA",
     minWidth: 100,
     align: "left",
+    type: "dropdown",
+    data: mdas,
     format: (value) => value,
   },
   {
@@ -101,6 +106,7 @@ export const headerMap = [
     label: "Cadre",
     minWidth: 100,
     align: "left",
+    type: "text",
     format: (value) => value,
   },
   {
@@ -108,7 +114,8 @@ export const headerMap = [
     label: "Grade Level",
     minWidth: 100,
     align: "left",
-
+    type: "dropdown",
+    data: gradeLevel,
     format: (value) => value,
   },
   {
@@ -147,6 +154,7 @@ export const headerMap = [
     label: "Email",
     minWidth: 100,
     align: "left",
+    type: "text",
     format: (value) => value,
   },
   {

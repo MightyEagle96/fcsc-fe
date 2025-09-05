@@ -104,9 +104,25 @@ function LoggedinPage() {
       setFile(null);
       setDocument(null);
       setLoading(false);
-    }, 3000);
+    }, 4000);
   };
 
+  const submitData = () => {
+    if (uploadedDocuments < 6) {
+      return Swal.fire({
+        icon: "error",
+        title: "Incomplete Upload",
+        text: "You have to upload at least 6 documents, in order for you to submit",
+      });
+    }
+
+    setLoading(true);
+
+    setTimeout(() => {
+      toast.success("Data uploaded successfully");
+      setLoading(false);
+    }, 3000);
+  };
   return (
     <div>
       <div
@@ -209,14 +225,31 @@ function LoggedinPage() {
             </Typography>
           </div>
         </div>
-        <div
-          className="col-lg-4 mb-4 p-3 m-0"
-          style={{ backgroundColor: "#DDF4E7" }}
-        >
-          <Typography color="#26667F" variant="subtitle2" fontWeight={500}>
-            If you accidentally uploaded a wrong document, you can always upload
-            the right document as the previous document will be overwritten.{" "}
-          </Typography>
+        <div className="row">
+          <div
+            className="col-lg-4 mb-4 p-3 m-0"
+            style={{ backgroundColor: "#DDF4E7" }}
+          >
+            <Typography color="#26667F" variant="subtitle2" fontWeight={500}>
+              If you accidentally uploaded a wrong document, you can always
+              upload the right document as the previous document will be
+              overwritten.{" "}
+            </Typography>
+          </div>
+          <div className="col-lg-4 d-flex align-items-center">
+            <Button
+              onClick={submitData}
+              color="error"
+              variant="contained"
+              fullWidth
+              endIcon={<Upload />}
+              loading={loading}
+              loadingPosition="end"
+            >
+              {" "}
+              Submit
+            </Button>
+          </div>
         </div>
         <div className="row d-flex d-flex align-items-top mb-5">
           <div className="">

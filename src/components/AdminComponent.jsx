@@ -175,25 +175,51 @@ function AdminComponent() {
           </div>
         </div>
         <div className="container">
-          <div className="col-lg-4 mb-4">
-            <Typography gutterBottom>Upload candidate's file</Typography>
-            <input
-              className="form-control mb-3"
-              type="file"
-              id="formFile"
-              onChange={handleFile}
-              accept={".xlsx,.xls,.csv"}
-            />
-            <Button
-              onClick={uploadFile}
-              disabled={!file}
-              variant="contained"
-              endIcon={<Upload />}
-              loading={loading}
-              loadingPosition="end"
-            >
-              <Typography variant="caption">Upload File</Typography>
-            </Button>
+          <div className="row mb-4">
+            <div className="col-lg-4 border-end ">
+              <Typography gutterBottom>Upload candidate's file</Typography>
+              <input
+                className="form-control mb-3"
+                type="file"
+                id="formFile"
+                onChange={handleFile}
+                accept={".xlsx,.xls,.csv"}
+              />
+              <Button
+                onClick={uploadFile}
+                disabled={!file}
+                variant="contained"
+                endIcon={<Upload />}
+                loading={loading}
+                loadingPosition="end"
+              >
+                <Typography variant="caption">Upload File</Typography>
+              </Button>
+            </div>
+            <div className="col-lg-4 d-flex align-items-center">
+              <div>
+                <div className="mb-2">
+                  <Button
+                    variant="contained"
+                    color="warning"
+                    endIcon={<People />}
+                    loadingPosition="end"
+                  >
+                    Notify candidates by email and sms
+                  </Button>
+                </div>
+                <div>
+                  <Typography
+                    className="mt-2"
+                    color="GrayText"
+                    variant="caption"
+                  >
+                    This is to send out account credentials to candidates, by
+                    both sms and email.
+                  </Typography>
+                </div>
+              </div>
+            </div>
           </div>
           <div>
             <div className="row">

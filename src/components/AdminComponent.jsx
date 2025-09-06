@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
 import { People, Upload } from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
+import Swal from "sweetalert2";
 
 function AdminComponent() {
   const { user } = useAppUser();
@@ -110,6 +111,27 @@ function AdminComponent() {
   const handleRowClick = async (e) => {
     navigate(`/admin/mdacandidates/${e.row.name}`);
   };
+
+  const notifyByEmailAndSms = () => {
+    Swal.fire({
+      icon: "question",
+      title: "Notify MDA",
+      text: "Are you sure you want to notify this MDA?",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No ",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoading(true);
+        const { data } = await httpService("admin/notifybyemailandsms");
+        if (data) {
+          toast.success(data);
+          getData();
+        }
+        setLoading(false);
+      }
+    });
+  };
   return (
     <div>
       <div>
@@ -204,6 +226,8 @@ function AdminComponent() {
                     color="warning"
                     endIcon={<People />}
                     loadingPosition="end"
+                    loading={loading}
+                    onClick={notifyByEmailAndSms}
                   >
                     Notify candidates by email and sms
                   </Button>

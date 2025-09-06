@@ -1,7 +1,19 @@
 import { Stack, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+import { useAppUser } from "../contexts/AppUserContext";
+import { useNavigate } from "react-router-dom";
 
 function NotFound() {
+  const navigate = useNavigate();
+  const { user } = useAppUser();
+
+  useEffect(() => {
+    if (user.role === "admin") {
+      navigate(`/admin/dashboard`);
+    } else {
+      navigate(`/`);
+    }
+  }, []);
   return (
     <div>
       <div

@@ -214,6 +214,7 @@ function SearchCandidate() {
         <Button
           sx={{ textTransform: "capitalize" }}
           color="error"
+          disabled={params.row.status === "pending"}
           onClick={() => setSelecteRow(params.row)}
         >
           Reverse

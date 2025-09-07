@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useAuth } from "./useAuth";
-import React from "react";
+
 import LoggedOutPage from "../pages/LoggedOutPage";
 import LoggedInPage from "../pages/candidate/LoggedinPage";
 import NavbarComponent from "../components/NavbarComponent";

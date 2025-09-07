@@ -4,13 +4,12 @@ import { getMyProfile } from "./auth";
 
 export function useAuth() {
   const { user, setUser } = useAppUser();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   //const navigate = useNavigate();
   useEffect(() => {
     async function fetchProfile() {
       try {
-        setLoading(true);
         const profile = await getMyProfile();
 
         if (profile) {

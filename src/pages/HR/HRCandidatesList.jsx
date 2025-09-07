@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { httpService } from "../../httpService";
 import { useEffect, useState } from "react";
@@ -40,6 +40,12 @@ function HRCandidatesList() {
 
   const [recommendedStatus, setRecommendedStatus] = useState(null);
 
+  const [rejection, setRejection] = useState(null);
+
+  const rejectApplication = () => {
+    setRejection(selectedRow);
+    setSelectedRow(null);
+  };
   const getData = async () => {
     setLoading(true);
     const { data } = await httpService("admin/viewmdacandidates", {
@@ -356,6 +362,8 @@ function HRCandidatesList() {
       </div>
       {selectedRow && (
         <Modal
+          backdrop="static"
+          keyboard={false}
           size="xl"
           centered
           show={selectedRow}
@@ -386,7 +394,7 @@ function HRCandidatesList() {
             </div>
           </Modal.Body>
           <Modal.Footer className="border-0 bg-light">
-            {recommendedStatus && recommendedStatus.recommended ? (
+            {recommendedStatus && recommendedStatus.dateRecommended ? (
               <>
                 <Badge bg="success">RECOMMENDED</Badge>
               </>
@@ -399,7 +407,10 @@ function HRCandidatesList() {
                   loadingPosition="end"
                   variant="contained"
                   sx={{ textTransform: "capitalize" }}
-                  disabled={recommendedStatus.enableButton}
+                  disabled={
+                    recommendedStatus.enableButton ||
+                    recommendedStatus.dateRecommended
+                  }
                 >
                   Recommend Candidate
                 </Button>
@@ -407,11 +418,52 @@ function HRCandidatesList() {
                   disabled={recommendedStatus.enableButton}
                   color="error"
                   sx={{ textTransform: "capitalize" }}
+                  onClick={rejectApplication}
                 >
-                  Reject Candidate
+                  Reject Application
                 </Button>
               </>
             )}
+          </Modal.Footer>
+        </Modal>
+      )}
+
+      {rejection && (
+        <Modal
+          centered
+          backdrop="static"
+          show={rejection}
+          onHide={() => setRejection(null)}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Reject Application</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Typography>
+              You are about to reject the application for
+              <strong className="text-uppercase">{rejection.fullName}</strong>.
+            </Typography>
+
+            <div className="mt-4">
+              <TextField
+                label="Reason"
+                fullWidth
+                helperText={"Reason for rejection"}
+              />
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setRejection(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button className="ms-3" color="error">
+              Reject
+            </Button>
           </Modal.Footer>
         </Modal>
       )}

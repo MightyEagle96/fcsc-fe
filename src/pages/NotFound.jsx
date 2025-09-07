@@ -8,7 +8,7 @@ function NotFound() {
   const { user } = useAppUser();
 
   useEffect(() => {
-    if (user.role === "admin") {
+    if (user && user.role === "admin") {
       navigate(`/admin/dashboard`);
     } else {
       navigate(`/`);

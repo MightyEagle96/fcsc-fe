@@ -10,17 +10,22 @@ import {
 import { httpService } from "../../httpService";
 import { toast } from "react-toastify";
 import { Login, Visibility, VisibilityOff } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 function AdminLogin() {
   const [candidate, setCandidate] = useState({});
   const [loading, setLoading] = useState(false);
   const [passwordType, setPasswordType] = useState(false);
+
+  const navigate = useNavigate();
   const loginCandidate = async (e) => {
     e.preventDefault();
     setLoading(true);
     const { data, error } = await httpService.post("admin/login", candidate);
     if (data) {
       window.location.href = "/admin/dashboard";
+
+      //navigate("/admin/dashboard");
     }
     if (error) {
       toast.error(error);

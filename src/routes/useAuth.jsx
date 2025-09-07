@@ -4,12 +4,15 @@ import { getMyProfile } from "./auth";
 
 export function useAuth() {
   const { user, setUser } = useAppUser();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
+  //const navigate = useNavigate();
   useEffect(() => {
     async function fetchProfile() {
       try {
+        setLoading(true);
         const profile = await getMyProfile();
+
         if (profile) {
           setUser(profile);
         } else {
@@ -18,15 +21,12 @@ export function useAuth() {
       } catch (err) {
         setUser(null);
       } finally {
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
-        // setLoading(false);
+        setLoading(false);
       }
     }
 
     fetchProfile();
-  }, [setUser]);
+  }, []);
 
   return { user, loading };
 }

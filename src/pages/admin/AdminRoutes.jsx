@@ -11,8 +11,8 @@ function PublicAdminRoutes() {
       path: "/signup",
       component: <CreateAdminAccount />,
     },
-    // { path: "*", component: <NotFound /> },
-    <Route path="*" element={<LoadingPage />} />,
+    { path: "*", component: <NotFound /> },
+    // <Route path="*" element={<LoadingPage />} />,
   ];
   return (
     <Routes>

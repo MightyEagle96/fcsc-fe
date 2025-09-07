@@ -24,7 +24,12 @@ import DataCorrection from "../pages/candidate/DataCorrection";
 import RecommendedCandidates from "../pages/HR/RecommendedCandidates";
 
 function MainRoutes() {
-  const { loading, user } = useAuth();
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <LoadingPage />;
+  }
+
   const publicRoutes = [
     { path: "/", component: <LoggedOutPage /> },
     { path: "/admin/*", component: <PublicAdminRoutes /> },
@@ -40,7 +45,6 @@ function MainRoutes() {
     //admin
     { path: "/admin/dashboard", component: <AdminDashboard /> },
     { path: "/admin/candidates", component: <ViewCandidates /> },
-    { path: "/admin/verifiedcandidates", component: <VerifiedCandidates /> },
     { path: "/admin/verifiedcandidates", component: <VerifiedCandidates /> },
     { path: "/admin/officers", component: <AdminOfficers /> },
     { path: "/admin/officers/:slug", component: <OfficersView /> },
@@ -76,7 +80,6 @@ function MainRoutes() {
               : privateRoutes.map((route, i) => (
                   <Route key={i} path={route.path} element={route.component} />
                 ))}
-            {/* <Route path="/candidates" element={<ViewCandidates />} /> */}
           </>
         ) : (
           <>
@@ -85,7 +88,7 @@ function MainRoutes() {
             ))}
           </>
         )}
-        {/* <Route path="*" element={loading ? <LoadingPage /> : <NotFound />} /> */}
+
         <Route path="*" element={<NotFound />} />
       </Routes>
       <FooterComponents />

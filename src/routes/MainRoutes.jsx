@@ -22,6 +22,7 @@ import SearchCandidate from "../pages/admin/SearchCandidate";
 import MyProfile from "../pages/candidate/MyProfile";
 import DataCorrection from "../pages/candidate/DataCorrection";
 import RecommendedCandidates from "../pages/HR/RecommendedCandidates";
+import Corrections from "../pages/admin/Corrections";
 
 function MainRoutes() {
   const { user, loading } = useAuth();
@@ -65,6 +66,10 @@ function MainRoutes() {
     {
       path: "/admin/approvedcandidates/",
       component: <ApprovedCandidates />,
+    },
+    {
+      path: "/admin/corrections/",
+      component: <Corrections />,
     },
   ];
   return (

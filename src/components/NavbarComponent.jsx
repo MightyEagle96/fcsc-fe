@@ -29,6 +29,10 @@ function NavbarComponent() {
       path: `/admin/searchcandidate/`,
       text: "Search Candidate",
     },
+    {
+      path: `/admin/corrections/`,
+      text: "Corrections",
+    },
   ];
 
   const hrLinks = [

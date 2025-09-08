@@ -7,6 +7,7 @@ import { Badge, Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { switchColors } from "../HR/HRCandidatesList";
 function LoggedinPage() {
   const { user } = useAppUser();
   const [documents, setDocuments] = useState([]);
@@ -107,7 +108,7 @@ function LoggedinPage() {
     }, 4000);
   };
 
-  const submitData = () => {
+  const submitData = async () => {
     if (uploadedDocuments < 6) {
       return Swal.fire({
         icon: "error",
@@ -118,10 +119,19 @@ function LoggedinPage() {
 
     setLoading(true);
 
-    setTimeout(() => {
-      toast.success("Data uploaded successfully");
-      setLoading(false);
-    }, 3000);
+    const { data, error } = await httpService("pushapplication");
+
+    if (data) {
+      window.location.reload();
+      // getMyDocuments();
+      toast.success(data);
+    }
+
+    if (error) {
+      toast.error(error);
+    }
+
+    setLoading(false);
   };
   return (
     <div>
@@ -140,7 +150,10 @@ function LoggedinPage() {
                   </Typography>
                 </div>
                 <div className="col-lg-3">
-                  <Badge bg="warning" style={{ textTransform: "uppercase" }}>
+                  <Badge
+                    bg={switchColors(user.status)}
+                    style={{ textTransform: "uppercase" }}
+                  >
                     {user.status}
                   </Badge>
                 </div>
@@ -237,18 +250,32 @@ function LoggedinPage() {
             </Typography>
           </div>
           <div className="col-lg-4 d-flex align-items-center">
-            <Button
-              onClick={submitData}
-              color="error"
-              variant="contained"
-              fullWidth
-              endIcon={<Upload />}
-              loading={loading}
-              loadingPosition="end"
-            >
-              {" "}
-              Submit
-            </Button>
+            {user.status === "approved" || user.status === "recommended" ? (
+              <Button
+                disabled
+                color="error"
+                variant="contained"
+                fullWidth
+                endIcon={<Upload />}
+                loadingPosition="end"
+              >
+                {" "}
+                Submit
+              </Button>
+            ) : (
+              <Button
+                onClick={submitData}
+                color="error"
+                variant="contained"
+                fullWidth
+                endIcon={<Upload />}
+                loading={loading}
+                loadingPosition="end"
+              >
+                {" "}
+                Submit
+              </Button>
+            )}
           </div>
         </div>
         <div className="row d-flex d-flex align-items-top mb-5">

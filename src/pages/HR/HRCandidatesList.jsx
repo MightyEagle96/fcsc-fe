@@ -275,6 +275,7 @@ function HRCandidatesList() {
         recommended: data.recommended,
         dateRecommended: data.dateRecommended,
         enableButton: data.enableButton,
+        status: data.status,
       });
       setSelectedRow(e.row);
     }
@@ -351,6 +352,7 @@ function HRCandidatesList() {
           getData();
           setSelectedRow(null);
           setUplodadedDocuments([]);
+          setRejection(null);
         }
         if (error) {
           toast.error(error);
@@ -427,9 +429,14 @@ function HRCandidatesList() {
             </div>
           </Modal.Body>
           <Modal.Footer className="border-0 bg-light">
-            {recommendedStatus && recommendedStatus.dateRecommended ? (
+            {recommendedStatus && recommendedStatus.status !== "pending" ? (
               <>
-                <Badge bg="success">RECOMMENDED</Badge>
+                <Badge
+                  className="text-uppercase"
+                  bg={switchColors(recommendedStatus.status)}
+                >
+                  {recommendedStatus.status}
+                </Badge>
               </>
             ) : (
               <>
@@ -495,7 +502,12 @@ function HRCandidatesList() {
             >
               Cancel
             </Button>
-            <Button className="ms-3" color="error" onClick={submitRejection}>
+            <Button
+              loading={rejecting}
+              className="ms-3"
+              color="error"
+              onClick={submitRejection}
+            >
               Reject
             </Button>
           </Modal.Footer>

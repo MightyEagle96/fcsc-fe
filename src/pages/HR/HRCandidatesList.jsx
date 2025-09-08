@@ -42,6 +42,9 @@ function HRCandidatesList() {
 
   const [rejection, setRejection] = useState(null);
 
+  const [rejecting, setRejecting] = useState(false);
+  const [reason, setReason] = useState("");
+
   const rejectApplication = () => {
     setRejection(selectedRow);
     setSelectedRow(null);
@@ -326,6 +329,36 @@ function HRCandidatesList() {
       }
     });
   };
+
+  const submitRejection = () => {
+    Swal.fire({
+      icon: "question",
+      title: "Reject Application",
+      text: "Are you sure you want to proceed with the rejection?",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setRejecting(true);
+        const { data, error } = await httpService.post("hr/rejectapplication", {
+          //...rejection,
+          candidate: rejection._id,
+          reason,
+        });
+        if (data) {
+          toast.success(data);
+          getData();
+          setSelectedRow(null);
+          setUplodadedDocuments([]);
+        }
+        if (error) {
+          toast.error(error);
+        }
+        setRejecting(false);
+      }
+    });
+  };
   return (
     <div>
       <div className="container mt-5 mb-5">
@@ -440,7 +473,7 @@ function HRCandidatesList() {
           </Modal.Header>
           <Modal.Body>
             <Typography>
-              You are about to reject the application for
+              You are about to reject the application for{" "}
               <strong className="text-uppercase">{rejection.fullName}</strong>.
             </Typography>
 
@@ -449,6 +482,7 @@ function HRCandidatesList() {
                 label="Reason"
                 fullWidth
                 helperText={"Reason for rejection"}
+                onChange={(e) => setReason(e.target.value)}
               />
             </div>
           </Modal.Body>
@@ -461,7 +495,7 @@ function HRCandidatesList() {
             >
               Cancel
             </Button>
-            <Button className="ms-3" color="error">
+            <Button className="ms-3" color="error" onClick={submitRejection}>
               Reject
             </Button>
           </Modal.Footer>

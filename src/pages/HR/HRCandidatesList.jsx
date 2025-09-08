@@ -375,6 +375,7 @@ function HRCandidatesList() {
             loadingPosition="end"
             onClick={recommendMultiple}
             loading={loading}
+            disabled={student.length === 0}
           >
             Recommend multiple candidates
           </Button>

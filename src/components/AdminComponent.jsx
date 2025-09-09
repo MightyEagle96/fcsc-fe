@@ -72,7 +72,8 @@ function AdminComponent() {
     }
 
     if (error) {
-      toast.error(error);
+      console.log(error);
+      toast.error(error.message);
     }
 
     setLoading(false);

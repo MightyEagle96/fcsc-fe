@@ -4,7 +4,7 @@ import { httpService } from "../../httpService";
 import { headerMap } from "./headerMap";
 import { Table } from "react-bootstrap";
 import { ArrowRight } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function MyProfile() {
   const [profile, setProfile] = useState(null);
@@ -22,6 +22,10 @@ function MyProfile() {
   useEffect(() => {
     getData();
   }, []);
+
+  const navigate = useNavigate();
+
+  const nav = () => {};
   return (
     <div>
       <div className="mt-5 mb-5">
@@ -51,15 +55,15 @@ function MyProfile() {
                 ))}
               </tbody>
             </Table>
-            <div className="mt-3">
-              <Button endIcon={<ArrowRight />}>
-                <Link className="text-decoration-none" to="/documentstoupload">
-                  View Documents
-                </Link>
+            <div className="mt-3 d-flex justify-content-end">
+              <Button
+                color="error"
+                variant="contained"
+                onClick={() => navigate("/documentstoupload")}
+                endIcon={<ArrowRight />}
+              >
+                upload documents
               </Button>
-              {/* <Button onClick={()} variant="contained" endIcon={<ArrowRight />}>
-                View documents
-              </Button> */}
             </div>
           </div>
         </div>

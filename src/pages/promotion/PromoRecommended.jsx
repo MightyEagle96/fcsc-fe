@@ -5,6 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { QuestionMark } from "@mui/icons-material";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 function PromoRecommended() {
   const [loading, setLoading] = useState(false);
@@ -16,6 +17,7 @@ function PromoRecommended() {
   const [rowCount, setRowCount] = useState(0);
 
   const [selectedRow, setSelecteRow] = useState(null);
+  const [uploadedDocuments, setUplodadedDocuments] = useState([]);
   //  const [loading, ] = useState(false)
   const getData = async () => {
     setLoading(true);
@@ -83,25 +85,108 @@ function PromoRecommended() {
         );
       },
     },
+    {
+      field: "_id",
+      headerName: "Action",
+      width: 200,
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          <Button onClick={() => handleRowClick2(params)}>View</Button>
+          // <span className="text-capitalize">
+          //   <Button
+          //     variant="contained"
+          //     color="success"
+          //     onClick={approveCandidate}
+          //   >
+          //     Approve
+          //   </Button>
+          // </span>
+        );
+      },
+    },
   ];
 
+  const handleRowClick2 = async (e) => {
+    // console.log(e.row);
+    setLoading(true);
+
+    const { data } = await httpService("admin/uploadeddocuments", {
+      params: { _id: e.row._id },
+    });
+
+    if (data) {
+      setSelecteRow(e.row);
+      console.log(data);
+
+      setUplodadedDocuments(data.uploadedDocuments);
+      // setRecommendedStatus({
+      //   recommended: data.recommended,
+      //   dateRecommended: data.dateRecommended,
+      //   enableButton: data.enableButton,
+      //   status: data.status,
+      // });
+      // setSelectedRow(e.row);
+    }
+    setLoading(false);
+  };
   const handleRowClick = async (e) => {
     setSelecteRow(e.row);
   };
 
-  const approveCandidate = async () => {
-    setLoading(true);
-    const { data } = await httpService("admin/approvecandidate", {
-      params: { candidate: selectedRow._id },
-    });
+  const approveCandidate = () => {
+    Swal.fire({
+      icon: "question",
+      title: "Approve Candidate",
+      text: "Are you sure you want to approve this candidate",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoading(true);
+        const { data } = await httpService("admin/approvecandidate", {
+          params: { candidate: selectedRow._id },
+        });
 
-    if (data) {
-      getData();
-      setSelecteRow(null);
-      toast.success(data);
-    }
-    setLoading(false);
+        if (data) {
+          getData();
+          setSelecteRow(null);
+          toast.success(data);
+        }
+        setLoading(false);
+      }
+    });
   };
+
+  const columns2 = [
+    { field: "id", headerName: "S/N", width: 90 },
+    { field: "fileType", headerName: "Document", width: 400 },
+    {
+      field: "fileUrl",
+      headerName: "Document Link",
+      width: 400,
+      renderCell: (params) =>
+        params.value && (
+          <a
+            href={params.value}
+            target="_blank"
+            rel="noreferrer"
+            className="nav nav-link"
+          >
+            view document
+          </a>
+        ),
+    },
+    {
+      field: "updatedAt",
+      headerName: "Uploaded At",
+      width: 200,
+      flex: 1,
+      renderCell: (params) =>
+        params.value && new Date(params.value).toLocaleString(),
+    },
+  ];
   return (
     <div>
       <div className="container mt-5 mb-5">
@@ -120,23 +205,25 @@ function PromoRecommended() {
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
             pageSizeOptions={[50, 100]}
-            onRowClick={handleRowClick}
+            //  onRowClick={handleRowClick}
           />
         </div>
       </div>
 
       {selectedRow && (
         <Modal
-          size="lg"
+          size="xl"
           centered
           show={selectedRow}
           onHide={() => setSelecteRow(null)}
         >
           <Modal.Header closeButton className="border-0">
-            {/* <Modal.Title>Modal heading</Modal.Title> */}
+            <Modal.Title className="text-capitalize">
+              {selectedRow.fullName}
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div>
+            {/* <div>
               <div className="d-flex justify-content-center mb-4">
                 <Avatar
                   sx={{ width: 100, height: 100, backgroundColor: "#26667F" }}
@@ -160,6 +247,13 @@ function PromoRecommended() {
                   participant?
                 </Typography>
               </div>
+            </div> */}
+            <div>
+              <DataGrid
+                rows={uploadedDocuments}
+                columns={columns2}
+                rowCount={uploadedDocuments.length}
+              />
             </div>
           </Modal.Body>
           <Modal.Footer className="border-0 bg-light">

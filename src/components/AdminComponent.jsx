@@ -115,8 +115,8 @@ function AdminComponent() {
   const notifyByEmailAndSms = () => {
     Swal.fire({
       icon: "question",
-      title: "Notify MDA",
-      text: "Are you sure you want to notify this MDA?",
+      title: "Notify Candidates",
+      text: "Are you sure you want to notify all candidates by SMS and Email?",
       showDenyButton: true,
       confirmButtonText: "Yes",
       denyButtonText: "No ",

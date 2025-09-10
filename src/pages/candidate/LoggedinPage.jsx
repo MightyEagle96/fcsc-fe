@@ -64,6 +64,10 @@ function LoggedinPage() {
     setFile(e.target.files[0]);
   };
 
+  const imageDocuments = {
+    passportPhotograph: "Passport Photograph",
+    signature: "Signature",
+  };
   const uploadFile = async (e) => {
     const formData = new FormData();
     setLoading(true);
@@ -99,7 +103,7 @@ function LoggedinPage() {
       }
       getMyDocuments();
 
-      if (document.fileType === "Passport Photograph") {
+      if (document.fileType === imageDocuments.passportPhotograph) {
         window.location.reload();
       }
       setFile(null);
@@ -137,7 +141,7 @@ function LoggedinPage() {
     <div>
       <div
         className="d-flex align-items-center mb-5"
-        style={{ backgroundColor: "#3F7D58", minHeight: "35vh" }}
+        style={{ backgroundColor: "#3F7D58", minHeight: "20vh" }}
       >
         <div className="container w-100 text-white">
           <div className="row d-flex align-items-center">
@@ -145,7 +149,6 @@ function LoggedinPage() {
               <div className="row">
                 <div className="col-lg-9">
                   <Typography fontWeight={700} variant="h4">
-                    Welcome,{" "}
                     <span className="text-capitalize">{user.name}</span>
                   </Typography>
                 </div>
@@ -158,8 +161,7 @@ function LoggedinPage() {
                   </Badge>
                 </div>
               </div>
-              <hr />
-              <div className="row">
+              {/* <div className="row">
                 <div className="col-lg-6">
                   <Typography gutterBottom variant="body1" fontWeight={500}>
                     MDA:{" "}
@@ -195,7 +197,7 @@ function LoggedinPage() {
                     </span>
                   </Typography>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="col-lg-4">
               <Avatar sx={{ height: 150, width: 150 }} src={user.passport} />

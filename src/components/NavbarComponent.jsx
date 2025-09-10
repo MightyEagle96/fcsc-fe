@@ -59,7 +59,7 @@ function NavbarComponent() {
 
   const candidateLinks = [
     { path: "/", text: "Home" },
-    { path: "/myprofile", text: "My Profile" },
+    { path: "/documentstoupload", text: "Documents to upload" },
     { path: "/datacorrection", text: "Data Correction" },
   ];
 

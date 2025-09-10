@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { appLogo } from "../../assets/appTheme";
+import appLogo from "../../assets/fcsclogo.png";
 import {
   Button,
   IconButton,
@@ -10,7 +10,7 @@ import {
 import { httpService } from "../../httpService";
 import { toast } from "react-toastify";
 import { Login, Visibility, VisibilityOff } from "@mui/icons-material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 
 function AdminLogin() {
@@ -18,7 +18,6 @@ function AdminLogin() {
   const [loading, setLoading] = useState(false);
   const [passwordType, setPasswordType] = useState(false);
 
-  const navigate = useNavigate();
   const loginCandidate = async (e) => {
     e.preventDefault();
     setLoading(true);

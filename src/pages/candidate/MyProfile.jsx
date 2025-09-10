@@ -1,17 +1,22 @@
-import { Typography } from "@mui/material";
+import { Button, CircularProgress, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { httpService } from "../../httpService";
 import { headerMap } from "./headerMap";
 import { Table } from "react-bootstrap";
+import { ArrowRight } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 function MyProfile() {
   const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(false);
   const getData = async () => {
+    setLoading(true);
     const { data } = await httpService("myfullprofile");
 
     if (data) {
       setProfile(data);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -23,7 +28,8 @@ function MyProfile() {
         <div className="container">
           <div className="mb-4">
             <Typography color="GrayText" variant="h5" fontWeight={700}>
-              My Profile
+              My Profile {"  "}
+              {loading && <CircularProgress size={20} color="GrayText" />}
             </Typography>
           </div>
           <div className="col-lg-8">
@@ -45,6 +51,16 @@ function MyProfile() {
                 ))}
               </tbody>
             </Table>
+            <div className="mt-3">
+              <Button endIcon={<ArrowRight />}>
+                <Link className="text-decoration-none" to="/documentstoupload">
+                  View Documents
+                </Link>
+              </Button>
+              {/* <Button onClick={()} variant="contained" endIcon={<ArrowRight />}>
+                View documents
+              </Button> */}
+            </div>
           </div>
         </div>
       </div>

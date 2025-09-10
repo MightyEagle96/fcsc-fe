@@ -187,11 +187,11 @@ function MDACandidatesList() {
       headerName: "Uploaded Documents",
       width: 200,
     },
-    {
-      field: "defaultPassword",
-      headerName: "Password",
-      width: 200,
-    },
+    // {
+    //   field: "defaultPassword",
+    //   headerName: "Password",
+    //   width: 200,
+    // },
   ];
 
   const columns2 = [

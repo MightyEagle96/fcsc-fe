@@ -35,7 +35,7 @@ function Corrections() {
     {
       field: "name",
       headerName: "Candidate",
-      width: 200,
+      flex: 1,
       renderCell: (params) => (
         <span className="text-capitalize">{params.value}</span> // full uppercase
       ),
@@ -43,7 +43,7 @@ function Corrections() {
     {
       field: "mda",
       headerName: "MDA",
-      width: 200,
+      flex: 1,
       renderCell: (params) => (
         <span className="text-capitalize">{params.value}</span> // full uppercase
       ),
@@ -51,7 +51,7 @@ function Corrections() {
     {
       field: "correctionName",
       headerName: "Field to Correct",
-      width: 200,
+      flex: 1,
       renderCell: (params) => (
         <span className="text-capitalize">{params.value}</span> // full uppercase
       ),
@@ -59,7 +59,7 @@ function Corrections() {
     {
       field: "status",
       headerName: "Status",
-      width: 200,
+      flex: 1,
       renderCell: (params) => (
         <span className="text-capitalize">{params.value}</span> // full uppercase
       ),
@@ -67,7 +67,7 @@ function Corrections() {
     {
       field: "_id",
       headerName: "View",
-      width: 200,
+      flex: 1,
       renderCell: (params) => (
         <Button onClick={() => viewCorrection(params.value)}>
           View correction

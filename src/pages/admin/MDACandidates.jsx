@@ -241,7 +241,7 @@ function MDACandidatesList() {
   return (
     <div>
       <div className="container mt-5 mb-5">
-        <div className="col-lg-4">
+        <div className="col-lg-8">
           <Typography variant="overline">MDA</Typography>
           <Typography variant="h5" fontWeight={700} textTransform={"uppercase"}>
             {slug}

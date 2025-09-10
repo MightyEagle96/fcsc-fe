@@ -150,14 +150,22 @@ function NavbarComponent() {
                 </Typography>
               </Button>
             ) : (
-              <Button
+              <>
+                {/* <Button
                 color="error"
                 endIcon={<Login />}
                 sx={{ textTransform: "capitalize" }}
                 onClick={() => navigate("/")}
               >
                 <Typography variant="body2">Login</Typography>
-              </Button>
+              </Button> */}
+                <Nav.Link as={Link} to="/">
+                  Login
+                </Nav.Link>
+                <Nav.Link as={Link} to="/admin/login">
+                  Admin-Login
+                </Nav.Link>
+              </>
             )}
           </Nav>
         </Navbar.Collapse>

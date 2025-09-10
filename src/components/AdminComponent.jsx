@@ -72,7 +72,6 @@ function AdminComponent() {
     }
 
     if (error) {
-      console.log(error);
       toast.error(error.message);
     }
 

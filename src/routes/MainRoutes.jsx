@@ -6,7 +6,7 @@ import LoggedInPage from "../pages/candidate/LoggedinPage";
 import NavbarComponent from "../components/NavbarComponent";
 import ViewCandidates from "../pages/admin/ViewCandidates";
 import FooterComponents from "../components/FooterComponents";
-import { PublicAdminRoutes } from "../pages/admin/AdminRoutes";
+import { PublicAdminRoutes } from "./AdminRoutes";
 import NotFound from "../pages/NotFound";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import VerifiedCandidates from "../pages/HR/VerifiedCandidates";

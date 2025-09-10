@@ -10,7 +10,8 @@ import {
 import { httpService } from "../../httpService";
 import { toast } from "react-toastify";
 import { Login, Visibility, VisibilityOff } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Nav } from "react-bootstrap";
 
 function AdminLogin() {
   const [candidate, setCandidate] = useState({});
@@ -100,14 +101,16 @@ function AdminLogin() {
                   Login
                 </Button>
 
-                {/* <div className="mt-4">
+                <div className="mt-4">
                   <Typography color="GrayText" variant="body2">
-                    Don't have an account?{" "}
-                    <a href="/admin/signup" className="text-success">
-                      Sign up
-                    </a>
+                    <Nav.Link as={Link} to="/admin/forgot-password">
+                      Forgot Password?
+                    </Nav.Link>
+                    {/* <Nav >
+                    
+                    </Nav> */}
                   </Typography>
-                </div> */}
+                </div>
               </form>
             </div>
           </div>

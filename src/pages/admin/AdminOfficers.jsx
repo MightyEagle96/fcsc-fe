@@ -7,6 +7,7 @@ import {
 import {
   Alert,
   Button,
+  CircularProgress,
   IconButton,
   InputAdornment,
   MenuItem,
@@ -77,11 +78,13 @@ function AdminOfficers() {
   };
 
   const officerDashboard = async () => {
+    setLoading(true);
     const { data } = await httpService("admin/officerdashboard");
 
     if (data) {
       setOfficer(data);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -93,7 +96,7 @@ function AdminOfficers() {
         <div className="container">
           <div className="mb-4">
             <Typography variant="h4" fontWeight={700} color="#44444E">
-              Officers
+              Officers {loading && <CircularProgress size={25} />}
             </Typography>
           </div>
           <div className="row mb-5">

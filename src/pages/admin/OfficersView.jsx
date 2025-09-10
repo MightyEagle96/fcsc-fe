@@ -1,13 +1,16 @@
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { httpService } from "../../httpService";
 import { DataGrid } from "@mui/x-data-grid";
+import { Person } from "@mui/icons-material";
+import { Modal } from "react-bootstrap";
 
 function OfficersView() {
   const { slug } = useParams();
   const [loading, setLoading] = useState(false);
   const [officers, setOfficers] = useState([]);
+  const [staff, setStaff] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -56,10 +59,35 @@ function OfficersView() {
       headerName: "MDA",
       flex: 1,
       renderCell: (params) => (
-        <span className="text-uppercase">{params.value}</span> // full uppercase
+        <span className="text-uppercase">{params.value || "-"}</span> // full uppercase
+      ),
+    },
+    {
+      field: "_id",
+      headerName: "VIEW",
+      flex: 1,
+      renderCell: (params) => (
+        <Button onClick={() => getStaff(params.value)} endIcon={<Person />}>
+          <Typography variant="caption" textTransform={"capitalize"}>
+            View Staff
+          </Typography>
+        </Button>
       ),
     },
   ];
+
+  const getStaff = async (id) => {
+    setLoading(true);
+    const { data, error } = await httpService(`admin/viewindividualstaff/`, {
+      params: { id: id },
+    });
+
+    if (data) {
+      setStaff(data);
+      console.log(data);
+    }
+    setLoading(false);
+  };
   return (
     <div>
       <div className="mt-5 mb-5">
@@ -81,6 +109,19 @@ function OfficersView() {
           </div>
         </div>
       </div>
+      {staff && (
+        <Modal size="lg" show={staff}>
+          <Modal.Header closeButton>
+            <Modal.Title>View Staff</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="p-3"></div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button>Save Changes</Button>
+          </Modal.Footer>
+        </Modal>
+      )}
     </div>
   );
 }

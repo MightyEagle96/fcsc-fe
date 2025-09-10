@@ -9,7 +9,8 @@ import {
 import { Login, Visibility, VisibilityOff } from "@mui/icons-material";
 import { httpService } from "../httpService";
 import { toast } from "react-toastify";
-import { appLogo } from "../assets/appTheme";
+//import { appLogo } from "../assets/appTheme";
+import appLogo from "../assets/fcsclogo.png";
 import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 

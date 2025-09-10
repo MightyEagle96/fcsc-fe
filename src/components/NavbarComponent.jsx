@@ -1,12 +1,13 @@
 import Container from "react-bootstrap/Container";
 import { Navbar, Nav } from "react-bootstrap";
-import { appColors, appLogo } from "../assets/appTheme";
+import { appColors } from "../assets/appTheme";
 import { Button, Typography } from "@mui/material";
 import { useAppUser } from "../contexts/AppUserContext";
 import { Login, Logout } from "@mui/icons-material";
 import { httpService } from "../httpService";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import appLogo from "../assets/fcsclogo.png";
 
 function NavbarComponent() {
   const { user } = useAppUser();

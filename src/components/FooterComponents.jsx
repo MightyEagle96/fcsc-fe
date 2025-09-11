@@ -20,10 +20,7 @@ function FooterComponents() {
           <div>
             <div>
               <Typography variant="body2" fontWeight={700}>
-                Proudly developed by Joint Admissions and Matriculation Board
-              </Typography>
-              <Typography gutterBottom variant="caption">
-                ITS Department
+                Developed by Joint Admissions and Matriculation Board (JAMB)
               </Typography>
             </div>
 

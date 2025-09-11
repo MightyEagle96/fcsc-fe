@@ -16,23 +16,23 @@ function NavbarComponent() {
 
   const adminLinks = [
     { path: "/admin/dashboard", text: "Home" },
-    { path: "/admin/officers", text: "Officers" },
+    { path: "/admin/officers", text: "Desk Officers" },
     { path: "/admin/candidates", text: "Candidates" },
     {
       path: `/admin/promorecommended/`,
-      text: "Recommended",
+      text: "Recommendedations",
     },
     {
       path: `/admin/approvedcandidates/`,
-      text: "Approved",
+      text: "Approvals",
     },
     {
       path: `/admin/searchcandidate/`,
-      text: "Search Candidate",
+      text: "Search Candidate(s)",
     },
     {
       path: `/admin/corrections/`,
-      text: "Corrections",
+      text: "Correction(s)",
     },
   ];
 

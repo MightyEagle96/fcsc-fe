@@ -126,8 +126,7 @@ function LoggedinPage() {
     const { data, error } = await httpService("pushapplication");
 
     if (data) {
-      window.location.reload();
-      // getMyDocuments();
+      getMyDocuments();
       toast.success(data);
     }
 

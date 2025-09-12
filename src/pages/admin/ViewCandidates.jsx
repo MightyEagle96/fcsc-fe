@@ -230,7 +230,7 @@ function ViewCandidates() {
                   Candidates
                 </Typography>
               </div>
-              <div className="col-lg-3">
+              {/* <div className="col-lg-3">
                 <Button
                   onClick={deleteAllCandidates}
                   variant="contained"
@@ -241,7 +241,7 @@ function ViewCandidates() {
                 >
                   Delete all candidates
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

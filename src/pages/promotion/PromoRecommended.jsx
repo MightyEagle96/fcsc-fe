@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { httpService } from "../../httpService";
-import { Avatar, Button, Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { QuestionMark } from "@mui/icons-material";
+
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { useAppUser } from "../../contexts/AppUserContext";
 
 function PromoRecommended() {
+  const { user } = useAppUser();
   const [loading, setLoading] = useState(false);
   const [candidates, setCandidates] = useState([]);
   const [paginationModel, setPaginationModel] = useState({
@@ -270,19 +272,21 @@ function PromoRecommended() {
             </div>
           </Modal.Body>
           <Modal.Footer className="border-0 bg-light">
-            <Stack direction={"row"} spacing={2}>
-              <Button
-                variant="contained"
-                loading={loading}
-                onClick={approveCandidate}
-                disabled={selectedRow.approved}
-              >
-                Approve
-              </Button>
-              <Button color="error" onClick={() => setSelecteRow(null)}>
-                Cancel
-              </Button>
-            </Stack>
+            {user.role === "promotion" && (
+              <Stack direction={"row"} spacing={2}>
+                <Button
+                  variant="contained"
+                  loading={loading}
+                  onClick={approveCandidate}
+                  disabled={selectedRow.approved}
+                >
+                  Approve
+                </Button>
+                <Button color="error" onClick={() => setSelecteRow(null)}>
+                  Cancel
+                </Button>
+              </Stack>
+            )}
           </Modal.Footer>
         </Modal>
       )}

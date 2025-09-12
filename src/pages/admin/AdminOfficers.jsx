@@ -22,7 +22,7 @@ import { toast } from "react-toastify";
 import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const roles = ["HR", "PROMOTION"];
+export const roles = ["HR", "PROMOTION"];
 
 function AdminOfficers() {
   const [passwordType, setPasswordType] = useState(false);

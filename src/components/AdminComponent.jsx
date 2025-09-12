@@ -258,7 +258,7 @@ function AdminComponent() {
               </div>
             </div>
             <div className="col-lg-4 text-muted">
-              <Typography gutterBottom color="#B9375D" fontWeight={700}>
+              <Typography gutterBottom color="#5682B1" fontWeight={700}>
                 Notifications Analysis
               </Typography>
               <Stack spacing={2} direction={"row"}>

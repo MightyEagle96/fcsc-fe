@@ -3,8 +3,8 @@ import { toast } from "react-toastify";
 import { httpService } from "../httpService";
 import { useAppUser } from "../contexts/AppUserContext";
 import { useNavigate } from "react-router-dom";
-import { Button, Typography } from "@mui/material";
-import { People, Upload } from "@mui/icons-material";
+import { Button, Stack, Typography } from "@mui/material";
+import { AlternateEmail, People, Sms, Upload } from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
 import Swal from "sweetalert2";
 
@@ -16,13 +16,18 @@ function AdminComponent() {
   const [uploadAnalysis, setUploadAnalysis] = useState([]);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [notificationAnalysis, setNotificationAnalysis] = useState({
+    sms: 0,
+    emails: 0,
+  });
 
   const getData = async () => {
     setLoading(true);
-    const [data1, data2, data3] = await Promise.all([
+    const [data1, data2, data3, data4] = await Promise.all([
       httpService("admin/dashboardsummary"),
       httpService("admin/mdaoverview"),
       httpService("admin/uploadanalysis"),
+      httpService("admin/notificationanalysis"),
     ]);
 
     if (data1) {
@@ -40,6 +45,13 @@ function AdminComponent() {
 
       console.log(data);
       if (data) setUploadAnalysis(data);
+    }
+
+    if (data4) {
+      const { data } = data4;
+      if (data) {
+        console.log(data);
+      }
     }
     setLoading(false);
   };
@@ -116,7 +128,8 @@ function AdminComponent() {
     Swal.fire({
       icon: "question",
       title: "Notify Candidates",
-      text: "Are you sure you want to notify all candidates by SMS and Email?",
+      text: "This will notify all created candidates of their account credentials by SMS and Email. Contacted candidates, will be skipped if they have already been notified. Are you sure you want to continue?",
+      // text: "Are you sure you want to notify all candidates by SMS and Email?",
       showDenyButton: true,
       confirmButtonText: "Yes",
       denyButtonText: "No ",
@@ -197,7 +210,7 @@ function AdminComponent() {
           </div>
         </div>
         <div className="container">
-          <div className="row mb-4">
+          <div className="row mb-5">
             <div className="col-lg-4 border-end ">
               <Typography gutterBottom>Upload candidate's file</Typography>
               <input
@@ -218,7 +231,7 @@ function AdminComponent() {
                 <Typography variant="caption">Upload File</Typography>
               </Button>
             </div>
-            <div className="col-lg-4 d-flex align-items-center">
+            <div className="col-lg-4 d-flex align-items-center border-end">
               <div>
                 <div className="mb-2">
                   <Button
@@ -244,7 +257,31 @@ function AdminComponent() {
                 </div>
               </div>
             </div>
+            <div className="col-lg-4 text-muted">
+              <Typography gutterBottom color="#B9375D" fontWeight={700}>
+                Notifications Analysis
+              </Typography>
+              <Stack spacing={2} direction={"row"}>
+                <div className="col-lg-6">
+                  <Typography gutterBottom>
+                    <AlternateEmail /> Email
+                  </Typography>
+                  <Typography variant="h3">
+                    {notificationAnalysis.emails.toLocaleString()}
+                  </Typography>
+                </div>
+                <div className="col-lg-6">
+                  <Typography gutterBottom>
+                    <Sms /> SMS
+                  </Typography>
+                  <Typography variant="h3">
+                    {notificationAnalysis.sms.toLocaleString()}
+                  </Typography>
+                </div>
+              </Stack>
+            </div>
           </div>
+          <hr />
           <div>
             <div className="row">
               <div className="col-lg-8">

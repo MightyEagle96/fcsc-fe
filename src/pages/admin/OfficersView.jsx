@@ -97,7 +97,7 @@ function OfficersView() {
               <span className="text-uppercase">{slug}</span> Officers
             </Typography>
           </div>
-          <div className="p-3" style={{ height: 600, width: "100%" }}>
+          <div className="p-3" style={{ height: 800, width: "100%" }}>
             <DataGrid
               loading={loading}
               getRowId={(row) => row._id}

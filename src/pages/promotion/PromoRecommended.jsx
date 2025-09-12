@@ -86,6 +86,19 @@ function PromoRecommended() {
       },
     },
     {
+      field: "dateRecommended",
+      headerName: "Time Recommended",
+      width: 200,
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          <span className="text-capitalize">
+            {new Date(params.value).toLocaleTimeString()}
+          </span>
+        );
+      },
+    },
+    {
       field: "_id",
       headerName: "Action",
       width: 200,

@@ -81,6 +81,19 @@ function ApprovedCandidates() {
         );
       },
     },
+    {
+      field: "dateApproved",
+      headerName: "Time Approved",
+      width: 200,
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          <span className="text-capitalize">
+            {new Date(params.value).toLocaleTimeString()}
+          </span>
+        );
+      },
+    },
   ];
 
   return (

@@ -20,7 +20,7 @@ function NavbarComponent() {
     { path: "/admin/candidates", text: "Candidates" },
     {
       path: `/admin/promorecommended/`,
-      text: "Recommendedations",
+      text: "Recommendations",
     },
     {
       path: `/admin/approvedcandidates/`,

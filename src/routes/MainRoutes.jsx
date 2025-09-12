@@ -39,8 +39,6 @@ function MainRoutes() {
   const privateRoutes = [
     { path: "/", component: <MyProfile /> },
     { path: "/documentstoupload", component: <LoggedInPage /> },
-    // { path: "/", component: <LoggedInPage /> },
-    // { path: "/myprofile", component: <MyProfile /> },
     { path: "/datacorrection", component: <DataCorrection /> },
   ];
 

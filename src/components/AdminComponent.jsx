@@ -159,10 +159,15 @@ function AdminComponent() {
           <div className="container w-100">
             <div className="row">
               <div className="col-lg-2 border-end">
-                <Typography variant="h5" gutterBottom fontWeight={700}>
+                <Typography variant="body1" gutterBottom fontWeight={300}>
                   Welcome Back,
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+                <Typography
+                  fontWeight={700}
+                  variant="h5"
+                  gutterBottom
+                  textTransform={"capitalize"}
+                >
                   {user.firstName} {user.lastName}
                 </Typography>
               </div>

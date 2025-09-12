@@ -30,7 +30,7 @@ function HRDashboard() {
   return (
     <div>
       <div className=" container">
-        {/* <div className="d-flex justify-content-end">
+        <div className="d-flex justify-content-end">
           <div className="col-lg-4">
             {user.yetToChangePassword && (
               <Alert severity="warning">
@@ -43,7 +43,7 @@ function HRDashboard() {
               </Alert>
             )}
           </div>
-        </div> */}
+        </div>
       </div>
       <div
         className=" mb-5 d-flex align-items-center"

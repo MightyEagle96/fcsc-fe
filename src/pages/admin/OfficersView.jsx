@@ -110,6 +110,33 @@ function OfficersView() {
     }
   };
 
+  const [errors, setErrors] = useState({
+    phoneNumber: "",
+    password: "",
+    confirmPassword: "",
+    email: "",
+  });
+
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setUserData((prev) => ({ ...prev, [name]: value }));
+  // };
+
+  const validatePhoneNumber = (value) => {
+    if (!/^0\d{10}$/.test(value)) {
+      return "Phone number must be 11 digits and start with 0";
+    }
+    return "";
+  };
+
+  const validateEmail = (value) => {
+    // Simple regex for email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(value)) {
+      return "Enter a valid email address";
+    }
+    return "";
+  };
   const deleteStaff = () => {
     Swal.fire({
       icon: "question",
@@ -226,6 +253,14 @@ function OfficersView() {
                     label="Email Address"
                     value={staff.email}
                     onChange={handleChange}
+                    onBlur={(e) =>
+                      setErrors((prev) => ({
+                        ...prev,
+                        email: validateEmail(e.target.value),
+                      }))
+                    }
+                    error={!!errors.email}
+                    helperText={errors.email}
                   />
                 </div>
                 <div className="mb-4">
@@ -235,6 +270,15 @@ function OfficersView() {
                     name="phoneNumber"
                     value={staff.phoneNumber}
                     onChange={handleChange}
+                    onBlur={(e) =>
+                      setErrors((prev) => ({
+                        ...prev,
+                        phoneNumber: validatePhoneNumber(e.target.value),
+                      }))
+                    }
+                    error={!!errors.phoneNumber}
+                    helperText={errors.phoneNumber}
+                    inputProps={{ maxLength: 11 }}
                   />
                 </div>
                 <div className="mb-3">

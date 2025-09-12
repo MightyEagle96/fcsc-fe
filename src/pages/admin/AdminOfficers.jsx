@@ -29,6 +29,12 @@ function AdminOfficers() {
   const [officer, setOfficer] = useState({});
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({
+    phoneNumber: "",
+    password: "",
+    confirmPassword: "",
+    email: "",
+  });
 
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -48,6 +54,28 @@ function AdminOfficers() {
     }
   };
 
+  const validatePhoneNumber = (value) => {
+    if (!/^0\d{10}$/.test(value)) {
+      return "Phone number must be 11 digits and start with 0";
+    }
+    return "";
+  };
+
+  const validatePassword = (value) => {
+    if (value.length < 8) {
+      return "Password must be at least 8 characters long";
+    }
+    return "";
+  };
+
+  const validateEmail = (value) => {
+    // Simple regex for email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(value)) {
+      return "Enter a valid email address";
+    }
+    return "";
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     Swal.fire({
@@ -168,6 +196,15 @@ function AdminOfficers() {
                   name="email"
                   onChange={handleChange}
                   required
+                  value={officer.email}
+                  onBlur={(e) =>
+                    setErrors((prev) => ({
+                      ...prev,
+                      email: validateEmail(e.target.value),
+                    }))
+                  }
+                  error={!!errors.email}
+                  helperText={errors.email}
                 />
               </div>
               <div className="mb-3">
@@ -177,6 +214,16 @@ function AdminOfficers() {
                   name="phoneNumber"
                   onChange={handleChange}
                   required
+                  value={officer.phoneNumber}
+                  onBlur={(e) =>
+                    setErrors((prev) => ({
+                      ...prev,
+                      phoneNumber: validatePhoneNumber(e.target.value),
+                    }))
+                  }
+                  error={!!errors.phoneNumber}
+                  helperText={errors.phoneNumber}
+                  inputProps={{ maxLength: 11 }} //
                 />
               </div>
               <div className="mb-3">
@@ -234,6 +281,14 @@ function AdminOfficers() {
                       ),
                     },
                   }}
+                  onBlur={(e) =>
+                    setErrors((prev) => ({
+                      ...prev,
+                      password: validatePassword(e.target.value),
+                    }))
+                  }
+                  error={!!errors.password}
+                  helperText={errors.password}
                 />
               </div>
             </div>
@@ -245,6 +300,12 @@ function AdminOfficers() {
               color="error"
               endIcon={<PersonAdd />}
               loading={loading}
+              disabled={
+                errors.confirmPassword ||
+                errors.password ||
+                errors.phoneNumber ||
+                errors.email
+              }
               loadingPosition="end"
             >
               Create Account

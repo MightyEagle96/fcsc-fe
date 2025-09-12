@@ -1,4 +1,10 @@
-import { Alert, Button, CircularProgress, Typography } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  Button,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAppUser } from "../contexts/AppUserContext";
 import { httpService } from "../httpService";
@@ -29,17 +35,14 @@ function HRDashboard() {
   const navigate = useNavigate();
   return (
     <div>
-      <div className=" container">
-        <div className="d-flex justify-content-end">
+      <div className="container">
+        <div className="d-flex justify-content-center">
           <div className="col-lg-4">
             {user.yetToChangePassword && (
               <Alert severity="warning">
-                Please change your password to secure your account
-                <div className="text-end">
-                  <Button color="warning">
-                    <Typography variant="caption">Change Password</Typography>
-                  </Button>
-                </div>
+                <AlertTitle>Yet to change password</AlertTitle>
+                Please logout and make use of the forgot password functionality
+                to create a new password
               </Alert>
             )}
           </div>

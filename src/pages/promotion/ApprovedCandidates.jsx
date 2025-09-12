@@ -76,19 +76,7 @@ function ApprovedCandidates() {
       renderCell: (params) => {
         return (
           <span className="text-capitalize">
-            {new Date(params.value).toLocaleDateString()}
-          </span>
-        );
-      },
-    },
-    {
-      field: "dateApproved",
-      headerName: "Time Approved",
-      width: 200,
-      flex: 1,
-      renderCell: (params) => {
-        return (
-          <span className="text-capitalize">
+            {new Date(params.value).toLocaleDateString()},{" "}
             {new Date(params.value).toLocaleTimeString()}
           </span>
         );

@@ -82,24 +82,13 @@ function PromoRecommended() {
       renderCell: (params) => {
         return (
           <span className="text-capitalize">
-            {new Date(params.value).toLocaleDateString()}
-          </span>
-        );
-      },
-    },
-    {
-      field: "dateRecommended",
-      headerName: "Time Recommended",
-      width: 200,
-      flex: 1,
-      renderCell: (params) => {
-        return (
-          <span className="text-capitalize">
+            {new Date(params.value).toLocaleDateString()},{" "}
             {new Date(params.value).toLocaleTimeString()}
           </span>
         );
       },
     },
+
     {
       field: "_id",
       headerName: "Action",

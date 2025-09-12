@@ -38,6 +38,14 @@ function RecommendedCandidates() {
       field: "dateRecommended",
       headerName: "Date Recommended",
       width: 200,
+      renderCell: (params) => {
+        return (
+          <span className="text-capitalize">
+            {new Date(params.value).toLocaleDateString()},{" "}
+            {new Date(params.value).toLocaleTimeString()}
+          </span>
+        );
+      },
     },
   ];
 

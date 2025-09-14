@@ -2,8 +2,8 @@ import axios from "axios";
 
 export const baseURL =
   process.env.NODE_ENV === "production"
-    ? "https://fcsc.onrender.com/api"
-    : //"https://promotion.fedcivilservice.gov.ng/api"
+    ? "https://promotion.fedcivilservice.gov.ng/api"
+    : //
       "http://localhost:3456/api";
 
 // process.env.NODE_ENV === "production"

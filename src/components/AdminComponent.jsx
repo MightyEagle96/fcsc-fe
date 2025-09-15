@@ -43,14 +43,13 @@ function AdminComponent() {
     if (data3) {
       const { data } = data3;
 
-      console.log(data);
       if (data) setUploadAnalysis(data);
     }
 
     if (data4) {
       const { data } = data4;
       if (data) {
-        console.log(data);
+        setNotificationAnalysis(data);
       }
     }
     setLoading(false);

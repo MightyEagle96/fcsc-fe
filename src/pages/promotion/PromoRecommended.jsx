@@ -40,6 +40,7 @@ function PromoRecommended() {
     getData();
   }, [paginationModel]);
 
+  console.log(user);
   const columns = [
     { field: "id", headerName: "S/N", width: 90 },
     {
@@ -261,7 +262,7 @@ function PromoRecommended() {
             </div>
           </Modal.Body>
           <Modal.Footer className="border-0 bg-light">
-            {user.role === "promotion" && (
+            {user.specificRole === "promotion" && (
               <Stack direction={"row"} spacing={2}>
                 <Button
                   variant="contained"

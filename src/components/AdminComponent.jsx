@@ -429,11 +429,13 @@ function AdminComponent() {
           <Modal.Title>Upload Errors</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ul>
-            {errors.map((error, index) => (
-              <li key={index}>{error}</li>
-            ))}
-          </ul>
+          <div style={{ height: "50vh", overflowY: "scroll" }}>
+            <ul>
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          </div>
         </Modal.Body>
       </Modal>
     </div>

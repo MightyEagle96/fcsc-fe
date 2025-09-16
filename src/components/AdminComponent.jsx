@@ -14,6 +14,7 @@ function AdminComponent() {
   const [summary, setSummary] = useState({});
   const [mdaSummary, setMdaSummary] = useState({});
   const [uploadAnalysis, setUploadAnalysis] = useState([]);
+  const [documentsAnalysis, setDocumentsAnalysis] = useState({});
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [notificationAnalysis, setNotificationAnalysis] = useState({
@@ -23,11 +24,12 @@ function AdminComponent() {
 
   const getData = async () => {
     setLoading(true);
-    const [data1, data2, data3, data4] = await Promise.all([
+    const [data1, data2, data3, data4, data5] = await Promise.all([
       httpService("admin/dashboardsummary"),
       httpService("admin/mdaoverview"),
       httpService("admin/uploadanalysis"),
       httpService("admin/notificationanalysis"),
+      httpService("admin/documentsanalysis"),
     ]);
 
     if (data1) {
@@ -52,6 +54,12 @@ function AdminComponent() {
         setNotificationAnalysis(data);
       }
     }
+    if (data5) {
+      const { data } = data5;
+      if (data) {
+        setDocumentsAnalysis(data);
+      }
+    }
     setLoading(false);
   };
 
@@ -59,6 +67,18 @@ function AdminComponent() {
     getData();
   }, []);
 
+  const columns2 = [
+    {
+      field: "document",
+      headerName: "Document",
+      width: 500,
+    },
+    {
+      field: "count",
+      headerName: "Count",
+      width: 200,
+    },
+  ];
   const navigate = useNavigate();
   const uploadFile = async (e) => {
     const formData = new FormData();
@@ -219,82 +239,84 @@ function AdminComponent() {
             </div>
           </div>
         </div>
-        <div className="container">
-          <div className="row mb-5">
-            <div className="col-lg-4 border-end ">
-              <Typography gutterBottom>Upload candidate's file</Typography>
-              <input
-                className="form-control mb-3"
-                type="file"
-                id="formFile"
-                onChange={handleFile}
-                accept={".xlsx,.xls,.csv"}
-              />
-              <Button
-                onClick={uploadFile}
-                disabled={!file}
-                variant="contained"
-                endIcon={<Upload />}
-                loading={loading}
-                loadingPosition="end"
-              >
-                <Typography variant="caption">Upload File</Typography>
-              </Button>
-            </div>
-            <div className="col-lg-4 d-flex align-items-center border-end">
-              <div>
-                <div className="mb-2">
-                  <Button
-                    variant="contained"
-                    color="warning"
-                    endIcon={<People />}
-                    loadingPosition="end"
-                    loading={loading}
-                    onClick={notifyByEmailAndSms}
-                  >
-                    Notify candidates by email and sms
-                  </Button>
-                </div>
+        <div className="">
+          <div className="container">
+            <div className="row mb-5">
+              <div className="col-lg-4 border-end ">
+                <Typography gutterBottom>Upload candidate's file</Typography>
+                <input
+                  className="form-control mb-3"
+                  type="file"
+                  id="formFile"
+                  onChange={handleFile}
+                  accept={".xlsx,.xls,.csv"}
+                />
+                <Button
+                  onClick={uploadFile}
+                  disabled={!file}
+                  variant="contained"
+                  endIcon={<Upload />}
+                  loading={loading}
+                  loadingPosition="end"
+                >
+                  <Typography variant="caption">Upload File</Typography>
+                </Button>
+              </div>
+              <div className="col-lg-4 d-flex align-items-center border-end">
                 <div>
-                  <Typography
-                    className="mt-2"
-                    color="GrayText"
-                    variant="caption"
-                  >
-                    This is to send out account credentials to candidates, by
-                    both sms and email.
-                  </Typography>
+                  <div className="mb-2">
+                    <Button
+                      variant="contained"
+                      color="warning"
+                      endIcon={<People />}
+                      loadingPosition="end"
+                      loading={loading}
+                      onClick={notifyByEmailAndSms}
+                    >
+                      Notify candidates by email and sms
+                    </Button>
+                  </div>
+                  <div>
+                    <Typography
+                      className="mt-2"
+                      color="GrayText"
+                      variant="caption"
+                    >
+                      This is to send out account credentials to candidates, by
+                      both sms and email.
+                    </Typography>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-lg-4 text-muted">
-              <Typography gutterBottom color="#5682B1" fontWeight={700}>
-                Notifications Analysis
-              </Typography>
-              <Stack spacing={2} direction={"row"}>
-                <div className="col-lg-6">
-                  <Typography gutterBottom>
-                    <AlternateEmail /> Email
-                  </Typography>
-                  <Typography variant="h3">
-                    {notificationAnalysis.emails.toLocaleString()}
-                  </Typography>
-                </div>
-                <div className="col-lg-6">
-                  <Typography gutterBottom>
-                    <Sms /> SMS
-                  </Typography>
-                  <Typography variant="h3">
-                    {notificationAnalysis.sms.toLocaleString()}
-                  </Typography>
-                </div>
-              </Stack>
+              <div className="col-lg-4 text-muted">
+                <Typography gutterBottom color="#5682B1" fontWeight={700}>
+                  Notifications Analysis
+                </Typography>
+                <Stack spacing={2} direction={"row"}>
+                  <div className="col-lg-6">
+                    <Typography gutterBottom>
+                      <AlternateEmail /> Email
+                    </Typography>
+                    <Typography variant="h3">
+                      {notificationAnalysis.emails.toLocaleString()}
+                    </Typography>
+                  </div>
+                  <div className="col-lg-6">
+                    <Typography gutterBottom>
+                      <Sms /> SMS
+                    </Typography>
+                    <Typography variant="h3">
+                      {notificationAnalysis.sms.toLocaleString()}
+                    </Typography>
+                  </div>
+                </Stack>
+              </div>
             </div>
           </div>
           <hr />
-          <div>
+          <div className="p-3">
             <div className="row">
-              <div className="col-lg-8">
+              <div className="col-lg-6">
                 <div className="mb-4">
                   <Typography variant="h4" fontWeight={700}>
                     MDAs OVERVIEW
@@ -309,28 +331,56 @@ function AdminComponent() {
                   />
                 </div>
               </div>
-              <div className="col-lg-4 ">
+              <div className="col-lg-6 ">
                 <div className="mb-4">
-                  <Typography variant="h4" fontWeight={700}>
+                  <Typography variant="h6" fontWeight={700}>
                     Upload Analysis
                   </Typography>
                 </div>
-                <div>
-                  {uploadAnalysis.map((c, i) => (
-                    <div
-                      key={i}
-                      className={`mb-2 p-2 ${
-                        i % 2 === 0 ? "bg-light" : "bg-white"
-                      }`}
-                    >
-                      <Typography variant="body1" gutterBottom color="GrayText">
-                        Documents: <b>{c.uploads}</b>
-                      </Typography>
-                      <Typography variant="body1" gutterBottom color="GrayText">
-                        Candidates: <b>{c.candidates}</b>
-                      </Typography>
+                <div className="mb-4">
+                  <Typography variant="caption" gutterBottom>
+                    Uploaded Documents
+                  </Typography>
+                  <Typography variant="h4" fontWeight={700}>
+                    {documentsAnalysis.totalDocumentsUploaded}/
+                    {documentsAnalysis.expectedDocuments}
+                  </Typography>
+                </div>
+                <div className="row">
+                  <div className="col-lg-8">
+                    <DataGrid
+                      getRowId={(row) => row.document}
+                      columns={columns2}
+                      rows={documentsAnalysis.result}
+                    />
+                  </div>
+                  <div className="col-lg-4">
+                    <div>
+                      {uploadAnalysis.map((c, i) => (
+                        <div
+                          key={i}
+                          className={`mb-2 p-2 ${
+                            i % 2 === 0 ? "bg-light" : "bg-white"
+                          }`}
+                        >
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            color="GrayText"
+                          >
+                            Documents: <b>{c.uploads}</b>
+                          </Typography>
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            color="GrayText"
+                          >
+                            Candidates: <b>{c.candidates}</b>
+                          </Typography>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
                 </div>
               </div>
             </div>

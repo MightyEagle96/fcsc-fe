@@ -7,7 +7,6 @@ import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useAppUser } from "../../contexts/AppUserContext";
-import Modal2 from "react-modal";
 
 function PromoRecommended() {
   const { user } = useAppUser();
@@ -138,7 +137,6 @@ function PromoRecommended() {
   ];
 
   const handleRowClick2 = async (e) => {
-    // console.log(e.row);
     setLoading(true);
 
     const { data } = await httpService("admin/uploadeddocuments", {
@@ -313,38 +311,39 @@ function PromoRecommended() {
             </div>
           </Modal.Body>
           <Modal.Footer className="border-0 bg-light">
-            {user.specificRole === "promotion" && (
-              <Stack direction={"row"} spacing={2}>
-                <Button
-                  variant="contained"
-                  color="success"
-                  loading={loading}
-                  onClick={approveCandidate}
-                  disabled={selectedRow.approved}
-                >
-                  Approve application
-                </Button>
-                <Button
-                  // disabled={recommendedStatus.enableButton}
-                  color="warning"
-                  sx={{ textTransform: "capitalize" }}
-                  onClick={handleRejection}
-                >
-                  Reject Application
-                </Button>
-                <Button
-                  // disabled={recommendedStatus.enableButton}
-                  color="error"
-                  sx={{ textTransform: "capitalize" }}
-                  onClick={handleDisqualification}
-                >
-                  Disqualify Application
-                </Button>
-                <Button color="error" onClick={() => setSelectedRow(null)}>
-                  Cancel
-                </Button>
-              </Stack>
-            )}
+            {user.specificRole === "promotion" &&
+              selectedRow.status === "recommended" && (
+                <Stack direction={"row"} spacing={2}>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    loading={loading}
+                    onClick={approveCandidate}
+                    disabled={selectedRow.approved}
+                  >
+                    Approve application
+                  </Button>
+                  <Button
+                    // disabled={recommendedStatus.enableButton}
+                    color="warning"
+                    sx={{ textTransform: "capitalize" }}
+                    onClick={handleRejection}
+                  >
+                    Reject Application
+                  </Button>
+                  <Button
+                    // disabled={recommendedStatus.enableButton}
+                    color="error"
+                    sx={{ textTransform: "capitalize" }}
+                    onClick={handleDisqualification}
+                  >
+                    Disqualify Application
+                  </Button>
+                  <Button color="error" onClick={() => setSelectedRow(null)}>
+                    Cancel
+                  </Button>
+                </Stack>
+              )}
           </Modal.Footer>
         </Modal>
       )}

@@ -114,6 +114,10 @@ function AdminComponent() {
       } else {
         toast.error(error);
       }
+
+      if (error.duplicates) {
+        console.log(error.duplicates);
+      }
       // console.log(error);
       // toast.error(error || error.message);
     }

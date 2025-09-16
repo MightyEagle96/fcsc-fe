@@ -65,6 +65,12 @@ function AdminComponent() {
 
   useEffect(() => {
     getData();
+
+    const interval = setInterval(() => {
+      getData();
+    }, 60000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const columns2 = [

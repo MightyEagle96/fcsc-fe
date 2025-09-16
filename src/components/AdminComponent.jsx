@@ -355,6 +355,7 @@ function AdminComponent() {
                 <div className="row">
                   <div className="col-lg-8">
                     <DataGrid
+                      loading={loading}
                       getRowId={(row) => row.document}
                       columns={columns2}
                       rows={documentsAnalysis.result}

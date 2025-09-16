@@ -23,6 +23,7 @@ import MyProfile from "../pages/candidate/MyProfile";
 import DataCorrection from "../pages/candidate/DataCorrection";
 import RecommendedCandidates from "../pages/HR/RecommendedCandidates";
 import Corrections from "../pages/admin/Corrections";
+import DeleteCandidate from "../pages/admin/DeleteCandidate";
 
 function MainRoutes() {
   const { user, loading } = useAuth();
@@ -46,6 +47,7 @@ function MainRoutes() {
     //admin
     { path: "/admin/dashboard", component: <AdminDashboard /> },
     { path: "/admin/candidates", component: <ViewCandidates /> },
+    { path: "/admin/deletebyadmin", component: <DeleteCandidate /> },
     { path: "/admin/verifiedcandidates", component: <VerifiedCandidates /> },
     { path: "/admin/officers", component: <AdminOfficers /> },
     { path: "/admin/officers/:slug", component: <OfficersView /> },

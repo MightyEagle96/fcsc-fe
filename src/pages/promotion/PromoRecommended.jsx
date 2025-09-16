@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { httpService } from "../../httpService";
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography, TextField } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useAppUser } from "../../contexts/AppUserContext";
+import Modal2 from "react-modal";
 
 function PromoRecommended() {
   const { user } = useAppUser();
@@ -18,8 +19,43 @@ function PromoRecommended() {
   });
   const [rowCount, setRowCount] = useState(0);
 
-  const [selectedRow, setSelecteRow] = useState(null);
+  const [selectedRow, setSelectedRow] = useState(null);
   const [uploadedDocuments, setUplodadedDocuments] = useState([]);
+
+  const [rejecting, setRejecting] = useState(false);
+  const [rejection, setRejection] = useState(null);
+  const [disqualification, setDisqualification] = useState(null);
+  const [reason, setReason] = useState("");
+
+  const handleDisqualification = () => {
+    setDisqualification(selectedRow);
+    setSelectedRow(null);
+
+    Swal.fire({
+      icon: "question",
+      title: "Disqualify Candidate",
+      text: "Are you sure you want to disqualify this candidate",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoading(true);
+        const { data } = await httpService("promotion/disqualifycandidate", {
+          params: { candidate: disqualification._id },
+        });
+        if (data) {
+          toast.success(data);
+          getData();
+        }
+        setLoading(false);
+      }
+    });
+  };
+  const handleRejection = () => {
+    setRejection(selectedRow);
+    setSelectedRow(null);
+  };
   //  const [loading, ] = useState(false)
   const getData = async () => {
     setLoading(true);
@@ -96,18 +132,7 @@ function PromoRecommended() {
       width: 200,
       flex: 1,
       renderCell: (params) => {
-        return (
-          <Button onClick={() => handleRowClick2(params)}>View</Button>
-          // <span className="text-capitalize">
-          //   <Button
-          //     variant="contained"
-          //     color="success"
-          //     onClick={approveCandidate}
-          //   >
-          //     Approve
-          //   </Button>
-          // </span>
-        );
+        return <Button onClick={() => handleRowClick2(params)}>View</Button>;
       },
     },
   ];
@@ -121,22 +146,11 @@ function PromoRecommended() {
     });
 
     if (data) {
-      setSelecteRow(e.row);
-      console.log(data);
+      setSelectedRow(e.row);
 
       setUplodadedDocuments(data.uploadedDocuments);
-      // setRecommendedStatus({
-      //   recommended: data.recommended,
-      //   dateRecommended: data.dateRecommended,
-      //   enableButton: data.enableButton,
-      //   status: data.status,
-      // });
-      // setSelectedRow(e.row);
     }
     setLoading(false);
-  };
-  const handleRowClick = async (e) => {
-    setSelecteRow(e.row);
   };
 
   const approveCandidate = () => {
@@ -156,7 +170,7 @@ function PromoRecommended() {
 
         if (data) {
           getData();
-          setSelecteRow(null);
+          setSelectedRow(null);
           toast.success(data);
         }
         setLoading(false);
@@ -192,6 +206,68 @@ function PromoRecommended() {
         params.value && new Date(params.value).toLocaleString(),
     },
   ];
+
+  const submitRejection = () => {
+    Swal.fire({
+      icon: "question",
+      title: "Reject Application",
+      text: "Are you sure you want to proceed with the rejection?",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setRejecting(true);
+        const { data, error } = await httpService.post("hr/rejectapplication", {
+          //...rejection,
+          candidate: rejection._id,
+          reason,
+        });
+        if (data) {
+          toast.success(data);
+          getData();
+          setSelectedRow(null);
+          setUplodadedDocuments([]);
+          setRejection(null);
+        }
+        if (error) {
+          toast.error(error);
+        }
+        setRejecting(false);
+      }
+    });
+  };
+
+  // const submitRejection = () => {
+  //   Swal.fire({
+  //     icon: "question",
+  //     title: "Reject Application",
+  //     text: "Are you sure you want to proceed with the rejection?",
+  //     showDenyButton: true,
+  //     confirmButtonText: "Yes",
+  //     denyButtonText: "No",
+  //   }).then(async (result) => {
+  //     if (result.isConfirmed) {
+  //       setRejecting(true);
+  //       const { data, error } = await httpService.post("hr/rejectapplication", {
+  //         //...rejection,
+  //         candidate: rejection._id,
+  //         reason,
+  //       });
+  //       if (data) {
+  //         toast.success(data);
+  //         getData();
+  //         setSelectedRow(null);
+  //         setUplodadedDocuments([]);
+  //         setRejection(null);
+  //       }
+  //       if (error) {
+  //         toast.error(error);
+  //       }
+  //       setRejecting(false);
+  //     }
+  //   });
+  // };
   return (
     <div>
       <div className="container mt-5 mb-5">
@@ -220,7 +296,7 @@ function PromoRecommended() {
           size="xl"
           centered
           show={selectedRow}
-          onHide={() => setSelecteRow(null)}
+          onHide={() => setSelectedRow(null)}
         >
           <Modal.Header closeButton className="border-0">
             <Modal.Title className="text-capitalize">
@@ -228,31 +304,6 @@ function PromoRecommended() {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {/* <div>
-              <div className="d-flex justify-content-center mb-4">
-                <Avatar
-                  sx={{ width: 100, height: 100, backgroundColor: "#26667F" }}
-                >
-                  <QuestionMark sx={{ width: 50, height: 50 }} />
-                </Avatar>
-              </div>
-              <div className="mb-3 text-center">
-                <Typography
-                  textTransform={"capitalize"}
-                  variant="h5"
-                  fontWeight={700}
-                  sx={{ color: "#26667F" }}
-                >
-                  {selectedRow.fullName}
-                </Typography>
-              </div>
-              <div className="text-center">
-                <Typography color="text.secondary">
-                  Are you sure you want to approve the registration for this
-                  participant?
-                </Typography>
-              </div>
-            </div> */}
             <div>
               <DataGrid
                 rows={uploadedDocuments}
@@ -266,17 +317,80 @@ function PromoRecommended() {
               <Stack direction={"row"} spacing={2}>
                 <Button
                   variant="contained"
+                  color="success"
                   loading={loading}
                   onClick={approveCandidate}
                   disabled={selectedRow.approved}
                 >
-                  Approve
+                  Approve application
                 </Button>
-                <Button color="error" onClick={() => setSelecteRow(null)}>
+                <Button
+                  // disabled={recommendedStatus.enableButton}
+                  color="warning"
+                  sx={{ textTransform: "capitalize" }}
+                  onClick={handleRejection}
+                >
+                  Reject Application
+                </Button>
+                <Button
+                  // disabled={recommendedStatus.enableButton}
+                  color="error"
+                  sx={{ textTransform: "capitalize" }}
+                  onClick={handleDisqualification}
+                >
+                  Disqualify Application
+                </Button>
+                <Button color="error" onClick={() => setSelectedRow(null)}>
                   Cancel
                 </Button>
               </Stack>
             )}
+          </Modal.Footer>
+        </Modal>
+      )}
+
+      {rejection && (
+        <Modal
+          centered
+          backdrop="static"
+          show={rejection}
+          onHide={() => setRejection(null)}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Reject Application</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Typography>
+              You are about to reject the application for{" "}
+              <strong className="text-uppercase">{rejection.fullName}</strong>.
+            </Typography>
+
+            <div className="mt-4">
+              <TextField
+                label="Reason"
+                fullWidth
+                helperText={"Reason for rejection"}
+                onChange={(e) => setReason(e.target.value)}
+              />
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setRejection(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              loading={rejecting}
+              className="ms-3"
+              color="error"
+              onClick={submitRejection}
+            >
+              Reject
+            </Button>
           </Modal.Footer>
         </Modal>
       )}

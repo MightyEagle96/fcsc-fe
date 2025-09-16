@@ -55,7 +55,10 @@ function HRDashboard() {
         <div className="container w-100 pt-3 pb-3">
           <div className="mb-3">
             <Typography variant="h4" fontWeight={700}>
-              Welcome Back, {user.firstName} {user.lastName}
+              Welcome Back,{" "}
+              <span className="text-capitalize">
+                {user.firstName} {user.lastName}
+              </span>
             </Typography>
             <Typography>
               You are logged in as{" "}

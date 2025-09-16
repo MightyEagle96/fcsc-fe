@@ -7,6 +7,7 @@ import { Button, Stack, Typography } from "@mui/material";
 import { AlternateEmail, People, Sms, Upload } from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
 import Swal from "sweetalert2";
+import { Modal } from "react-bootstrap";
 
 function AdminComponent() {
   const { user } = useAppUser();
@@ -21,6 +22,8 @@ function AdminComponent() {
     sms: 0,
     emails: 0,
   });
+  const [errors, setErrors] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -116,7 +119,9 @@ function AdminComponent() {
       }
 
       if (error.duplicates) {
-        console.log(error.duplicates);
+        setErrors(error.duplicates);
+        setShowModal(true);
+        //console.log(error.duplicates);
       }
       // console.log(error);
       // toast.error(error || error.message);
@@ -412,6 +417,25 @@ function AdminComponent() {
           </div>
         </div>
       </div>
+      <Modal
+        backdrop="static"
+        show={showModal}
+        onHide={() => {
+          setShowModal(false);
+          setErrors([]);
+        }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Upload Errors</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ul>
+            {errors.map((error, index) => (
+              <li key={index}>{error}</li>
+            ))}
+          </ul>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }

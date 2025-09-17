@@ -24,15 +24,21 @@ function AdminComponent() {
   });
   const [errors, setErrors] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [correctionSummary, setCorrectionSummary] = useState({
+    total: 0,
+    pending: 0,
+    approved: 0,
+  });
 
   const getData = async () => {
     setLoading(true);
-    const [data1, data2, data3, data4, data5] = await Promise.all([
+    const [data1, data2, data3, data4, data5, data6] = await Promise.all([
       httpService("admin/dashboardsummary"),
       httpService("admin/mdaoverview"),
       httpService("admin/uploadanalysis"),
       httpService("admin/notificationanalysis"),
       httpService("admin/documentsanalysis"),
+      httpService("admin/correctionsdashboard"),
     ]);
 
     if (data1) {
@@ -61,6 +67,13 @@ function AdminComponent() {
       const { data } = data5;
       if (data) {
         setDocumentsAnalysis(data);
+      }
+    }
+
+    if (data6) {
+      const { data } = data6;
+      if (data) {
+        setCorrectionSummary(data);
       }
     }
     setLoading(false);
@@ -214,54 +227,95 @@ function AdminComponent() {
                 </div>
               </div>
               <div className="col-lg-9 p-3">
-                <div className="">
-                  <Typography variant="caption" gutterBottom>
-                    Total Candidates
-                  </Typography>
-                  <Typography variant="h3" gutterBottom fontWeight={700}>
-                    {summary.candidates}
-                  </Typography>
+                <div className="row mb-2 d-flex align-items-center">
+                  <div className="col-lg-3 rounded-start text-center shadow-sm bg-light text-muted">
+                    <Typography variant="caption" gutterBottom>
+                      Total Candidates
+                    </Typography>
+                    <Typography variant="h3" gutterBottom fontWeight={700}>
+                      {summary.candidates}
+                    </Typography>
+                  </div>
+
+                  <div className="col-lg-6 border p-3 rounded">
+                    <Typography fontWeight={700}>
+                      Corrections Summary
+                    </Typography>
+                    <div className="row">
+                      <div className="col-lg-3">
+                        <Typography variant="caption" gutterBottom>
+                          Total
+                        </Typography>
+                        <Typography variant="h5" gutterBottom fontWeight={700}>
+                          {correctionSummary.total}
+                        </Typography>
+                      </div>
+                      <div className="col-lg-3">
+                        <Typography variant="caption" gutterBottom>
+                          Pending
+                        </Typography>
+                        <Typography variant="h5" gutterBottom fontWeight={700}>
+                          {correctionSummary.pending}
+                        </Typography>
+                      </div>
+                      <div className="col-lg-3">
+                        <Typography variant="caption" gutterBottom>
+                          Approved
+                        </Typography>
+                        <Typography variant="h5" gutterBottom fontWeight={700}>
+                          {correctionSummary.approved}
+                        </Typography>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="row">
-                  <div className="col-lg-2">
-                    <Typography variant="caption" gutterBottom>
-                      Pending
-                    </Typography>
-                    <Typography variant="h5" gutterBottom fontWeight={700}>
-                      {summary.pending}
+                <div className="border p-3 rounded">
+                  <div className="mb-2">
+                    <Typography fontWeight={700}>
+                      Applications Summary
                     </Typography>
                   </div>
-                  <div className="col-lg-2">
-                    <Typography variant="caption" gutterBottom>
-                      Recommended
-                    </Typography>
-                    <Typography variant="h5" gutterBottom fontWeight={700}>
-                      {summary.recommended}
-                    </Typography>
-                  </div>
-                  <div className="col-lg-2">
-                    <Typography variant="caption" gutterBottom>
-                      Approved
-                    </Typography>
-                    <Typography variant="h5" gutterBottom fontWeight={700}>
-                      {summary.approved}
-                    </Typography>
-                  </div>
-                  <div className="col-lg-2">
-                    <Typography variant="caption" gutterBottom>
-                      Rejected
-                    </Typography>
-                    <Typography variant="h5" gutterBottom fontWeight={700}>
-                      {summary.rejected}
-                    </Typography>
-                  </div>
-                  <div className="col-lg-2">
-                    <Typography variant="caption" gutterBottom>
-                      Disqualified
-                    </Typography>
-                    <Typography variant="h5" gutterBottom fontWeight={700}>
-                      {summary.disqualified}
-                    </Typography>
+                  <div className="row">
+                    <div className="col-lg-2">
+                      <Typography variant="caption" gutterBottom>
+                        Pending
+                      </Typography>
+                      <Typography variant="h5" gutterBottom fontWeight={700}>
+                        {summary.pending}
+                      </Typography>
+                    </div>
+                    <div className="col-lg-2">
+                      <Typography variant="caption" gutterBottom>
+                        Recommended
+                      </Typography>
+                      <Typography variant="h5" gutterBottom fontWeight={700}>
+                        {summary.recommended}
+                      </Typography>
+                    </div>
+                    <div className="col-lg-2">
+                      <Typography variant="caption" gutterBottom>
+                        Approved
+                      </Typography>
+                      <Typography variant="h5" gutterBottom fontWeight={700}>
+                        {summary.approved}
+                      </Typography>
+                    </div>
+                    <div className="col-lg-2">
+                      <Typography variant="caption" gutterBottom>
+                        Rejected
+                      </Typography>
+                      <Typography variant="h5" gutterBottom fontWeight={700}>
+                        {summary.rejected}
+                      </Typography>
+                    </div>
+                    <div className="col-lg-2">
+                      <Typography variant="caption" gutterBottom>
+                        Disqualified
+                      </Typography>
+                      <Typography variant="h5" gutterBottom fontWeight={700}>
+                        {summary.disqualified}
+                      </Typography>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -342,7 +396,9 @@ function AdminComponent() {
               </div>
             </div>
           </div>
-          <hr />
+          <div className="container">
+            <hr />
+          </div>
           <div className="p-3">
             <div className="row">
               <div className="col-lg-6">

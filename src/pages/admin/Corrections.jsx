@@ -10,18 +10,42 @@ function Corrections() {
   const [corrections, setCorrections] = useState([]);
   const [loading, setLoading] = useState(false);
   const [correction, setCorrection] = useState(null);
+
+  const [rowCount, setRowCount] = useState(0);
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0, // DataGrid uses 0-based index
+    pageSize: 50, // rows per page
+  });
+
+  const [dashboard, setDashboard] = useState(null);
+
+  const getData2 = async () => {
+    const { data } = await httpService("admin/correctionsdashboard");
+
+    if (data) {
+      setDashboard(data);
+      console.log(data);
+    }
+  };
   const getData = async () => {
     setLoading(true);
-    const { data } = await httpService("admin/corrections");
+    const { data } = await httpService("admin/corrections", {
+      params: {
+        page: paginationModel.page + 1,
+        limit: paginationModel.pageSize,
+      },
+    });
     if (data) {
-      setCorrections(data);
+      setCorrections(data.corrections);
+      setRowCount(data.total);
     }
     setLoading(false);
   };
 
   useEffect(() => {
     getData();
-  }, []);
+    getData2();
+  }, [paginationModel]);
 
   const columns = [
     {
@@ -115,12 +139,56 @@ function Corrections() {
   return (
     <div>
       <div className="container mt-5 mb-5">
-        <Typography variant="h5" fontWeight={700}>
-          Corrections
-        </Typography>
+        <div className="mb-3">
+          <Typography variant="h5" fontWeight={700}>
+            CORRECTIONS
+          </Typography>
+        </div>
+        {dashboard && (
+          <div className="row  ">
+            <div className="col-lg-3 text-muted">
+              <Typography variant="overline" gutterBottom>
+                Total
+              </Typography>
+              <Typography variant="h6" fontWeight={700} gutterBottom>
+                {dashboard.total}
+              </Typography>
+            </div>
+            <div className="col-lg-3 text-muted">
+              <Typography variant="overline" gutterBottom>
+                Pending
+              </Typography>
+              <Typography variant="h6" fontWeight={700} gutterBottom>
+                {dashboard.pending}
+              </Typography>
+            </div>
+            <div className="col-lg-3 text-muted">
+              <Typography variant="overline" gutterBottom>
+                Approved
+              </Typography>
+              <Typography variant="h6" fontWeight={700} gutterBottom>
+                {dashboard.approved}
+              </Typography>
+            </div>
+          </div>
+        )}
       </div>
       <div className="p-3">
-        <DataGrid loading={loading} columns={columns} rows={corrections} />
+        <DataGrid
+          loading={loading}
+          columns={columns}
+          rows={corrections}
+          paginationMode="server"
+          paginationModel={paginationModel}
+          rowCount={rowCount}
+          pageSizeOptions={[50, 100]}
+          onPaginationModelChange={setPaginationModel}
+          // pagination={true}
+        />
+        <Typography variant="body2" sx={{ mt: 1 }}>
+          Page {paginationModel.page + 1} of{" "}
+          {Math.ceil(rowCount / paginationModel.pageSize)}
+        </Typography>
       </div>
       {correction && (
         <Modal show={correction} onHide={() => setCorrection(null)}>

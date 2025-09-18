@@ -75,7 +75,6 @@ function PromoRecommended() {
     getData();
   }, [paginationModel]);
 
-  console.log(user);
   const columns = [
     { field: "id", headerName: "S/N", width: 90 },
     {
@@ -236,36 +235,6 @@ function PromoRecommended() {
     });
   };
 
-  // const submitRejection = () => {
-  //   Swal.fire({
-  //     icon: "question",
-  //     title: "Reject Application",
-  //     text: "Are you sure you want to proceed with the rejection?",
-  //     showDenyButton: true,
-  //     confirmButtonText: "Yes",
-  //     denyButtonText: "No",
-  //   }).then(async (result) => {
-  //     if (result.isConfirmed) {
-  //       setRejecting(true);
-  //       const { data, error } = await httpService.post("hr/rejectapplication", {
-  //         //...rejection,
-  //         candidate: rejection._id,
-  //         reason,
-  //       });
-  //       if (data) {
-  //         toast.success(data);
-  //         getData();
-  //         setSelectedRow(null);
-  //         setUplodadedDocuments([]);
-  //         setRejection(null);
-  //       }
-  //       if (error) {
-  //         toast.error(error);
-  //       }
-  //       setRejecting(false);
-  //     }
-  //   });
-  // };
   return (
     <div>
       <div className="container mt-5 mb-5">

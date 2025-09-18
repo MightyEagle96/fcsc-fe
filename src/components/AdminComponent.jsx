@@ -422,14 +422,28 @@ function AdminComponent() {
                     Upload Analysis
                   </Typography>
                 </div>
-                <div className="mb-4">
-                  <Typography variant="caption" gutterBottom>
-                    Uploaded Documents
-                  </Typography>
-                  <Typography variant="h4" fontWeight={700}>
-                    {documentsAnalysis.totalDocumentsUploaded}/
-                    {documentsAnalysis.expectedDocuments}
-                  </Typography>
+                <div className="row mb-4">
+                  <div className="col-lg-3 border-end">
+                    <div className="mb-4">
+                      <Typography variant="caption" gutterBottom>
+                        Uploaded Documents
+                      </Typography>
+                      <Typography variant="h4" fontWeight={700}>
+                        {documentsAnalysis.totalDocumentsUploaded}/
+                        {documentsAnalysis.expectedDocuments}
+                      </Typography>
+                    </div>
+                  </div>
+                  <div className="col-lg-3">
+                    <div className="mb-4">
+                      <Typography variant="caption" gutterBottom>
+                        Upload Percentage
+                      </Typography>
+                      <Typography variant="h4" fontWeight={700}>
+                        {documentsAnalysis.percentage}%
+                      </Typography>
+                    </div>
+                  </div>
                 </div>
                 <div className="row">
                   <div className="col-lg-8">

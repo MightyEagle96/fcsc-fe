@@ -25,7 +25,6 @@ function MyProfile() {
 
   const navigate = useNavigate();
 
-  const nav = () => {};
   return (
     <div>
       <div className="mt-5 mb-5">

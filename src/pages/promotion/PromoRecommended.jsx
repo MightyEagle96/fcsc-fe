@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { httpService } from "../../httpService";
-import { Button, Stack, Typography, TextField } from "@mui/material";
+import {
+  Button,
+  Stack,
+  Typography,
+  TextField,
+  IconButton,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { People, Person } from "@mui/icons-material";
 
-import { Modal } from "react-bootstrap";
+import { Modal, Table } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useAppUser } from "../../contexts/AppUserContext";
+import { headerMap } from "../candidate/headerMap";
 
 function PromoRecommended() {
   const { user } = useAppUser();
@@ -25,6 +33,7 @@ function PromoRecommended() {
   const [rejection, setRejection] = useState(null);
   const [disqualification, setDisqualification] = useState(null);
   const [reason, setReason] = useState("");
+  const [candidate, setCandidate] = useState(null);
 
   const handleDisqualification = () => {
     setDisqualification(selectedRow);
@@ -55,7 +64,20 @@ function PromoRecommended() {
     setRejection(selectedRow);
     setSelectedRow(null);
   };
-  //  const [loading, ] = useState(false)
+
+  const getCandidate = async (id) => {
+    setLoading(true);
+    const { data } = await httpService("admin/candidate", {
+      params: { id: id },
+    });
+
+    if (data) {
+      setCandidate(data);
+      console.log(data);
+    }
+
+    setLoading(false);
+  };
   const getData = async () => {
     setLoading(true);
     const { data } = await httpService(`admin/recommendedcandidates`, {
@@ -123,10 +145,22 @@ function PromoRecommended() {
         );
       },
     },
-
+    {
+      field: "candidate",
+      headerName: "View Candidate",
+      width: 200,
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          <IconButton onClick={() => getCandidate(params.value)}>
+            <Person />
+          </IconButton>
+        );
+      },
+    },
     {
       field: "_id",
-      headerName: "Action",
+      headerName: "Documents Uploaded",
       width: 200,
       flex: 1,
       renderCell: (params) => {
@@ -360,6 +394,49 @@ function PromoRecommended() {
               Reject
             </Button>
           </Modal.Footer>
+        </Modal>
+      )}
+
+      {candidate && (
+        <Modal
+          onHide={() => setCandidate(null)}
+          size="xl"
+          show={candidate}
+          centered
+          backdrop="static"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title className="text-capitalize">
+              {candidate.fullName}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div style={{ height: "70vh", overflowY: "scroll" }}>
+              <Table striped borderless>
+                {/* <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Value</th>
+                  </tr>
+                </thead> */}
+                <tbody>
+                  {headerMap.map((c, i) => (
+                    <tr key={i}>
+                      <td>{c.label}</td>
+                      <td className="text-capitalize">
+                        <strong>{c.format(candidate?.[c.field])}</strong>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              {/* <DataGrid
+                rows={uploadedDocuments}
+                columns={columns2}
+                rowCount={uploadedDocuments.length}
+              /> */}
+            </div>
+          </Modal.Body>
         </Modal>
       )}
     </div>

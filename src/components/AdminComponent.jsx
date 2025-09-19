@@ -423,7 +423,7 @@ function AdminComponent() {
                   </Typography>
                 </div>
                 <div className="row mb-4">
-                  <div className="col-lg-3 border-end">
+                  <div className="col-lg-6 border-end">
                     <div className="mb-4">
                       <Typography variant="caption" gutterBottom>
                         Uploaded Documents
@@ -434,7 +434,7 @@ function AdminComponent() {
                       </Typography>
                     </div>
                   </div>
-                  <div className="col-lg-3">
+                  <div className="col-lg-6">
                     <div className="mb-4">
                       <Typography variant="caption" gutterBottom>
                         Upload Percentage

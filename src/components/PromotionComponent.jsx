@@ -150,8 +150,15 @@ function PromotionComponent() {
             </>
           )}
         </div>
-        <div style={{ height: 600 }}>
-          <DataGrid columns={columns} rows={mdaSummary} />
+      </div>
+      <div className="p-3">
+        <div className="row">
+          <div className="col-lg-6">
+            <div style={{ height: 600 }}>
+              <DataGrid columns={columns} rows={mdaSummary} />
+            </div>
+          </div>
+          <div className="col-lg-6"></div>
         </div>
       </div>
     </div>

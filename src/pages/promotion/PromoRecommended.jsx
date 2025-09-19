@@ -8,7 +8,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { People, Person } from "@mui/icons-material";
+import { Person } from "@mui/icons-material";
 
 import { Modal, Table } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -73,7 +73,6 @@ function PromoRecommended() {
 
     if (data) {
       setCandidate(data);
-      console.log(data);
     }
 
     setLoading(false);
@@ -87,6 +86,7 @@ function PromoRecommended() {
       },
     });
     if (data) {
+      console.log(data);
       setCandidates(data.candidates);
       setRowCount(data.total);
     }
@@ -102,8 +102,8 @@ function PromoRecommended() {
     {
       field: "fullName",
       headerName: "Full Name",
-      width: 200,
-      flex: 1,
+      width: 300,
+
       renderCell: (params) => (
         <span className="text-capitalize">{params.value}</span>
       ),
@@ -112,7 +112,34 @@ function PromoRecommended() {
       field: "currentMDA",
       headerName: "Current MDA",
       width: 200,
-      flex: 1,
+
+      renderCell: (params) => (
+        <span className="text-uppercase">{params.value}</span>
+      ),
+    },
+    {
+      field: "poolOffice",
+      headerName: "Pool Office",
+      width: 200,
+
+      renderCell: (params) => (
+        <span className="text-uppercase">{params.value}</span>
+      ),
+    },
+    {
+      field: "cadre",
+      headerName: "Cadre",
+      width: 200,
+
+      renderCell: (params) => (
+        <span className="text-uppercase">{params.value}</span>
+      ),
+    },
+    {
+      field: "gradeLevel",
+      headerName: "Grade Level",
+      width: 200,
+
       renderCell: (params) => (
         <span className="text-uppercase">{params.value}</span>
       ),
@@ -121,21 +148,19 @@ function PromoRecommended() {
       field: "remark",
       headerName: "Remark",
       width: 200,
-      flex: 1,
     },
 
     {
       field: "recommendedBy",
       headerName: "Recommended By",
       width: 200,
-      flex: 1,
     },
 
     {
       field: "dateRecommended",
       headerName: "Date Recommended",
       width: 200,
-      flex: 1,
+
       renderCell: (params) => {
         return (
           <span className="text-capitalize">

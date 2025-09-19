@@ -18,14 +18,15 @@ function PromotionComponent() {
   const [loading, setLoading] = useState(false);
 
   const [mdaSummary, setMdaSummary] = useState([]);
-
+  const [poolOfficeSummary, setPoolOfficeSummary] = useState([]);
   const navigate = useNavigate();
 
   const getData = async () => {
     setLoading(true);
-    const [data1, data2] = await Promise.all([
+    const [data1, data2, data3] = await Promise.all([
       httpService("admin/promotiondashboard"),
       httpService("promotion/candidatesacrossmda"),
+      httpService("promotion/candidatesacrosspooloffice"),
     ]);
 
     if (data1) {
@@ -39,6 +40,12 @@ function PromotionComponent() {
       const { data } = data2;
       if (data) {
         setMdaSummary(data);
+      }
+    }
+    if (data3) {
+      const { data } = data3;
+      if (data) {
+        setPoolOfficeSummary(data);
       }
     }
 
@@ -59,7 +66,33 @@ function PromotionComponent() {
     },
     {
       field: "currentMDA",
-      headerName: "MDA",
+      headerName: "CURRENT MDA",
+      flex: 1,
+      //width: 500,
+      renderCell: (params) => (
+        <span className="text-uppercase">{params.value}</span> // full uppercase
+      ),
+    },
+    {
+      field: "candidateCount",
+      headerName: "Recommended Candidates",
+      width: 300,
+      renderCell: (params) => (
+        <span className="text-capitalize">{params.value}</span> // full uppercase
+      ),
+    },
+  ];
+  const column2 = [
+    {
+      field: "id",
+      headerName: "S/N",
+      width: 90,
+      sortable: false,
+      filterable: false,
+    },
+    {
+      field: "poolOffice",
+      headerName: "POOL OFFICE",
       flex: 1,
       //width: 500,
       renderCell: (params) => (
@@ -154,11 +187,11 @@ function PromotionComponent() {
       <div className="p-3">
         <div className="row">
           <div className="col-lg-6">
-            <div style={{ height: 600 }}>
-              <DataGrid columns={columns} rows={mdaSummary} />
-            </div>
+            <DataGrid columns={columns} rows={mdaSummary} />
           </div>
-          <div className="col-lg-6"></div>
+          <div className="col-lg-6">
+            <DataGrid columns={column2} rows={poolOfficeSummary} />
+          </div>
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@ import { Button, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { httpService } from "../../httpService";
 import { DataGrid } from "@mui/x-data-grid";
-import { Modal } from "react-bootstrap";
+import { Badge, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
@@ -24,7 +24,6 @@ function Corrections() {
 
     if (data) {
       setDashboard(data);
-      console.log(data);
     }
   };
   const getData = async () => {
@@ -84,9 +83,12 @@ function Corrections() {
       field: "status",
       headerName: "Status",
       flex: 1,
-      renderCell: (params) => (
-        <span className="text-capitalize">{params.value}</span> // full uppercase
-      ),
+      renderCell: (params) =>
+        params.value === "pending" ? (
+          <Badge bg="warning">PENDING</Badge>
+        ) : (
+          <Badge bg="success">APPROVED</Badge>
+        ),
     },
     {
       field: "_id",
@@ -108,6 +110,7 @@ function Corrections() {
     });
 
     if (data) {
+      console.log(data);
       setCorrection(data);
     }
     setLoading(false);

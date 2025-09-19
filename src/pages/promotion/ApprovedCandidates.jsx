@@ -55,6 +55,33 @@ function ApprovedCandidates() {
       ),
     },
     {
+      field: "poolOffice",
+      headerName: "Pool Office",
+      width: 200,
+
+      renderCell: (params) => (
+        <span className="text-uppercase">{params.value}</span>
+      ),
+    },
+    {
+      field: "cadre",
+      headerName: "Cadre",
+      width: 200,
+
+      renderCell: (params) => (
+        <span className="text-uppercase">{params.value}</span>
+      ),
+    },
+    {
+      field: "gradeLevel",
+      headerName: "Grade Level",
+      width: 200,
+
+      renderCell: (params) => (
+        <span className="text-uppercase">{params.value}</span>
+      ),
+    },
+    {
       field: "remark",
       headerName: "Remark",
       width: 200,

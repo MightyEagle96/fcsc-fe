@@ -230,18 +230,6 @@ function ViewCandidates() {
                   Candidates
                 </Typography>
               </div>
-              {/* <div className="col-lg-3">
-                <Button
-                  onClick={deleteAllCandidates}
-                  variant="contained"
-                  color="error"
-                  endIcon={<Delete />}
-                  loading={loading}
-                  loadingPosition="end"
-                >
-                  Delete all candidates
-                </Button>
-              </div> */}
             </div>
           </div>
         </div>

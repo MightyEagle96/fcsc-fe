@@ -24,6 +24,7 @@ import DataCorrection from "../pages/candidate/DataCorrection";
 import RecommendedCandidates from "../pages/HR/RecommendedCandidates";
 import Corrections from "../pages/admin/Corrections";
 import DeleteCandidate from "../pages/admin/DeleteCandidate";
+import AdminLogs from "../pages/admin/AdminLogs";
 
 function MainRoutes() {
   const { user, loading } = useAuth();
@@ -72,6 +73,10 @@ function MainRoutes() {
     {
       path: "/admin/corrections/",
       component: <Corrections />,
+    },
+    {
+      path: "/admin/logs/",
+      component: <AdminLogs />,
     },
   ];
   return (

@@ -5,11 +5,16 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Badge, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { useAppUser } from "../../contexts/AppUserContext";
+import RestrictedPage from "../RestrictedPage";
 
 function Corrections() {
   const [corrections, setCorrections] = useState([]);
   const [loading, setLoading] = useState(false);
   const [correction, setCorrection] = useState(null);
+  const { user } = useAppUser();
+
+  //console.log(user);
 
   const [rowCount, setRowCount] = useState(0);
   const [paginationModel, setPaginationModel] = useState({
@@ -139,6 +144,11 @@ function Corrections() {
       }
     });
   };
+
+  if (user.specificRole === "promotion" && !user.hasRightToCorrection) {
+    return <RestrictedPage />;
+  }
+
   return (
     <div>
       <div className="container mt-5 mb-5">

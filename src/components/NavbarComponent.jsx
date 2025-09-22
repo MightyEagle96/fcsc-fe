@@ -14,6 +14,8 @@ function NavbarComponent() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  console.log(user);
+
   const adminLinks = [
     { path: "/admin/dashboard", text: "Home" },
     { path: "/admin/officers", text: "Desk Officers" },
@@ -37,6 +39,10 @@ function NavbarComponent() {
     {
       path: `/admin/corrections/`,
       text: "Correction(s)",
+    },
+    {
+      path: `/admin/updatecandidate/`,
+      text: "Update Candidate(s)",
     },
   ];
 

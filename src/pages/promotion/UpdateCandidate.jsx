@@ -2,11 +2,17 @@ import { Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { httpService } from "../../httpService";
 import { Search } from "@mui/icons-material";
+import { toast } from "react-toastify";
+import { DataGrid } from "@mui/x-data-grid";
+import { Modal } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 function UpdateCandidate() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [candidates, setCandidates] = useState([]);
+  const [changed, setChanged] = useState(false);
+  const [candidate, setCandidate] = useState(null);
   const getData = async () => {
     setLoading(true);
     const { data } = await httpService("admin/searchcandidate", {
@@ -14,10 +20,87 @@ function UpdateCandidate() {
     });
 
     if (data) {
+      if (data.length === 0) {
+        toast.error("No candidate found");
+      }
       setCandidates(data);
       console.log(data);
     }
     setLoading(false);
+  };
+
+  const columns = [
+    {
+      field: "id",
+      headerName: "S/N",
+      width: 90,
+      sortable: false,
+      filterable: false,
+      //renderCell: (params) => params.api.getRowIndex(params.id) + 1,
+    },
+    {
+      field: "ippisNumber",
+      headerName: "IPPIS Number",
+      flex: 1,
+    },
+    {
+      field: "fullName",
+      headerName: "Name",
+      flex: 1,
+      renderCell: (param) => (
+        <span className="text-capitalize">{param.value}</span> // full uppercase
+      ),
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      flex: 1,
+    },
+    {
+      field: "phoneNumber",
+      headerName: "Phone Number",
+      flex: 1,
+    },
+    {
+      field: "_id",
+      headerName: "Update Contact",
+      flex: 1,
+      renderCell: (param) => (
+        <Button onClick={() => setCandidate(param.row)}>Update</Button>
+      ),
+    },
+  ];
+
+  const handleChange = (e) => {
+    setChanged(true);
+    setCandidate({ ...candidate, [e.target.name]: e.target.value });
+  };
+
+  const makeChange = () => {
+    Swal.fire({
+      icon: "question",
+      title: "Update Candidate",
+      text: "Are you sure you want to update this candidate?",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoading(true);
+        const { data, error } = await httpService("admin/updatecandidate", {
+          params: { candidate: candidate._id },
+          data: candidate,
+        });
+        if (data) {
+          toast.success(data);
+          getData();
+        }
+        if (error) {
+          toast.error(error);
+        }
+        setLoading(false);
+      }
+    });
   };
   return (
     <div>
@@ -47,6 +130,64 @@ function UpdateCandidate() {
             </Button>
           </div>
         </div>
+        <div className="p-3">
+          <DataGrid
+            loading={loading}
+            columns={columns}
+            rows={candidates}
+            rowCount={candidates.length}
+          />
+        </div>
+        {candidate && (
+          <Modal
+            size="lg"
+            centered
+            show={candidate !== null}
+            onHide={() => {
+              setCandidate(null);
+              setChanged(false);
+            }}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title className="text-capitalize fw-bold">
+                {candidate.fullName}
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div className="p-3">
+                <div className="mb-4">
+                  <TextField
+                    fullWidth
+                    label="Email"
+                    value={candidate.email}
+                    name="email"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-4">
+                  <TextField
+                    fullWidth
+                    label="Phone Number"
+                    value={candidate.phoneNumber}
+                    name="phoneNumber"
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                onClick={makeChange}
+                loading={loading}
+                variant="contained"
+                color="error"
+                disabled={!changed}
+              >
+                Update change
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        )}
       </div>
     </div>
   );

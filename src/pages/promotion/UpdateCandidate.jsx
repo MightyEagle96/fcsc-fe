@@ -154,7 +154,7 @@ function UpdateCandidate() {
         <div className="container">
           <div className="mb-4">
             <Typography variant="h5" fontWeight={700}>
-              Update Candidate
+              Update Candidate's contact details
             </Typography>
           </div>
 

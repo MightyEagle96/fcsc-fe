@@ -1,7 +1,7 @@
 import { Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { httpService } from "../../httpService";
-import { Search } from "@mui/icons-material";
+import { Clear, Done, Search } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import { DataGrid } from "@mui/x-data-grid";
 import { Modal } from "react-bootstrap";
@@ -62,15 +62,61 @@ function UpdateCandidate() {
       flex: 1,
     },
     {
-      field: "_id",
+      field: "stateOfOrigin",
       headerName: "Update Contact",
       flex: 1,
       renderCell: (param) => (
         <Button onClick={() => setCandidate(param.row)}>Update</Button>
       ),
     },
+    {
+      field: "_id",
+      headerName: "Notify Candidate",
+      flex: 1,
+      renderCell: (param) => (
+        <Button color="success" onClick={() => notifyCandidate(param.value)}>
+          Notify Candidate
+        </Button>
+      ),
+    },
+    {
+      field: "emailSent",
+      headerName: "Email Sent",
+      flex: 1,
+      renderCell: (param) =>
+        param.value ? <Done color="success" /> : <Clear color="error" />,
+    },
+    {
+      field: "smsSent",
+      headerName: "Sms Sent",
+      flex: 1,
+      renderCell: (param) =>
+        param.value ? <Done color="success" /> : <Clear color="error" />,
+    },
   ];
 
+  const notifyCandidate = (id) => {
+    Swal.fire({
+      icon: "question",
+      title: "Notify Candidate",
+      text: "Are you sure you want to notify this candidate?",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoading(true);
+        const { data } = await httpService("admin/notifycandidate", {
+          params: { candidate: id },
+        });
+        if (data) {
+          toast.success(data);
+          getData();
+        }
+        setLoading(false);
+      }
+    });
+  };
   const handleChange = (e) => {
     setChanged(true);
     setCandidate({ ...candidate, [e.target.name]: e.target.value });
@@ -87,10 +133,10 @@ function UpdateCandidate() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         setLoading(true);
-        const { data, error } = await httpService("admin/updatecandidate", {
-          params: { candidate: candidate._id },
-          data: candidate,
-        });
+        const { data, error } = await httpService.patch(
+          "admin/updatecandidatecontact",
+          candidate
+        );
         if (data) {
           toast.success(data);
           getData();

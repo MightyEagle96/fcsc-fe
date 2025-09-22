@@ -5,8 +5,6 @@ import { DataGrid } from "@mui/x-data-grid";
 
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-import { Badge } from "react-bootstrap";
-import { switchColors } from "../HR/HRCandidatesList";
 
 const columns = [
   {

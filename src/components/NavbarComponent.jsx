@@ -59,6 +59,10 @@ function NavbarComponent() {
       path: `/admin/approvedcandidates/`,
       text: "Approved",
     },
+    {
+      path: `/admin/corrections/`,
+      text: "Correction(s)",
+    },
   ];
 
   const candidateLinks = [

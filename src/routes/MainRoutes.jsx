@@ -26,6 +26,7 @@ import Corrections from "../pages/admin/Corrections";
 import DeleteCandidate from "../pages/admin/DeleteCandidate";
 import AdminLogs from "../pages/admin/AdminLogs";
 import Rejections from "../pages/admin/Rejections";
+import UpdateCandidate from "../pages/promotion/UpdateCandidate";
 
 function MainRoutes() {
   const { user, loading } = useAuth();
@@ -79,6 +80,10 @@ function MainRoutes() {
     {
       path: "/admin/logs/",
       component: <AdminLogs />,
+    },
+    {
+      path: "/admin/updatecandidate/",
+      component: <UpdateCandidate />,
     },
   ];
   return (

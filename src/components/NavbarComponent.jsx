@@ -63,6 +63,10 @@ function NavbarComponent() {
       path: `/admin/corrections/`,
       text: "Correction(s)",
     },
+    {
+      path: `/admin/updatecandidate/`,
+      text: "Update Candidate(s)",
+    },
   ];
 
   const candidateLinks = [

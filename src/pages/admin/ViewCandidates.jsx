@@ -16,13 +16,137 @@ const columns = [
     //renderCell: (params) => params.api.getRowIndex(params.id) + 1,
   },
   {
-    field: "candidate",
-    headerName: "Candidate",
+    field: "ippisNumber",
+    headerName: "IPPIS Number",
     width: 150,
     renderCell: (params) => (
-      <span className="text-capitalize">{params.value.firstName}</span> // full uppercase
+      <span className="text-capitalize">{params.value}</span> // full uppercase
     ),
-  }, //  { field: "defaultPassword", headerName: "Password", width: 200 },
+  },
+
+  {
+    field: "fullName",
+    headerName: "Name",
+    width: 150,
+    renderCell: (params) => (
+      <span className="text-capitalize">{params.value}</span> // full uppercase
+    ),
+  },
+  {
+    field: "dateOfBirth",
+    headerName: "Date of birth",
+    width: 150,
+    renderCell: (params) => (
+      <span className="text-capitalize">
+        {new Date(params.value).toDateString()}
+      </span> // full uppercase
+    ),
+  },
+  {
+    field: "gender",
+    headerName: "Gender",
+    width: 150,
+  },
+  {
+    field: "stateOfOrigin",
+    headerName: "State of Origin",
+    width: 200,
+  },
+  {
+    field: "lga",
+    headerName: "LGA",
+    width: 200,
+  },
+  {
+    field: "poolOffice",
+    headerName: "Pool Office",
+    width: 200,
+  },
+  {
+    field: "currentMDA",
+    headerName: "Current MDA",
+    width: 200,
+  },
+  {
+    field: "cadre",
+    headerName: "Cadre",
+    width: 200,
+  },
+  {
+    field: "gradeLevel",
+    headerName: "Grade Level",
+    width: 200,
+  },
+  {
+    field: "dateOfFirstAppointment",
+    headerName: "Date of First Appointment",
+    width: 200,
+    renderCell: (params) => (
+      <span className="text-capitalize">
+        {new Date(params.value).toDateString()}
+      </span> // full uppercase
+    ),
+  },
+  {
+    field: "dateOfConfirmation",
+    headerName: "Date of Confirmation",
+    width: 200,
+    renderCell: (params) => (
+      <span className="text-capitalize">
+        {new Date(params.value).toDateString()}
+      </span> // full uppercase
+    ),
+  },
+  {
+    field: "dateOfLastPromotion",
+    headerName: "Date of Last Promotion",
+    width: 200,
+    renderCell: (params) => (
+      <span className="text-capitalize">
+        {new Date(params.value).toDateString()}
+      </span> // full uppercase
+    ),
+  },
+  {
+    field: "phoneNumber",
+    headerName: "Phone Number",
+    width: 200,
+  },
+  {
+    field: "email",
+    headerName: "Email",
+    width: 200,
+  },
+  {
+    field: "stateOfCurrentPosting",
+    headerName: "State of Current Posting",
+    width: 200,
+  },
+  {
+    field: "year2021",
+    headerName: "2021",
+    width: 200,
+  },
+  {
+    field: "year2022",
+    headerName: "2022",
+    width: 200,
+  },
+  {
+    field: "year2023",
+    headerName: "2023",
+    width: 200,
+  },
+  {
+    field: "year2024",
+    headerName: "2024",
+    width: 200,
+  },
+  {
+    field: "remark",
+    headerName: "Remark",
+    width: 200,
+  },
 ];
 
 function ViewCandidates() {
@@ -44,6 +168,7 @@ function ViewCandidates() {
     });
 
     if (data) {
+      console.log(data);
       setStudent(data.candidates);
       setRowCount(data.total);
     }

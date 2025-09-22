@@ -27,6 +27,10 @@ function NavbarComponent() {
       text: "Approvals",
     },
     {
+      path: `/admin/rejections/`,
+      text: "Rejections",
+    },
+    {
       path: `/admin/searchcandidate/`,
       text: "Search Candidate(s)",
     },
@@ -100,7 +104,7 @@ function NavbarComponent() {
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
-      <Container>
+      <Container fluid>
         <Navbar.Brand
           onClick={() =>
             navigate(user && user.role === "admin" ? "/admin/dashboard" : "/")

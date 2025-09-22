@@ -25,6 +25,7 @@ import RecommendedCandidates from "../pages/HR/RecommendedCandidates";
 import Corrections from "../pages/admin/Corrections";
 import DeleteCandidate from "../pages/admin/DeleteCandidate";
 import AdminLogs from "../pages/admin/AdminLogs";
+import Rejections from "../pages/admin/Rejections";
 
 function MainRoutes() {
   const { user, loading } = useAuth();
@@ -51,6 +52,7 @@ function MainRoutes() {
     { path: "/admin/deletebyadmin", component: <DeleteCandidate /> },
     { path: "/admin/verifiedcandidates", component: <VerifiedCandidates /> },
     { path: "/admin/officers", component: <AdminOfficers /> },
+    { path: "/admin/rejections", component: <Rejections /> },
     { path: "/admin/officers/:slug", component: <OfficersView /> },
     { path: "/admin/mdacandidates/:slug", component: <MDACandidatesList /> },
     { path: "/admin/searchcandidate", component: <SearchCandidate /> },

@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { DataGrid } from "@mui/x-data-grid";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
+import { useAppUser } from "../../contexts/AppUserContext";
+import RestrictedPage from "../RestrictedPage";
 
 function UpdateCandidate() {
   const [search, setSearch] = useState("");
@@ -148,6 +150,12 @@ function UpdateCandidate() {
       }
     });
   };
+
+  const { user } = useAppUser();
+  if (user.specificRole === "promotion" && !user.hasRightToCorrection) {
+    return <RestrictedPage />;
+  }
+
   return (
     <div>
       <div className="mt-5 mb-5">

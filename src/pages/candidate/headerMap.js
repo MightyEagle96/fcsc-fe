@@ -147,6 +147,7 @@ export const headerMap = [
     label: "Phone Number",
     minWidth: 100,
     align: "left",
+    type: "text",
     format: (value) => value,
   },
   {

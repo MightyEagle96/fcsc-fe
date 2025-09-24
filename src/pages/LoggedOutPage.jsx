@@ -113,6 +113,21 @@ function LoggedOutPage() {
                     </a> */}
                   </Typography>
                 </div>
+                <div className="mt-4">
+                  <Typography color="GrayText" variant="body2">
+                    Didn't get an email or sms?{" "}
+                    <Nav.Link
+                      as={Link}
+                      to={"/credentialreveal"}
+                      className="text-primary"
+                    >
+                      Retrieve my credentials
+                    </Nav.Link>
+                    {/* <a href="/register" className="text-success">
+                      Register
+                    </a> */}
+                  </Typography>
+                </div>
               </form>
             </div>
           </div>

@@ -27,6 +27,7 @@ import DeleteCandidate from "../pages/admin/DeleteCandidate";
 import AdminLogs from "../pages/admin/AdminLogs";
 import Rejections from "../pages/admin/Rejections";
 import UpdateCandidate from "../pages/promotion/UpdateCandidate";
+import CredentialReveal from "../pages/candidate/CredentialReveal";
 
 function MainRoutes() {
   const { user, loading } = useAuth();
@@ -37,6 +38,7 @@ function MainRoutes() {
 
   const publicRoutes = [
     { path: "/", component: <LoggedOutPage /> },
+    { path: "/credentialreveal", component: <CredentialReveal /> },
     { path: "/admin/*", component: <PublicAdminRoutes /> },
   ];
 

@@ -257,6 +257,7 @@ function SearchCandidate() {
             variant="contained"
             color="error"
             className="mt-3"
+            loading={loading}
           >
             Search
           </Button>

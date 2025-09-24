@@ -168,7 +168,6 @@ function ViewCandidates() {
     });
 
     if (data) {
-      console.log(data);
       setStudent(data.candidates);
       setRowCount(data.total);
     }

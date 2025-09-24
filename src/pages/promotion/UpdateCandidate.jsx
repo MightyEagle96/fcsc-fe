@@ -179,6 +179,8 @@ function UpdateCandidate() {
               color="error"
               className="mt-3"
               endIcon={<Search />}
+              loading={loading}
+              loadingPosition="end"
             >
               Search
             </Button>

@@ -323,82 +323,90 @@ function AdminComponent() {
           </div>
         </div>
         <div className="">
-          <div className="container">
-            <div className="row mb-5">
-              <div className="col-lg-4 border-end ">
-                <Typography gutterBottom>Upload candidate's file</Typography>
-                <input
-                  className="form-control mb-3"
-                  type="file"
-                  id="formFile"
-                  onChange={handleFile}
-                  accept={".xlsx,.xls,.csv"}
-                />
-                <Button
-                  onClick={uploadFile}
-                  disabled={!file}
-                  variant="contained"
-                  endIcon={<Upload />}
-                  loading={loading}
-                  loadingPosition="end"
-                >
-                  <Typography variant="caption">Upload File</Typography>
-                </Button>
-              </div>
-              <div className="col-lg-4 d-flex align-items-center border-end">
-                <div>
-                  <div className="mb-2">
-                    <Button
-                      variant="contained"
-                      color="warning"
-                      endIcon={<People />}
-                      loadingPosition="end"
-                      loading={loading}
-                      onClick={notifyByEmailAndSms}
-                    >
-                      Notify candidates by email and sms
-                    </Button>
-                  </div>
-                  <div>
-                    <Typography
-                      className="mt-2"
-                      color="GrayText"
-                      variant="caption"
-                    >
-                      This is to send out account credentials to candidates, by
-                      both sms and email.
-                    </Typography>
+          {user.role === "admin" &&
+            user.specificRole === "admin" &&
+            !user.restrictToCorrection && (
+              <>
+                <div className="container">
+                  <div className="row mb-5">
+                    <div className="col-lg-4 border-end ">
+                      <Typography gutterBottom>
+                        Upload candidate's file
+                      </Typography>
+                      <input
+                        className="form-control mb-3"
+                        type="file"
+                        id="formFile"
+                        onChange={handleFile}
+                        accept={".xlsx,.xls,.csv"}
+                      />
+                      <Button
+                        onClick={uploadFile}
+                        disabled={!file}
+                        variant="contained"
+                        endIcon={<Upload />}
+                        loading={loading}
+                        loadingPosition="end"
+                      >
+                        <Typography variant="caption">Upload File</Typography>
+                      </Button>
+                    </div>
+                    <div className="col-lg-4 d-flex align-items-center border-end">
+                      <div>
+                        <div className="mb-2">
+                          <Button
+                            variant="contained"
+                            color="warning"
+                            endIcon={<People />}
+                            loadingPosition="end"
+                            loading={loading}
+                            onClick={notifyByEmailAndSms}
+                          >
+                            Notify candidates by email and sms
+                          </Button>
+                        </div>
+                        <div>
+                          <Typography
+                            className="mt-2"
+                            color="GrayText"
+                            variant="caption"
+                          >
+                            This is to send out account credentials to
+                            candidates, by both sms and email.
+                          </Typography>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-lg-4 text-muted">
+                      <Typography gutterBottom color="#5682B1" fontWeight={700}>
+                        Notifications Analysis
+                      </Typography>
+                      <Stack spacing={2} direction={"row"}>
+                        <div className="col-lg-6">
+                          <Typography gutterBottom>
+                            <AlternateEmail /> Email
+                          </Typography>
+                          <Typography variant="h3">
+                            {notificationAnalysis.emails.toLocaleString()}
+                          </Typography>
+                        </div>
+                        <div className="col-lg-6">
+                          <Typography gutterBottom>
+                            <Sms /> SMS
+                          </Typography>
+                          <Typography variant="h3">
+                            {notificationAnalysis.sms.toLocaleString()}
+                          </Typography>
+                        </div>
+                      </Stack>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-lg-4 text-muted">
-                <Typography gutterBottom color="#5682B1" fontWeight={700}>
-                  Notifications Analysis
-                </Typography>
-                <Stack spacing={2} direction={"row"}>
-                  <div className="col-lg-6">
-                    <Typography gutterBottom>
-                      <AlternateEmail /> Email
-                    </Typography>
-                    <Typography variant="h3">
-                      {notificationAnalysis.emails.toLocaleString()}
-                    </Typography>
-                  </div>
-                  <div className="col-lg-6">
-                    <Typography gutterBottom>
-                      <Sms /> SMS
-                    </Typography>
-                    <Typography variant="h3">
-                      {notificationAnalysis.sms.toLocaleString()}
-                    </Typography>
-                  </div>
-                </Stack>
-              </div>
-            </div>
-          </div>
-          <div className="container">
-            <hr />
-          </div>
+                <div className="container">
+                  <hr />
+                </div>
+              </>
+            )}
           <div className="p-3">
             <div className="row">
               <div className="col-lg-6">

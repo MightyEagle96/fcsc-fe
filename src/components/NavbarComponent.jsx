@@ -14,8 +14,6 @@ function NavbarComponent() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  console.log(user);
-
   const adminLinks = [
     { path: "/admin/dashboard", text: "Home" },
     { path: "/admin/officers", text: "Desk Officers" },
@@ -46,6 +44,20 @@ function NavbarComponent() {
     },
   ];
 
+  const partialAdminLinks = [
+    {
+      path: `/admin/searchcandidate/`,
+      text: "Search Candidate(s)",
+    },
+    {
+      path: `/admin/corrections/`,
+      text: "Correction(s)",
+    },
+    {
+      path: `/admin/updatecandidate/`,
+      text: "Update Candidate(s)",
+    },
+  ];
   const hrLinks = [
     { path: "/admin/dashboard", text: "Home" },
     { path: `/admin/hrcandidates/${user?.mda}`, text: "Candidates" },
@@ -84,9 +96,21 @@ function NavbarComponent() {
   // ✅ Centralized link resolver
   const getLinks = () => {
     if (!user) return [];
-    if (user.role === "admin" && user.specificRole === "admin") {
+    if (
+      user.role === "admin" &&
+      user.specificRole === "admin" &&
+      !user.restrictToCorrection
+    ) {
       document.title = "Admin Dashboard";
       return adminLinks;
+    }
+    if (
+      user.role === "admin" &&
+      user.specificRole === "admin" &&
+      user.restrictToCorrection
+    ) {
+      document.title = "Admin Dashboard";
+      return partialAdminLinks;
     }
     if (user.role === "admin" && user.specificRole === "hr") {
       document.title = "HR Dashboard";

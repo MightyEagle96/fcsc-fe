@@ -22,7 +22,7 @@ function AdminLogs() {
     });
 
     if (data) {
-      console.log(data);
+      //console.log(data);
       setLogs(data.logs);
       setAllLogs(data.total);
     }
@@ -47,7 +47,7 @@ function AdminLogs() {
       width: 200,
       renderCell: (param) => (
         <span className="text-capitalize">
-          {param.value.firstName} {param.value.lastName}
+          {param.value?.firstName} {param.value?.lastName}
         </span> // full uppercase
       ),
       flex: 1,

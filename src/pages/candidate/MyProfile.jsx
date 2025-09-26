@@ -35,36 +35,38 @@ function MyProfile() {
               {loading && <CircularProgress size={20} color="GrayText" />}
             </Typography>
           </div>
-          <div className="col-lg-8">
-            <Table striped borderless>
-              <thead>
-                <tr>
-                  <th>Item</th>
-                  <th>Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                {headerMap.map((c, i) => (
-                  <tr key={i}>
-                    <td>{c.label}</td>
-                    <td className="text-capitalize">
-                      <strong>{c.format(profile?.[c.field])}</strong>
-                    </td>
+          {profile && (
+            <div className="col-lg-8">
+              <Table striped borderless>
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Value</th>
                   </tr>
-                ))}
-              </tbody>
-            </Table>
-            <div className="mt-3 d-flex justify-content-end">
-              <Button
-                color="error"
-                variant="contained"
-                onClick={() => navigate("/documentstoupload")}
-                endIcon={<ArrowRight />}
-              >
-                upload documents
-              </Button>
+                </thead>
+                <tbody>
+                  {headerMap.map((c, i) => (
+                    <tr key={i}>
+                      <td>{c.label}</td>
+                      <td className="text-capitalize">
+                        <strong>{c.format(profile?.[c.field])}</strong>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              <div className="mt-3 d-flex justify-content-end">
+                <Button
+                  color="error"
+                  variant="contained"
+                  onClick={() => navigate("/documentstoupload")}
+                  endIcon={<ArrowRight />}
+                >
+                  upload documents
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

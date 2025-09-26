@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { httpService } from "../../httpService";
 import { DataGrid } from "@mui/x-data-grid";
@@ -7,12 +7,14 @@ import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { useAppUser } from "../../contexts/AppUserContext";
 import RestrictedPage from "../RestrictedPage";
+import { Search } from "@mui/icons-material";
 
 function Corrections() {
   const [corrections, setCorrections] = useState([]);
   const [loading, setLoading] = useState(false);
   const [correction, setCorrection] = useState(null);
   const { user } = useAppUser();
+  const [search, setSearch] = useState("");
 
   //console.log(user);
 
@@ -37,6 +39,7 @@ function Corrections() {
       params: {
         page: paginationModel.page + 1,
         limit: paginationModel.pageSize,
+        search,
       },
     });
     if (data) {
@@ -185,7 +188,27 @@ function Corrections() {
             </div>
           </div>
         )}
+
+        <div className="col-lg-4">
+          <TextField
+            fullWidth
+            label="Search candidate"
+            helperText="You can search by name, email, phone or ippis number"
+            onChange={(e) => setSearch(e.target.value)}
+          />
+
+          <Button
+            color="error"
+            endIcon={<Search />}
+            loading={loading}
+            loadingPosition="end"
+            onClick={getData}
+          >
+            Search
+          </Button>
+        </div>
       </div>
+
       <div className="p-3">
         <DataGrid
           loading={loading}

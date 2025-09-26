@@ -5,6 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import ExportCandidatesButton from "../../components/ExportCandidatesButton";
 
 const columns = [
   {
@@ -212,6 +213,9 @@ function ViewCandidates() {
                 <Typography variant="h4" fontWeight={700} color="#44444E">
                   Candidates
                 </Typography>
+              </div>
+              <div className="col-lg-4">
+                <ExportCandidatesButton />
               </div>
             </div>
           </div>

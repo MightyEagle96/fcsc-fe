@@ -15,7 +15,8 @@ function Corrections() {
   const [correction, setCorrection] = useState(null);
   const { user } = useAppUser();
   const [search, setSearch] = useState("");
-
+  const [uploadedDocuments, setUploadedDocuments] = useState([]);
+  const [candidateInView, setCandidateInView] = useState("");
   //console.log(user);
 
   const [rowCount, setRowCount] = useState(0);
@@ -43,6 +44,7 @@ function Corrections() {
       },
     });
     if (data) {
+      console.log(data);
       setCorrections(data.corrections);
       setRowCount(data.total);
     }
@@ -109,7 +111,37 @@ function Corrections() {
         // <span className="text-capitalize">{params.value}</span> // full uppercase
       ),
     },
+    {
+      field: "candidate",
+      headerName: "Uploaded Documents",
+      flex: 1,
+      renderCell: (params) => (
+        <Button
+          color="warning"
+          onClick={() => getUploadedDocuments(params.value)}
+        >
+          view
+        </Button>
+        // <span className="text-capitalize">{params.value}</span> // full uppercase
+      ),
+    },
   ];
+
+  const getUploadedDocuments = async (value) => {
+    setLoading(true);
+
+    setCandidateInView(value.fullName);
+
+    const { data } = await httpService("admin/uploadeddocuments", {
+      params: { _id: value._id },
+    });
+
+    if (data) {
+      console.log(data);
+      setUploadedDocuments(data.uploadedDocuments);
+    }
+    setLoading(false);
+  };
 
   const viewCorrection = async (id) => {
     setLoading(true);
@@ -151,6 +183,35 @@ function Corrections() {
   if (user.specificRole === "promotion" && !user.hasRightToCorrection) {
     return <RestrictedPage />;
   }
+
+  const columns2 = [
+    { field: "id", headerName: "S/N", width: 90 },
+    { field: "fileType", headerName: "Document", width: 400 },
+    {
+      field: "fileUrl",
+      headerName: "Document Link",
+      width: 400,
+      renderCell: (params) =>
+        params.value && (
+          <a
+            href={params.value}
+            target="_blank"
+            rel="noreferrer"
+            className="nav nav-link"
+          >
+            view document
+          </a>
+        ),
+    },
+    {
+      field: "updatedAt",
+      headerName: "Uploaded At",
+      width: 200,
+      flex: 1,
+      renderCell: (params) =>
+        params.value && new Date(params.value).toLocaleString(),
+    },
+  ];
 
   return (
     <div>
@@ -258,6 +319,32 @@ function Corrections() {
               Approve
             </Button>
           </Modal.Footer>
+        </Modal>
+      )}
+
+      {uploadedDocuments.length > 0 && (
+        <Modal
+          show={uploadedDocuments.length > 0}
+          onHide={() => {
+            setUploadedDocuments([]);
+            setCandidateInView("");
+          }}
+          size="xl"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>
+              Documents for{" "}
+              <span className="text-uppercase fw-bold">{candidateInView}</span>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <DataGrid
+              rows={uploadedDocuments}
+              columns={columns2}
+              rowCount={uploadedDocuments.length}
+            />
+          </Modal.Body>
+          <Modal.Footer></Modal.Footer>
         </Modal>
       )}
     </div>

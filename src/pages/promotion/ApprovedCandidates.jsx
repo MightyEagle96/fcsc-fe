@@ -115,7 +115,7 @@ function ApprovedCandidates() {
     <div>
       <div className="container mt-5 mb-5">
         <Typography variant="h5" fontWeight={700}>
-          Approved Candidates
+          Approved Candidates ({rowCount.toLocaleString()})
         </Typography>
       </div>
       <div className="p-3">

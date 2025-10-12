@@ -68,7 +68,10 @@ function NavbarComponent() {
   ];
   const promotionLinks = [
     { path: "/admin/dashboard", text: "Home" },
-
+    {
+      path: `/admin/rejections/`,
+      text: "Rejections",
+    },
     {
       path: `/admin/promorecommended/`,
       text: "Recommended",

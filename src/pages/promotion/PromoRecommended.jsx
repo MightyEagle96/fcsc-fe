@@ -86,7 +86,6 @@ function PromoRecommended() {
       },
     });
     if (data) {
-      console.log(data);
       setCandidates(data.candidates);
       setRowCount(data.total);
     }
@@ -298,7 +297,7 @@ function PromoRecommended() {
     <div>
       <div className="container mt-5 mb-5">
         <Typography variant="h5" fontWeight={700}>
-          Recommended Candidates
+          Recommended Candidates ({rowCount.toLocaleString()})
         </Typography>
       </div>
       <div className="p-3">

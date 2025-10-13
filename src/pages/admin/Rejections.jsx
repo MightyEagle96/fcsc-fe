@@ -1,4 +1,4 @@
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, Chip, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { httpService } from "../../httpService";
 import { DataGrid } from "@mui/x-data-grid";
@@ -92,7 +92,36 @@ function Rejections() {
         <Button onClick={() => handleRowClick2(param)}>View</Button>
       ),
     },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 200,
+      renderCell: (params) => (
+        <Chip
+          className="text-capitalize"
+          color={switchStatusColor(params.row.candidate.status)}
+          label={params.row.candidate.status}
+        />
+      ),
+    },
   ];
+
+  function switchStatusColor(status) {
+    switch (status) {
+      case "pending":
+        return "warning";
+      case "recommended":
+        return "info";
+      case "approved":
+        return "success";
+      case "rejected":
+        return "error";
+      case "disqualified":
+        return "error";
+      default:
+        return "primary";
+    }
+  }
 
   const columns2 = [
     { field: "id", headerName: "S/N", width: 90 },

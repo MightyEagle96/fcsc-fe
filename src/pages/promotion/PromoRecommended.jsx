@@ -173,7 +173,7 @@ function PromoRecommended() {
       field: "candidate",
       headerName: "View Candidate",
       width: 200,
-      flex: 1,
+
       renderCell: (params) => {
         return (
           <IconButton onClick={() => getCandidate(params.value)}>
@@ -186,7 +186,7 @@ function PromoRecommended() {
       field: "_id",
       headerName: "Documents Uploaded",
       width: 200,
-      flex: 1,
+
       renderCell: (params) => {
         return <Button onClick={() => handleRowClick2(params)}>View</Button>;
       },

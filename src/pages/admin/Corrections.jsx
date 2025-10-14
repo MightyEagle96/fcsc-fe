@@ -1,4 +1,4 @@
-import { Button, TextField, Typography } from "@mui/material";
+import { Button, MenuItem, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { httpService } from "../../httpService";
 import { DataGrid } from "@mui/x-data-grid";
@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { useAppUser } from "../../contexts/AppUserContext";
 import RestrictedPage from "../RestrictedPage";
 import { Search } from "@mui/icons-material";
+import { CADRES } from "./data";
 
 function Corrections() {
   const [corrections, setCorrections] = useState([]);
@@ -17,6 +18,8 @@ function Corrections() {
   const [search, setSearch] = useState("");
   const [uploadedDocuments, setUploadedDocuments] = useState([]);
   const [candidateInView, setCandidateInView] = useState("");
+  const [revealCandidate, setRevealCandidate] = useState(null);
+  const [correctedCadre, setCorrectedCadre] = useState("");
   //console.log(user);
 
   const [rowCount, setRowCount] = useState(0);
@@ -44,7 +47,6 @@ function Corrections() {
       },
     });
     if (data) {
-      console.log(data);
       setCorrections(data.corrections);
       setRowCount(data.total);
     }
@@ -68,7 +70,7 @@ function Corrections() {
     {
       field: "name",
       headerName: "Candidate",
-      flex: 1,
+      width: 200,
       renderCell: (params) => (
         <span className="text-capitalize">{params.value}</span> // full uppercase
       ),
@@ -76,7 +78,7 @@ function Corrections() {
     {
       field: "mda",
       headerName: "MDA",
-      flex: 1,
+      width: 200,
       renderCell: (params) => (
         <span className="text-capitalize">{params.value}</span> // full uppercase
       ),
@@ -84,7 +86,7 @@ function Corrections() {
     {
       field: "correctionName",
       headerName: "Field to Correct",
-      flex: 1,
+      width: 200,
       renderCell: (params) => (
         <span className="text-capitalize">{params.value}</span> // full uppercase
       ),
@@ -92,7 +94,7 @@ function Corrections() {
     {
       field: "status",
       headerName: "Status",
-      flex: 1,
+      width: 200,
       renderCell: (params) =>
         params.value === "pending" ? (
           <Badge bg="warning">PENDING</Badge>
@@ -103,7 +105,7 @@ function Corrections() {
     {
       field: "_id",
       headerName: "View",
-      flex: 1,
+      width: 200,
       renderCell: (params) => (
         <Button onClick={() => viewCorrection(params.value)}>
           View correction
@@ -114,7 +116,7 @@ function Corrections() {
     {
       field: "candidate",
       headerName: "Uploaded Documents",
-      flex: 1,
+      width: 200,
       renderCell: (params) => (
         <Button
           color="warning"
@@ -125,7 +127,62 @@ function Corrections() {
         // <span className="text-capitalize">{params.value}</span> // full uppercase
       ),
     },
+    {
+      field: "correctCadre",
+      headerName: "Correct Cadre",
+      width: 200,
+      renderCell: (params) => (
+        <Button color="error" onClick={() => getCandidateCadre(params)}>
+          view
+        </Button>
+        // <span className="text-capitalize">{params.value}</span> // full uppercase
+      ),
+    },
   ];
+
+  const getCandidateCadre = async (value) => {
+    // console.log(value.row);
+    setLoading(true);
+    const { data } = await httpService(`admin/candidatecadre`, {
+      params: { candidate: value.row.candidate._id },
+    });
+
+    if (data) {
+      setRevealCandidate(data);
+    }
+    setLoading(false);
+  };
+
+  const updateCadre = () => {
+    Swal.fire({
+      icon: "question",
+      title: "Update Cadre",
+      text: "Are you sure you want to update the cadre for this candidate",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoading(true);
+        const { data, error } = await httpService.post("admin/updatecadre", {
+          candidateId: revealCandidate._id,
+          newCadre: correctedCadre,
+        });
+
+        if (data) {
+          toast.success(data);
+          setRevealCandidate(null);
+          setCorrectedCadre("");
+          getData();
+        }
+
+        if (error) {
+          toast.error(error);
+        }
+        setLoading(false);
+      }
+    });
+  };
 
   const getUploadedDocuments = async (value) => {
     setLoading(true);
@@ -137,7 +194,6 @@ function Corrections() {
     });
 
     if (data) {
-      console.log(data);
       setUploadedDocuments(data.uploadedDocuments);
     }
     setLoading(false);
@@ -345,6 +401,50 @@ function Corrections() {
             />
           </Modal.Body>
           <Modal.Footer></Modal.Footer>
+        </Modal>
+      )}
+
+      {revealCandidate && (
+        <Modal onHide={() => setRevealCandidate(null)} show={revealCandidate}>
+          <Modal.Header closeButton>
+            <Modal.Title>
+              <Typography
+                variant="h6"
+                fontWeight={700}
+                color="GrayText"
+                textTransform={"capitalize"}
+              >
+                {revealCandidate.fullName}
+              </Typography>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="mb-3">
+              <Typography>
+                Current Cadre: <strong>{revealCandidate.cadre || "N/A"}</strong>
+              </Typography>
+            </div>
+            <div className="mb-4">
+              <TextField
+                onChange={(e) => setCorrectedCadre(e.target.value)}
+                fullWidth
+                label="Select Cadre"
+                select
+              >
+                {CADRES.map((cadre) => (
+                  <MenuItem key={cadre} value={cadre}>
+                    {cadre}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() => setRevealCandidate(null)}>Close</Button>
+            <Button variant="contained" onClick={updateCadre} loading={loading}>
+              Update Cadre
+            </Button>
+          </Modal.Footer>
         </Modal>
       )}
     </div>

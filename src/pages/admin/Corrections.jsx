@@ -1,14 +1,21 @@
-import { Button, MenuItem, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { httpService } from "../../httpService";
 import { DataGrid } from "@mui/x-data-grid";
-import { Badge, Modal } from "react-bootstrap";
+import { Badge, Modal, Table } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { useAppUser } from "../../contexts/AppUserContext";
 import RestrictedPage from "../RestrictedPage";
-import { Search } from "@mui/icons-material";
+import { Person, Search } from "@mui/icons-material";
 import { CADRES } from "./data";
+import { headerMap } from "../candidate/headerMap";
 
 function Corrections() {
   const [corrections, setCorrections] = useState([]);
@@ -20,6 +27,7 @@ function Corrections() {
   const [candidateInView, setCandidateInView] = useState("");
   const [revealCandidate, setRevealCandidate] = useState(null);
   const [correctedCadre, setCorrectedCadre] = useState("");
+  const [candidate, setCandidate] = useState(null);
   //console.log(user);
 
   const [rowCount, setRowCount] = useState(0);
@@ -138,8 +146,34 @@ function Corrections() {
         // <span className="text-capitalize">{params.value}</span> // full uppercase
       ),
     },
+    {
+      field: "viewCandidate",
+      headerName: "View Candidate",
+      width: 200,
+
+      renderCell: (params) => {
+        return (
+          <IconButton onClick={() => getCandidate(params.row.candidate._id)}>
+            <Person />
+          </IconButton>
+        );
+      },
+    },
   ];
 
+  const getCandidate = async (id) => {
+    console.log(id);
+    setLoading(true);
+    const { data } = await httpService("admin/candidate", {
+      params: { id: id },
+    });
+
+    if (data) {
+      setCandidate(data);
+    }
+
+    setLoading(false);
+  };
   const getCandidateCadre = async (value) => {
     // console.log(value.row);
     setLoading(true);
@@ -445,6 +479,48 @@ function Corrections() {
               Update Cadre
             </Button>
           </Modal.Footer>
+        </Modal>
+      )}
+      {candidate && (
+        <Modal
+          onHide={() => setCandidate(null)}
+          size="xl"
+          show={candidate}
+          centered
+          backdrop="static"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title className="text-capitalize">
+              {candidate.fullName}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div style={{ height: "70vh", overflowY: "scroll" }}>
+              <Table striped borderless>
+                {/* <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Value</th>
+                  </tr>
+                </thead> */}
+                <tbody>
+                  {headerMap.map((c, i) => (
+                    <tr key={i}>
+                      <td>{c.label}</td>
+                      <td className="text-capitalize">
+                        <strong>{c.format(candidate?.[c.field])}</strong>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              {/* <DataGrid
+                rows={uploadedDocuments}
+                columns={columns2}
+                rowCount={uploadedDocuments.length}
+              /> */}
+            </div>
+          </Modal.Body>
         </Modal>
       )}
     </div>

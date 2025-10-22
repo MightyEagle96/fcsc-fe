@@ -240,7 +240,6 @@ function Corrections() {
     });
 
     if (data) {
-      console.log(data);
       setCorrection(data);
     }
     setLoading(false);

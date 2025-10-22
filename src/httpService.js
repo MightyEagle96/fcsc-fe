@@ -6,10 +6,6 @@ export const baseURL =
     : //
       "http://localhost:3456/api";
 
-// process.env.NODE_ENV === "production"
-//   ? "https://fcsc.onrender.com/api"
-//   : "http://localhost:3456/api";
-
 const httpService = axios.create({
   baseURL,
   withCredentials: true, // always send cookies

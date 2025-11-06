@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 function EvsManagement() {
   const [show, setShow] = useState(false);
   const [centreId, setCentreId] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const createAccount = () => {
     Swal.fire({
@@ -32,17 +33,39 @@ function EvsManagement() {
       }
     });
   };
+
+  const notifyCandidates = async () => {
+    setLoading(true);
+    const { data, error } = await httpService("card/notifycandidates");
+
+    if (data) {
+      toast.success(data);
+    }
+    if (error) {
+      toast.error(error);
+    }
+    setLoading(false);
+  };
   return (
     <div>
       <div className="mt-5 mb-5">
         <div className="container">
-          <div className="mb-5">
-            <Typography variant="h5" fontWeight={700}>
-              Electronic Verification System
-            </Typography>
-            <Typography variant="body1">
-              Management console for accrediting candidates
-            </Typography>
+          <div className="row">
+            <div className="col-lg-4">
+              <div className="mb-5">
+                <Typography variant="h5" fontWeight={700}>
+                  Electronic Verification System
+                </Typography>
+                <Typography variant="body1">
+                  Management console for accrediting candidates
+                </Typography>
+              </div>
+            </div>
+            <div className="col-lg-4">
+              <Button loading={loading} onClick={notifyCandidates}>
+                Notify candidates
+              </Button>
+            </div>
           </div>
 
           <div className="row">

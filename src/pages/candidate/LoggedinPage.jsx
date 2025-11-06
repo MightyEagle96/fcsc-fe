@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { switchColors } from "../HR/HRCandidatesList";
+import ExamCardView from "./ExamCardView";
 function LoggedinPage() {
   const { user } = useAppUser();
   const [documents, setDocuments] = useState([]);
@@ -160,43 +161,6 @@ function LoggedinPage() {
                   </Badge>
                 </div>
               </div>
-              {/* <div className="row">
-                <div className="col-lg-6">
-                  <Typography gutterBottom variant="body1" fontWeight={500}>
-                    MDA:{" "}
-                    <span className="fw-bold, text-uppercase">{user.mda}</span>
-                  </Typography>
-                  <Typography gutterBottom variant="body1" fontWeight={500}>
-                    Cadre:{" "}
-                    <span className="fw-bold text-uppercase ">
-                      {user.cadre}
-                    </span>
-                  </Typography>
-                  <Typography gutterBottom variant="body1" fontWeight={500}>
-                    Grade Level:{" "}
-                    <span className="fw-bold, text-uppercase">
-                      {user.gradeLevel}
-                    </span>
-                  </Typography>
-                </div>
-                <div className="col-lg-6">
-                  <Typography gutterBottom variant="body1" fontWeight={500}>
-                    IPPIS Number:{" "}
-                    <span className="fw-bold, text-uppercase">
-                      {user.ippisNumber}
-                    </span>
-                  </Typography>
-                  <Typography gutterBottom variant="body1" fontWeight={500}>
-                    Email: <span className="fw-bold, ">{user.email}</span>
-                  </Typography>
-                  <Typography gutterBottom variant="body1" fontWeight={500}>
-                    Phone Number:{" "}
-                    <span className="fw-bold, text-uppercase">
-                      {user.phoneNumber}
-                    </span>
-                  </Typography>
-                </div>
-              </div> */}
             </div>
             <div className="col-lg-4">
               <Avatar sx={{ height: 150, width: 150 }} src={user.passport} />
@@ -205,7 +169,7 @@ function LoggedinPage() {
         </div>
       </div>
       <div className="container   mb-5">
-        <div className="row pt-3 pb-3 mb-5">
+        {/* <div className="row pt-3 pb-3 mb-5">
           <div
             className="col-lg-5  p-3 "
             style={{ backgroundColor: "#EF9651" }}
@@ -238,8 +202,8 @@ function LoggedinPage() {
               {uploadedDocuments}/{documents.length}
             </Typography>
           </div>
-        </div>
-        <div className="row">
+        </div> */}
+        {/* <div className="row">
           <div
             className="col-lg-4 mb-4 p-3 m-0"
             style={{ backgroundColor: "#DDF4E7" }}
@@ -278,8 +242,12 @@ function LoggedinPage() {
               </Button>
             )}
           </div>
+        </div> */}
+
+        <div>
+          <ExamCardView />
         </div>
-        <div className="row d-flex d-flex align-items-top mb-5">
+        {/* <div className="row d-flex d-flex align-items-top mb-5">
           <div className="">
             <div className="row d-flex justify-cotent-center">
               {documents.map((c, i) => (
@@ -344,6 +312,7 @@ function LoggedinPage() {
                         <Button
                           onClick={() => selectDocument(c)}
                           startIcon={<Upload />}
+                          disabled={true}
                         >
                           <Typography
                             variant="caption"
@@ -379,9 +348,10 @@ function LoggedinPage() {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
-      {document && (
+
+      {/* {document && (
         <Modal
           centered
           backdrop="static"
@@ -450,7 +420,7 @@ function LoggedinPage() {
             </Button>
           </Modal.Footer>
         </Modal>
-      )}
+      )} */}
     </div>
   );
 }

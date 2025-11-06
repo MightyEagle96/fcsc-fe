@@ -28,6 +28,8 @@ import AdminLogs from "../pages/admin/AdminLogs";
 import Rejections from "../pages/admin/Rejections";
 import UpdateCandidate from "../pages/promotion/UpdateCandidate";
 import CredentialReveal from "../pages/candidate/CredentialReveal";
+import EvsLoginPage from "../pages/evs/EvsLoginPage";
+import EvsManagement from "../pages/evs/EvsManagement";
 
 function MainRoutes() {
   const { user, loading } = useAuth();
@@ -40,11 +42,12 @@ function MainRoutes() {
     { path: "/", component: <LoggedOutPage /> },
     { path: "/credentialreveal", component: <CredentialReveal /> },
     { path: "/admin/*", component: <PublicAdminRoutes /> },
+    { path: "/evs", component: <EvsLoginPage /> },
   ];
 
   const privateRoutes = [
-    { path: "/", component: <MyProfile /> },
-    { path: "/documentstoupload", component: <LoggedInPage /> },
+    { path: "/", component: <LoggedInPage /> },
+    { path: "/documentstoupload", component: <MyProfile /> },
     { path: "/datacorrection", component: <DataCorrection /> },
   ];
 
@@ -86,6 +89,10 @@ function MainRoutes() {
     {
       path: "/admin/updatecandidate/",
       component: <UpdateCandidate />,
+    },
+    {
+      path: "/admin/evs/",
+      component: <EvsManagement />,
     },
   ];
   return (

@@ -42,6 +42,10 @@ function NavbarComponent() {
       path: `/admin/updatecandidate/`,
       text: "Update Candidate(s)",
     },
+    {
+      path: `/admin/evs/`,
+      text: "EVS",
+    },
   ];
 
   const partialAdminLinks = [

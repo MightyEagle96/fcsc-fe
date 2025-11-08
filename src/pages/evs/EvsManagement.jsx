@@ -10,6 +10,7 @@ function EvsManagement() {
   const [show, setShow] = useState(false);
   const [centreId, setCentreId] = useState("");
   const [loading, setLoading] = useState(false);
+  const [ippisNumber, setIppisNumber] = useState("");
 
   const createAccount = () => {
     Swal.fire({
@@ -46,6 +47,23 @@ function EvsManagement() {
     }
     setLoading(false);
   };
+
+  const getData = async () => {
+    setLoading(true);
+    const { data, error } = await httpService.post("evs/searchexamcard", {
+      ippisNumber,
+    });
+
+    if (data) {
+      window.open(data, "_blank");
+      //console.log(data);
+    }
+
+    if (error) {
+      toast.error(error);
+    }
+    setLoading(false);
+  };
   return (
     <div>
       <div className="mt-5 mb-5">
@@ -62,14 +80,18 @@ function EvsManagement() {
               </div>
             </div>
             <div className="col-lg-4">
-              <Button loading={loading} onClick={notifyCandidates}>
+              <Button
+                disabled={true}
+                loading={loading}
+                onClick={notifyCandidates}
+              >
                 Notify candidates
               </Button>
             </div>
           </div>
 
           <div className="row">
-            <div className="col-lg-4 bg-light rounded shadow-sm p-4">
+            <div className="col-lg-4 border rounded  p-4 me-2">
               <div>
                 <Typography>EVS Accounts</Typography>
                 <Typography variant="h5">5</Typography>
@@ -78,8 +100,19 @@ function EvsManagement() {
                 <Button onClick={() => setShow(!show)}>Add new account</Button>
               </div>
             </div>
-            <div className="col-lg-3"></div>
-            <div className="col-lg-3"></div>
+            <div className="col-lg-4 border rounded  p-4 me-2">
+              <TextField
+                onChange={(e) => setIppisNumber(e.target.value)}
+                fullWidth
+                label="IPPIS Number"
+                helperText="Enter the IPPIS number of the candidate"
+              />
+              <div className="text-end">
+                <Button loading={loading} onClick={getData}>
+                  Retrieve card
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

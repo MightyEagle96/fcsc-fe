@@ -43,6 +43,7 @@ function MainRoutes() {
     { path: "/credentialreveal", component: <CredentialReveal /> },
     { path: "/admin/*", component: <PublicAdminRoutes /> },
     { path: "/evs", component: <EvsLoginPage /> },
+    { path: "/eslip", component: <EvsManagement /> },
   ];
 
   const privateRoutes = [

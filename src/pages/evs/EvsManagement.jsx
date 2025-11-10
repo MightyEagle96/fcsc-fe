@@ -5,8 +5,10 @@ import { Person } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { httpService } from "../../httpService";
 import { toast } from "react-toastify";
+import { useAppUser } from "../../contexts/AppUserContext";
 
 function EvsManagement() {
+  const { user } = useAppUser();
   const [show, setShow] = useState(false);
   const [centreId, setCentreId] = useState("");
   const [loading, setLoading] = useState(false);
@@ -97,7 +99,9 @@ function EvsManagement() {
                 <Typography variant="h5">5</Typography>
               </div>
               <div className="text-end">
-                <Button onClick={() => setShow(!show)}>Add new account</Button>
+                <Button disabled={!user} onClick={() => setShow(!show)}>
+                  Add new account
+                </Button>
               </div>
             </div>
             <div className="col-lg-4 border rounded  p-4 me-2">

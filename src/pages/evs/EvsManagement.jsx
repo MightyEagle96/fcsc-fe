@@ -1,18 +1,20 @@
 import { Button, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Person } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { httpService } from "../../httpService";
 import { toast } from "react-toastify";
+import { DataGrid } from "@mui/x-data-grid";
 import { useAppUser } from "../../contexts/AppUserContext";
 
 function EvsManagement() {
   const { user } = useAppUser();
   const [show, setShow] = useState(false);
-  const [centreId, setCentreId] = useState("");
+  const [centreDetail, setCentreDetail] = useState({});
   const [loading, setLoading] = useState(false);
   const [ippisNumber, setIppisNumber] = useState("");
+  const [accounts, setAccounts] = useState([]);
 
   const createAccount = () => {
     Swal.fire({
@@ -21,18 +23,22 @@ function EvsManagement() {
       showCancelButton: true,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const { data, error } = await httpService.post("evs/createaccount", {
-          centreId,
-        });
+        setLoading(true);
+        const { data, error } = await httpService.post(
+          "evs/createaccount",
+          centreDetail
+        );
 
         if (data) {
           setShow(false);
           toast.success(data);
+          viewAccounts();
         }
 
         if (error) {
           toast.error(error);
         }
+        setLoading(false);
       }
     });
   };
@@ -66,6 +72,21 @@ function EvsManagement() {
     }
     setLoading(false);
   };
+
+  const viewAccounts = async () => {
+    const { data } = await httpService("evs/accounts");
+    setAccounts(data);
+  };
+
+  useEffect(() => {
+    viewAccounts();
+  }, []);
+  const columns = [
+    { field: "id", headerName: "S/N", width: 50 },
+    { field: "centreId", headerName: "Centre ID", width: 100 },
+    { field: "centreName", headerName: "Centre Name", width: 600 },
+    { field: "password", headerName: "Password", width: 200 },
+  ];
   return (
     <div>
       <div className="mt-5 mb-5">
@@ -96,7 +117,7 @@ function EvsManagement() {
             <div className="col-lg-4 border rounded  p-4 me-2">
               <div>
                 <Typography>EVS Accounts</Typography>
-                <Typography variant="h5">5</Typography>
+                <Typography variant="h5">{accounts.length}</Typography>
               </div>
               <div className="text-end">
                 <Button disabled={!user} onClick={() => setShow(!show)}>
@@ -118,6 +139,12 @@ function EvsManagement() {
               </div>
             </div>
           </div>
+
+          {user && (
+            <div className="mb-4 mt-4">
+              <DataGrid columns={columns} rows={accounts} />
+            </div>
+          )}
         </div>
       </div>
       <Modal centered show={show} onHide={() => setShow(!show)}>
@@ -130,13 +157,33 @@ function EvsManagement() {
               <TextField
                 fullWidth
                 label="Centre ID"
-                onChange={(e) => setCentreId(e.target.value)}
+                onChange={(e) =>
+                  setCentreDetail({ ...centreDetail, centreId: e.target.value })
+                }
+              />
+            </div>
+            <div className="mb-3">
+              <TextField
+                fullWidth
+                label="Centre Name"
+                onChange={(e) =>
+                  setCentreDetail({
+                    ...centreDetail,
+                    centreName: e.target.value,
+                  })
+                }
               />
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer className="border-0 bg-light">
-          <Button onClick={createAccount} color="success" endIcon={<Person />}>
+          <Button
+            onClick={createAccount}
+            color="success"
+            endIcon={<Person />}
+            loadingPosition="end"
+            loading={loading}
+          >
             Create account
           </Button>
           {/* <Button variant="secondary">Close</Button>

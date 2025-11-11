@@ -1,8 +1,22 @@
 import { Login, QrCode } from "@mui/icons-material";
 import { Avatar, Button, TextField, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import { httpService } from "../../httpService";
+import { toast } from "react-toastify";
 
 function EvsLoginPage() {
+  const [account, setAccount] = useState({});
+  const loginAccount = async (e) => {
+    e.preventDefault();
+    const { data, error } = await httpService.post("evs/loginaccount", account);
+    if (data) {
+      console.log(data);
+      //localStorage.setItem("evsAccount", JSON.stringify(data));
+    }
+    if (error) {
+      toast.error(error);
+    }
+  };
   return (
     <div className="container">
       <div className="mt-5 mb-5">
@@ -20,22 +34,26 @@ function EvsLoginPage() {
                 ELECTRONIC VERIFICATION SYSTEM
               </Typography>
             </div>
-            <div className="mb-3">
-              <TextField fullWidth label="Centre ID" />
-            </div>
-            <div className="mb-3">
-              <TextField fullWidth label="Password" />
-            </div>
-            <div className="mb-3">
-              <Button
-                variant="contained"
-                fullWidth
-                color="success"
-                endIcon={<Login />}
-              >
-                Login
-              </Button>
-            </div>
+            <form onSubmit={loginAccount}>
+              <div className="mb-3">
+                <TextField fullWidth label="Centre ID" />
+              </div>
+              <div className="mb-3">
+                <TextField fullWidth label="Password" />
+              </div>
+              <div className="mb-3">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  fullWidth
+                  color="success"
+                  endIcon={<Login />}
+                  loadingPosition="end"
+                >
+                  Login
+                </Button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

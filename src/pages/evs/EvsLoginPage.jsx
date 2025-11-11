@@ -6,8 +6,10 @@ import { toast } from "react-toastify";
 
 function EvsLoginPage() {
   const [account, setAccount] = useState({});
+  const [loading, setLoading] = useState(false);
   const loginAccount = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const { data, error } = await httpService.post("evs/loginaccount", account);
     if (data) {
       console.log(data);
@@ -16,6 +18,7 @@ function EvsLoginPage() {
     if (error) {
       toast.error(error);
     }
+    setLoading(false);
   };
   return (
     <div className="container">
@@ -49,6 +52,7 @@ function EvsLoginPage() {
                   color="success"
                   endIcon={<Login />}
                   loadingPosition="end"
+                  loading={loading}
                 >
                   Login
                 </Button>

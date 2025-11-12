@@ -82,11 +82,11 @@ function AdminComponent() {
   useEffect(() => {
     getData();
 
-    const interval = setInterval(() => {
-      getData();
-    }, 60000);
+    // const interval = setInterval(() => {
+    //   getData();
+    // }, 60000);
 
-    return () => clearInterval(interval);
+    // return () => clearInterval(interval);
   }, []);
 
   const columns2 = [

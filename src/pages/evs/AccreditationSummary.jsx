@@ -5,12 +5,14 @@ import { DataGrid } from "@mui/x-data-grid";
 
 function AccreditationSummary() {
   const [candidates, setCandidates] = useState([]);
+  const [loading, setLoading] = useState(false);
   const getData = async () => {
+    setLoading(true);
     const { data } = await httpService("evs/admindashboard");
     if (data) {
-      console.log(data);
       setCandidates(data);
     }
+    setLoading(false);
   };
   useEffect(() => {
     getData();
@@ -39,7 +41,7 @@ function AccreditationSummary() {
           </Typography>
         </div>
         <div className="mb-4">
-          <DataGrid columns={columns} rows={candidates} />
+          <DataGrid columns={columns} rows={candidates} loading={loading} />
         </div>
       </div>
     </div>

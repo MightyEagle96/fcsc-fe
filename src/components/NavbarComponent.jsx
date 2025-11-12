@@ -46,6 +46,10 @@ function NavbarComponent() {
       path: `/admin/evs/`,
       text: "EVS",
     },
+    {
+      path: `/admin/accreditationsummary/`,
+      text: "Accreditation Summary",
+    },
   ];
 
   const partialAdminLinks = [

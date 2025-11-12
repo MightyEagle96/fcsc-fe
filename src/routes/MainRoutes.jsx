@@ -30,6 +30,7 @@ import UpdateCandidate from "../pages/promotion/UpdateCandidate";
 import CredentialReveal from "../pages/candidate/CredentialReveal";
 import EvsLoginPage from "../pages/evs/EvsLoginPage";
 import EvsManagement from "../pages/evs/EvsManagement";
+import AccreditationSummary from "../pages/evs/AccreditationSummary";
 
 function MainRoutes() {
   const { user, loading } = useAuth();
@@ -94,6 +95,10 @@ function MainRoutes() {
     {
       path: "/admin/evs/",
       component: <EvsManagement />,
+    },
+    {
+      path: "/admin/accreditationsummary/",
+      component: <AccreditationSummary />,
     },
   ];
   return (
